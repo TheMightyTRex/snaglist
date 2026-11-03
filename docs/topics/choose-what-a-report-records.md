@@ -2,41 +2,57 @@
 
 # Choose what a report records
 
-Every report holds the person's description, the kind of issue and how bad it is. You choose what else it
-records, from seven parts.
+Every report holds the person's answers, the report type and how bad it is. You choose what else it records,
+and when: always, never, or only for the report types that need it.
 
 ## Steps
 
-1. Decide which parts you need. The defaults suit most sites:
+1. Decide what you need. The defaults suit most sites:
 
    | Part | What it adds | Default |
    |---|---|---|
-   | `page` | The page's name and its path, with ids as `:id` and no query or hash | On |
-   | `element` | The part chosen: component, role, label, a CSS selector and its size | On |
-   | `styles` | Its font size and weight, colours and their contrast ratio | Off |
-   | `environment` | Viewport, zoom, browser and system family, language | On |
-   | `display` | Theme, text size, reduced motion, more contrast, forced colours | On |
-   | `errors` | The last five script errors on the page | Off |
-   | `trail` | The last five things selected on the page | Off |
+   | `page` | Page name and path, ids as `:id`, no query or hash | Always |
+   | `element` | The part chosen: component, role, label, selector | When needed |
+   | `styles` | Font, colours and contrast, with a WCAG pass or fail | When needed |
+   | `layout` | Size, position, content cut off, what covers it | When needed |
+   | `a11y` | Role, name, states, focus, target size, landmark | When needed |
+   | `html` | The part's HTML with all text and values taken out | When needed |
+   | `environment` | Window, screen, zoom, browser, system, language, connection, device | Always |
+   | `display` | Theme, text size, motion and contrast preferences | Always |
+   | `performance` | Load timings, Core Web Vitals, long tasks, script memory | When needed |
+   | `errors` | Script errors with stack lines | When needed |
+   | `console` | Console errors and warnings | When needed |
+   | `network` | Failed and slow requests: method, path, status, time | When needed |
+   | `trail` | What was selected, changed or sent before | When needed |
+   | `context` | Your own app details, from a function you give | Always, when you give one |
 
-2. Set them in `collect`, leaving out any you keep as they are:
+2. Set any you want to change in `collect`. `true` is always, `false` is never, `"auto"` is when the report
+   type needs it:
 
    ```js
-   Snaglist.start({ collect: { styles: true, trail: true } });
+   Snaglist.start({ collect: { styles: true, console: false } });
    ```
 
-3. Make a test report and check the preview in **What is sent**.
+3. To add your own details, such as a build number or feature flags, give a `context` function:
+
+   ```js
+   Snaglist.start({ context: () => ({ build: "4f2a9c1", flags: "new-checkout" }) });
+   ```
+
+4. Make a test report and check the preview in **What is sent**.
 
 ## Things to note
 
-- `styles` is the quickest way to find low contrast: it measures the text against its background.
-- `errors` and `trail` start recording when Snaglist starts, not when someone reports, so turn them on before
-  the session that needs them.
+- `errors`, `console`, `network`, `trail` and `performance` record in the background from the moment Snaglist
+  starts, in memory on that page only. Nothing leaves the page unless someone sends a report. `false` stops the
+  recording completely.
+- Each is redacted: no query strings, ids in paths become `:id`, and emails, numbers and keys are replaced.
+- Change how many of each a report keeps, and what counts as a slow request, with `limits`:
+  `limits: { console: 20, slowRequest: 1000 }`.
 - People can still untick any part in **What is sent** before they send it.
-- To name a page yourself, set `page: { name: () => "Checkout, step 2" }`. To keep a safe query parameter,
-  such as a tab name, set `page: { keepParams: ["tab"] }`.
 
 ## Find out more
 
+- [Choose the report types](choose-the-report-types.md)
 - [Keep personal details out of reports](keep-personal-details-out.md)
 - [Settings reference](settings-reference.md)

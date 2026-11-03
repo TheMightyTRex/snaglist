@@ -24,8 +24,9 @@ parts of your pages that show personal details, so their text is never read eith
 
 ## Things to note
 
-- Only turn on script errors (`collect: { errors: true }`) when your error messages cannot contain personal
-  details.
+- Check your script errors and console messages cannot contain personal details, as **Something is broken**
+  reports include them. If they can, set `collect: { errors: false, console: false }`, or hide them with
+  `redact`.
 - If you use `beforeSend` to change reports, do not add personal details back in.
 - If your own server stores reports, say so in your privacy notice.
 

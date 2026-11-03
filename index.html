@@ -39,7 +39,8 @@
   <h1>Snaglist</h1>
   <p>Report a UX issue on any page, tagged with the page and the part of it, without personal information. Select
     <strong>Report an issue</strong>, choose a part of the made-up app below, say what is wrong, then check exactly what
-    would be sent. Change the settings on the right and the button restarts with them.
+    would be sent. Change the settings and the button restarts with them. Use <strong>Things to break on
+    purpose</strong> to try the technical details.
     <a href="https://github.com/TheMightyTRex/snaglist">Code and instructions on GitHub</a>.</p>
 </header>
 
@@ -72,9 +73,20 @@
         <p class="muted" style="margin:0">Type your own name or email here, then report the field: what you typed is never sent.</p>
         <div class="field"><label for="d-name">Your name</label><input class="input" id="d-name" autocomplete="off"></div>
         <div class="field"><label for="d-email">Email</label><input class="input" id="d-email" type="email" autocomplete="off"></div>
-        <div class="actions"><button class="btn btn--primary" type="submit">Send question</button>
-          <button class="btn" type="button" id="broken">A button that breaks</button></div>
+        <div class="actions"><button class="btn btn--primary" type="submit">Send question</button></div>
       </form>
+      <section class="panel" data-component="test-faults" aria-labelledby="faults-h" style="display:grid;gap:12px;padding:16px">
+        <h2 id="faults-h" style="margin:0;font-size:1.25rem">Things to break on purpose</h2>
+        <p class="muted" style="margin:0">Use these, then report a <strong>Something is broken</strong> or <strong>Slow</strong> issue to see the technical details.</p>
+        <div class="actions">
+          <button class="btn" type="button" id="broken">A button that breaks</button>
+          <button class="btn" type="button" id="fails">Load a list that fails</button>
+          <button class="btn" type="button" id="slow">Do something slow</button>
+          <button class="btn" type="button" id="warn">Log a warning</button>
+          <button type="button" id="tiny" aria-label="Settings" style="width:18px;height:18px;padding:0;border:1px solid #7d879a;background:#fff">&#9881;</button>
+        </div>
+        <p class="muted small" style="margin:0" id="fault-status" role="status"></p>
+      </section>
     </main>
   </section>
 
@@ -85,19 +97,24 @@
       <label><input type="checkbox" id="pg-user" checked> Show Report an issue</label>
       <p class="muted small" style="margin:0">The setting a user would turn off in your app. It is saved in this browser.</p>
     </fieldset>
+    <fieldset id="pg-types">
+      <legend>Report types</legend>
+      <label><input type="checkbox" value="bug" checked> Something is broken</label>
+      <label><input type="checkbox" value="ux" checked> Hard to use</label>
+      <label><input type="checkbox" value="visual" checked> Looks wrong</label>
+      <label><input type="checkbox" value="accessibility" checked> Accessibility</label>
+      <label><input type="checkbox" value="performance" checked> Slow</label>
+      <label><input type="checkbox" value="content" checked> Words are wrong</label>
+      <label><input type="checkbox" value="idea" checked> Idea</label>
+    </fieldset>
     <fieldset id="pg-collect">
       <legend>Record</legend>
-      <label><input type="checkbox" name="page" checked> Page name and path</label>
-      <label><input type="checkbox" name="element" checked> The part chosen</label>
-      <label><input type="checkbox" name="styles" checked> Its font, colours and contrast</label>
-      <label><input type="checkbox" name="environment" checked> Screen and browser</label>
-      <label><input type="checkbox" name="display" checked> Display settings</label>
-      <label><input type="checkbox" name="errors" checked> Script errors</label>
-      <label><input type="checkbox" name="trail" checked> What was selected before</label>
+      <p class="muted small" style="margin:0">"When needed" means only for report types that use it.</p>
     </fieldset>
     <fieldset>
-      <legend>Kinds of issue</legend>
-      <label><input type="radio" name="pg-cat" value="ux" checked> Everyday UX</label>
+      <legend>Kind of issue (an extra question)</legend>
+      <label><input type="radio" name="pg-cat" value="" checked> Do not ask</label>
+      <label><input type="radio" name="pg-cat" value="ux"> Everyday UX</label>
       <label><input type="radio" name="pg-cat" value="heuristics"> Nielsen's 10 heuristics</label>
       <label><input type="radio" name="pg-cat" value="wcag"> WCAG principles</label>
     </fieldset>
@@ -124,15 +141,40 @@
 
 <script src="snaglist.js"></script>
 <script>
-  document.getElementById("broken").addEventListener("click", () => { null.read(); });
   const $ = (id) => document.getElementById(id);
+  const say = (text) => { $("fault-status").textContent = text; };
+  $("broken").addEventListener("click", () => { null.read(); });
+  $("fails").addEventListener("click", async () => {
+    try { const res = await fetch("api/books/12345?token=abc"); say(`The list did not load (${res.status}).`); }
+    catch { say("The list did not load."); }
+  });
+  $("slow").addEventListener("click", () => { const end = performance.now() + 400; while (performance.now() < end) {} say("That took 400 ms."); });
+  $("warn").addEventListener("click", () => { console.warn("Cover missing for book 98765, user alex@example.com"); say("A warning was logged."); });
+  $("tiny").addEventListener("click", () => say("A very small button."));
+
+  const PARTS = [["page", "Page name and path", "true"], ["element", "The part chosen", "auto"], ["styles", "Font, colours, contrast", "auto"],
+    ["layout", "Size, position, what covers it", "auto"], ["a11y", "Accessibility details", "auto"], ["html", "HTML without text", "auto"],
+    ["environment", "Screen, browser, device", "true"], ["display", "Display settings", "true"], ["performance", "Page speed", "auto"],
+    ["errors", "Script errors", "auto"], ["console", "Console messages", "auto"], ["network", "Failed and slow requests", "auto"],
+    ["trail", "What was done before", "auto"]];
+  for (const [key, text, value] of PARTS) {
+    const select = document.createElement("select");
+    select.className = "select"; select.name = key; select.id = `pg-c-${key}`;
+    for (const [v, l] of [["true", "Always"], ["auto", "When needed"], ["false", "Never"]]) select.add(new Option(l, v, false, v === value));
+    const label = document.createElement("label");
+    label.htmlFor = select.id; label.textContent = text; label.style.cssText = "min-height:0;margin-top:8px";
+    $("pg-collect").append(label, select);
+  }
+
   function options() {
     const collect = {};
-    for (const box of document.querySelectorAll("#pg-collect input")) collect[box.name] = box.checked;
+    for (const s of document.querySelectorAll("#pg-collect select")) collect[s.name] = s.value === "auto" ? "auto" : s.value === "true";
+    const types = [...document.querySelectorAll("#pg-types input:checked")].map((b) => b.value);
     return {
       app: "Harbour Library (Snaglist demo)",
       version: Snaglist.version,
-      categories: document.querySelector("[name=pg-cat]:checked").value,
+      types: types.length ? types : ["ux"],
+      categories: document.querySelector("[name=pg-cat]:checked").value || null,
       severities: document.querySelector("[name=pg-sev]:checked").value,
       collect,
       send: {
@@ -146,7 +188,7 @@
     if (o.send.github) send.github = { repo: o.send.github.repo };
     if (o.send.email) send.email = o.send.email;
     return `<script src="snaglist.js"><\/script>\n<script>\n  Snaglist.start(${JSON.stringify({ app: "My app", version: "1.0.0",
-      categories: o.categories, severities: o.severities, collect: o.collect, send }, null, 2).replace(/\n/g, "\n  ")});\n<\/script>`;
+      types: o.types, categories: o.categories || undefined, severities: o.severities, collect: o.collect, send }, null, 2).replace(/\n/g, "\n  ")});\n<\/script>`;
   }
   function apply() {
     const o = options();

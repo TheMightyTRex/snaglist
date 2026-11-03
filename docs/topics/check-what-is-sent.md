@@ -12,8 +12,9 @@ parts out, then choose how to send it.
 ## Steps
 
 1. Read the statement at the start of **What is sent**: no personal information is kept in the report.
-2. Under **Include**, untick anything you would rather not send, such as **Screen and browser**. The preview
-   changes at once.
+2. Under **Include**, untick anything you would rather not send, such as **Screen, browser and device** or
+   **Console messages**. The preview changes at once. Only the details the site records for your kind of report
+   are listed.
 3. Read the preview. Anything that looked like an email address, a long number or a key is shown as
    `[email]`, `[number]` or `[key]`.
 4. Choose how to send it. You will find only the ways the site's team has set up:

@@ -29,7 +29,7 @@ from their own GitHub account, so no key is ever put in your page.
 
 ## Things to note
 
-- Each report asks for the labels `ux-report`, `kind: <kind>` and `severity: <how bad>`, plus your own. GitHub
+- Each report asks for the labels `ux-report`, `type: <report type>` and `severity: <how bad>`, plus your own. GitHub
   only adds labels that exist, and only when the person may label issues. The kind and severity are always in
   the report too.
 - The people reporting need a GitHub account. For reports from anyone, read

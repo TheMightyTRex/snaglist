@@ -7,10 +7,10 @@ Snaglist is one file, so updating means replacing it. Your settings stay in your
 ## Steps
 
 1. Read what changed in the [releases](https://github.com/TheMightyTRex/snaglist/releases) (opens in a new tab).
-2. Download the new version over the old file. Put the version you want in place of `v0.1.0`:
+2. Download the new version over the old file. Put the version you want in place of `v0.2.0`:
 
    ```bash
-   curl -fsSL -o snaglist.js https://raw.githubusercontent.com/TheMightyTRex/snaglist/v0.1.0/snaglist.js
+   curl -fsSL -o snaglist.js https://raw.githubusercontent.com/TheMightyTRex/snaglist/v0.2.0/snaglist.js
    ```
 
 3. Publish your site, then open a page and make a test report.

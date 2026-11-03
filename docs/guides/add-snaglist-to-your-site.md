@@ -59,6 +59,7 @@ Give main parts a `data-component` name and mark anything personal with `data-sn
 ## Step 5: choose what reports record
 
 The defaults suit most sites. To change them, follow
+[Choose the report types](../topics/choose-the-report-types.md),
 [Choose what a report records](../topics/choose-what-a-report-records.md) and
 [Choose the kinds of issue and how bad they can be](../topics/choose-the-kinds-of-issue.md).
 

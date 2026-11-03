@@ -31,6 +31,7 @@ Each guide is a journey through several topics, in order.
 - [Use an AI assistant to add Snaglist](topics/use-an-ai-assistant-to-add-snaglist.md)
 - [Name the parts of your pages](topics/name-the-parts-of-your-pages.md)
 - [Keep personal details out of reports](topics/keep-personal-details-out.md)
+- [Choose the report types](topics/choose-the-report-types.md)
 - [Choose what a report records](topics/choose-what-a-report-records.md)
 - [Choose the kinds of issue and how bad they can be](topics/choose-the-kinds-of-issue.md)
 - [Turn Snaglist on or off for everyone](topics/turn-snaglist-on-or-off-for-everyone.md)

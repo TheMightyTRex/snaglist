@@ -1,16 +1,17 @@
 # Snaglist
 
-Report a UX issue on any page, tagged with the page and the part of it, without personal information.
+Report a UX issue or a bug on any page, tagged with the page and the part of it, with the technical details
+needed to fix it and without personal information.
 
 A snag list is a list of the small faults to fix before a job is finished. Snaglist adds a **Report an issue**
-button to your app or site. The person reporting chooses the part of the page with the problem, says what is
-wrong and how bad it is, checks exactly what will be sent, and sends it as a GitHub issue, an email or a post to
+button to your app or site. The person reporting chooses the part of the page with the problem, the kind of
+report, answers its questions, checks exactly what will be sent, and sends it as a GitHub issue, an email or a post to
 your own server.
 
 **[Try it on the demo page](https://themightytrex.github.io/snaglist/)** · **[Help centre](docs/README.md)** ·
 **[Prompts for AI assistants](docs/AI-PROMPTS.md)**
 
-- One file, about 40 KB, with no libraries and no build step.
+- One file, about 60 KB (about 21 KB when the server compresses it), with no libraries and no build step.
 - Installs with one script tag and removes cleanly: one element, its own styles, nothing left behind.
 - Anonymous by design: no field contents, no cookies, no full addresses or query strings, and anything that
   looks like an email, phone number, address or key is replaced. The person sees the whole report before it goes.
@@ -58,26 +59,29 @@ Snaglist.destroy({ forget: true });
   in this browser; `Snaglist.setUserEnabled(true)` brings it back. Read
   [Add a switch for your users](docs/topics/add-a-switch-for-your-users.md).
 
-## What a report holds
+## Report types and technical details
 
-The person's description, the kind of issue and how bad it is, then whatever you choose to record:
+The person first chooses what kind of report it is. Each type asks its own questions and records the details a
+developer needs to fix that kind of problem. You choose which types to offer with `types`.
 
-| Setting | What it adds | On by default |
+| Type | Asks | Records for developers |
 |---|---|---|
-| `page` | The page's name and its path, with numbers and ids replaced by `:id` and no query or hash | Yes |
-| `element` | The part chosen: its component, role, label, a CSS selector and its size | Yes |
-| `styles` | Its font size and weight, text and background colours, and their contrast ratio | No |
-| `environment` | Viewport, zoom, browser and system family (for example "Firefox 132 on Linux"), language | Yes |
-| `display` | Theme, text size, reduced motion, more contrast, forced colours | Yes |
-| `errors` | The last five script errors on the page, redacted | No |
-| `trail` | The last five things selected on the page (component and label only) | No |
+| Something is broken | What happened, what you expected, steps, how often | Script errors with stack, console errors and warnings, failed and slow requests, what was done before, the part's HTML |
+| Hard to use | What is wrong | The part, what was done before |
+| Looks wrong | What is wrong | Styles and contrast, size and position, content cut off, what covers it, the part's HTML |
+| Accessibility | What is wrong, what you were using | Role, name, states, focus, target size, landmark, contrast |
+| Slow | What is wrong, when | Load timings, LCP, CLS and INP, long tasks, script memory, slow requests |
+| Words are wrong | What is wrong, a better wording | The part |
+| Idea | The idea | Nothing extra |
 
-The kinds of issue come from three presets: everyday UX (layout, words, behaviour, accessibility, looks,
-broken, slow, idea), Nielsen's ten usability heuristics, or the four WCAG principles. Severity is three levels
-(minor, gets in the way, stops me) or Nielsen's 1 to 4. You can give your own lists.
+Every report also has the page and its path, the window, browser and device, and the display settings. Each
+part can be set to always, never, or only when the type needs it. You can add your own types and your own app
+details, such as a build number. Everything is redacted, kept in memory on the page only, and shown in full
+before it is sent.
 
-[What a report holds, and what it never holds](docs/topics/what-a-report-holds.md) says what is never
-collected and how it is hidden.
+[Choose the report types](docs/topics/choose-the-report-types.md),
+[Choose what a report records](docs/topics/choose-what-a-report-records.md) and
+[What a report holds, and what it never holds](docs/topics/what-a-report-holds.md) have the details.
 
 ## Sending
 

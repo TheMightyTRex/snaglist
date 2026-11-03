@@ -21,9 +21,12 @@ the page, say what is wrong, and check the report before it goes.
    - To stop without reporting, select **Stop** or press Escape.
 4. The **Report an issue** form opens. Under **Where**, check it names the part you meant. If not, select
    **Choose again**.
-5. In **What is wrong**, say what you expected and what happened instead.
-6. Choose the **Kind of issue** and **How bad is it**.
-7. Select **Review what is sent**. Read [Check what is sent](check-what-is-sent.md) for the next step.
+5. Under **What kind of report**, choose the one that fits best, such as **Something is broken**, **Looks
+   wrong** or **Slow**. The questions below change to suit it.
+6. Answer the questions. For **Something is broken**, say what happened, what you expected and the steps that
+   lead to it, one step per line.
+7. Choose **How bad is it**.
+8. Select **Review what is sent**. Read [Check what is sent](check-what-is-sent.md) for the next step.
 
 ## Things to note
 

@@ -2,20 +2,18 @@
 
 # Choose the kinds of issue and how bad they can be
 
-People choose a kind of issue and how bad it is for every report. Pick the lists that suit your team, or write
-your own.
+Every report asks how bad the problem is. You can also ask an extra question, "Kind of issue", to sort reports
+by a scheme your team already uses, such as Nielsen's heuristics or the WCAG principles.
 
 ## Steps
 
-1. Choose a list of kinds with `categories`:
-   - `"ux"` (the default): Layout, Words, Behaviour, Accessibility, Looks, Broken, Slow and Idea. Best for
-     testers and everyday users.
-   - `"heuristics"`: Jakob Nielsen's 10 usability heuristics, in plain words. Best for UX reviews.
-   - `"wcag"`: the four WCAG (Web Content Accessibility Guidelines) principles. Best for accessibility
-     testing.
-2. Choose a scale with `severities`:
+1. Choose a scale for how bad it is, with `severities`:
    - `"three"` (the default): Minor, Gets in the way, Stops me.
    - `"nielsen"`: 1 Cosmetic, 2 Minor, 3 Major, 4 Catastrophe.
+2. If you want the extra question, choose a list with `categories`. It is off by default:
+   - `"ux"`: Layout, Words, Behaviour, Accessibility and Looks.
+   - `"heuristics"`: Jakob Nielsen's 10 usability heuristics, in plain words. Best for UX reviews.
+   - `"wcag"`: the four WCAG (Web Content Accessibility Guidelines) principles. Best for accessibility testing.
 3. Set them:
 
    ```js
@@ -33,6 +31,8 @@ your own.
 
 ## Things to note
 
+- The report type already sorts reports broadly ([Choose the report types](choose-the-report-types.md)). Only
+  add the extra question when your team needs the finer scheme.
 - The value goes into GitHub labels (`kind: wording`) and the report's data, so keep it short, lower case and
   without spaces.
 - Three levels are rated more consistently than four or five, so keep `"three"` unless your team already uses

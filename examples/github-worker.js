@@ -22,6 +22,7 @@ export default {
     const report = body.report || {};
     const title = String(body.title || "UX report").slice(0, 120);
     const labels = ["ux-report"];
+    if (KINDS.test(report.type || "")) labels.push(`type: ${report.type}`);
     if (KINDS.test(report.category || "")) labels.push(`kind: ${report.category}`);
     if (KINDS.test(report.severity || "")) labels.push(`severity: ${report.severity}`);
 

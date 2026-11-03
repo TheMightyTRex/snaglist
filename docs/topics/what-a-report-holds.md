@@ -16,6 +16,21 @@ Snaglist is built so that a report says what is wrong and where, and nothing abo
 - The IP address: Snaglist runs in the browser and sends nothing by itself. GitHub, the mail app or your
   server sees what they always see when someone uses them.
 
+## Technical details, and how they are cleaned
+
+For some kinds of report, Snaglist adds technical details that developers need. Each is cleaned first:
+
+| Detail | What is kept | What is taken out |
+|---|---|---|
+| Failed and slow requests | Method, path, status and time | The query string, the hash, ids in the path, headers and bodies |
+| Script errors | The message and three lines of stack | Query strings and site addresses in file names; emails, numbers and keys in messages |
+| Console messages | Errors and warnings | Emails, numbers and keys; anything over 300 characters |
+| The part's HTML | Tags and safe attributes such as `class`, `role` and `aria-*` | Every bit of text (shown as `…(12)`, its length), field values, and any other attribute |
+| What was done before | The component and label of each thing selected, changed or sent | What was typed, and anything marked private |
+| Page speed and device | Timings, memory, connection type, screen size | Nothing personal is read |
+
+These are kept in memory on the page only, and only leave it when someone sends a report.
+
 ## Hidden before anyone sees it
 
 These are replaced in the description, labels, page name, paths and script errors:
@@ -38,7 +53,7 @@ Before anything is sent, Snaglist shows the whole report, exactly as it will be 
 > No personal information is kept in this report: no name, email, account, address, cookies or anything typed
 > into the page's fields.
 
-They can untick any optional part (the part chosen, styles, screen and browser, display, errors, the trail)
+They can untick any part of the technical details (for example the console, requests or the page's HTML)
 and the preview changes at once. Nothing is sent until they choose a way to send it.
 
 ## What each way of sending reveals

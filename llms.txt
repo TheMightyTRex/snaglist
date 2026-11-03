@@ -1,10 +1,13 @@
 # Snaglist
 
 > A single JavaScript file, with no libraries, that adds a "Report an issue" button to any website or web app.
-> People choose the part of the page with a problem, describe it, check exactly what will be sent, and send it
+> People choose the part of the page with a problem and a report type (bug, hard to use, looks wrong,
+> accessibility, slow, words, idea), answer its questions, check exactly what will be sent, and send it
 > as a GitHub issue, an email, a post to the site's own server, or copy or download it. Reports are anonymous:
 > no field contents, cookies, query strings or full browser strings, and emails, long numbers, IP addresses and
-> keys are replaced. MIT licence.
+> keys are replaced. Each type records the technical details needed to fix it: script errors with stack, console
+> errors and warnings, failed and slow requests, steps before, styles and contrast, layout, accessibility details,
+> sanitised HTML, Core Web Vitals. MIT licence.
 
 ## Install (any site)
 
@@ -14,6 +17,7 @@
 3. Start once, after the page has loaded (in a framework, in code that runs once, never in a component):
    Snaglist.start({ app: "App name", send: { github: { repo: "owner/name" }, email: { to: "team@example.com" } } });
    Shortest form instead of steps 2 and 3: <script src="/snaglist.js" data-github="owner/name" defer></script>
+   Optional: data-types="bug ux visual" to choose the report types.
 4. Add data-component="name" to main parts of pages (header, menus, forms, cards, tables, dialogs).
 5. Add data-snag-private to anything that shows personal details.
 6. Never put a token or password in the page; Snaglist does not need one.
@@ -21,10 +25,14 @@
 ## Settings (all optional)
 
 enabled (true), userToggle (true), launcher ("bottom-right" | "bottom-left" | false), shortcut ("" or
-"Alt+Shift+R"), categories ("ux" | "heuristics" | "wcag" | [[value, label, hint]]), severities ("three" |
-"nielsen" | list), labels (["ux-report"]), collect { page: true, element: true, styles: false,
-environment: true, display: true, errors: false, trail: false }, page { name: fn, keepParams: [] },
-component { attribute: "data-component", from: fn }, redact ([[regex, "[label]"]]),
+"Alt+Shift+R"), types (["bug", "ux", "visual", "accessibility", "performance", "content", "idea"], or objects
+{ id, label, hint, fields: [{ id, label, hint, type: "textarea" | "text" | "select", options, required }],
+collect: [parts] }), categories (null | "ux" | "heuristics" | "wcag" | [[value, label, hint]]), severities
+("three" | "nielsen" | list), labels (["ux-report"]), collect (each true | false | "auto": page, element,
+styles, layout, a11y, html, environment, display, performance, errors, console, network, trail, context),
+limits { errors: 5, console: 10, network: 8, trail: 8, slowRequest: 2000 }, page { name: fn, keepParams: [] },
+component { attribute: "data-component", from: fn }, context (fn returning app details such as a build
+number), redact ([[regex, "[label]"]]),
 send { github: { repo, labels }, email: { to, subject }, endpoint: { url, headers }, copy: true,
 download: true }, beforeSend (fn(report) => report), text ({ key: "replacement" }).
 
@@ -42,6 +50,11 @@ Snaglist.setUserEnabled(true).
 ## Turn off for everyone
 
 Set enabled: false in Snaglist.start(), or remove the data-github, data-email and data-endpoint attributes.
+
+## Clean removal
+
+Snaglist.destroy() removes its element and listeners and puts back window.fetch, XMLHttpRequest and
+console.error and console.warn exactly as they were.
 
 ## Remove completely
 

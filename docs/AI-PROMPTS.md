@@ -26,6 +26,9 @@ Please do this:
    b. Should the button show for everyone, or only in testing (for example on a staging address)?
    c. Should users get a setting to turn the button off? (Recommended: yes.)
    d. What is the app's name?
+   e. Which report types should people be able to choose? Offer these, all on by default: Something is broken
+      (bug), Hard to use (ux), Looks wrong (visual), Accessibility (accessibility), Slow (performance), Words are
+      wrong (content), Idea (idea).
 3. Download https://raw.githubusercontent.com/TheMightyTRex/snaglist/main/snaglist.js into the folder this
    app serves static files from (for example public/ or static/). Do not change the file.
 4. Load it once on every page, just before the closing </body> tag of the shared layout, with:
@@ -34,6 +37,8 @@ Please do this:
      Snaglist.start({
        app: "<the app's name>",
        enabled: <true, or a check that is only true in testing>,
+       types: [<the report types I chose, for example "bug", "ux", "visual">],
+       context: () => ({ build: <the app's build or version variable, if it has one> }),
        send: { github: { repo: "<owner/name>" }, email: { to: "<email>" } },
      });
    Leave out github or email if I did not choose it. In a framework app (React, Vue, Svelte, Next.js and
@@ -98,11 +103,13 @@ Copy to here
 Copy from here
 
 ```text
-For a test session, please change the Snaglist settings in this project so reports also record the chosen
-part's styles, script errors and the last things selected: add collect: { styles: true, errors: true,
-trail: true } to Snaglist.start(). Before turning on errors, check whether this app's error messages could
-include personal details (names, emails, ids) and tell me if any could. Only turn this on where enabled is
-true for testing, and tell me how to turn it off again.
+For a test session, please change the Snaglist settings in this project so every report records all the
+technical details, whatever its type: add collect: { styles: true, layout: true, a11y: true, html: true,
+performance: true, errors: true, console: true, network: true, trail: true } to Snaglist.start(), and offer
+every report type. Before you do, check whether this app's error messages, console messages or request paths
+could include personal details (names or emails; query strings and ids in paths are already removed) and tell
+me if any could. Only turn this on where enabled is true for testing, and tell me how to go back to the
+defaults.
 ```
 
 Copy to here

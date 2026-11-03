@@ -17,9 +17,9 @@ Snaglist.start({ send: { endpoint: { url: "https://reports.example.com/" } } });
 
 ```json
 {
-  "title": "cover-wall: Title wraps badly",
-  "markdown": "Title wraps badly\n\n| | |\n|---|---|\n| Kind | Layout |\n...",
-  "report": { "tool": "snaglist 0.1.0", "category": "layout", "severity": "in-the-way", "what": "...", "page": {}, "element": {} }
+  "title": "book-list: The list does not load",
+  "markdown": "**What happened**\nThe list does not load\n\n| | |\n|---|---|\n| Report | Something is broken |\n...",
+  "report": { "tool": "snaglist 0.2.0", "type": "bug", "severity": "in-the-way", "answers": { "actual": "..." }, "page": {}, "element": {}, "network": [] }
 }
 ```
 

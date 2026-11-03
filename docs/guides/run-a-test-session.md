@@ -14,7 +14,7 @@ tagged by page and component, sorted by how bad they are. Allow 30 minutes to se
 
 1. Turn Snaglist on for the test build only
 2. Record more for the session
-3. Choose the kinds of issue for the session
+3. Choose an extra question for the session
 4. Brief the testers
 5. Triage the reports
 6. Turn the extra recording off
@@ -22,7 +22,7 @@ tagged by page and component, sorted by how bad they are. Allow 30 minutes to se
 ```mermaid
 flowchart TD
   A[Turn on for the test build] --> B[Record more]
-  B --> C[Choose the kinds of issue]
+  B --> C[Choose an extra question]
   C --> D[Brief the testers]
   D --> E[Triage the reports]
   E --> F[Turn extra recording off]
@@ -35,12 +35,15 @@ Follow [Turn Snaglist on or off for everyone](../topics/turn-snaglist-on-or-off-
 
 ## Step 2: record more for the session
 
-Turn on `styles`, `errors` and `trail` for the session: [Choose what a report records](../topics/choose-what-a-report-records.md).
-Check your error messages hold no personal details first.
+Offer more report types ([Choose the report types](../topics/choose-the-report-types.md)), and record the
+technical details for every report with `collect: { styles: true, layout: true, errors: true, console: true }`:
+[Choose what a report records](../topics/choose-what-a-report-records.md). Check your error and console messages
+hold no personal details first.
 
-## Step 3: choose the kinds of issue for the session
+## Step 3: choose an extra question for the session
 
-Use `"heuristics"` for a usability review, `"wcag"` for an accessibility check, or your own list:
+Ask the extra question with `"heuristics"` for a usability review, `"wcag"` for an accessibility check, or your
+own list:
 [Choose the kinds of issue and how bad they can be](../topics/choose-the-kinds-of-issue.md).
 
 ## Step 4: brief the testers
@@ -54,7 +57,7 @@ Sort, reproduce and close: [Triage reports on GitHub](../topics/triage-reports-o
 
 ## Step 6: turn the extra recording off
 
-Set `styles`, `errors` and `trail` back to off, or turn Snaglist off, before the release goes live.
+Set the `collect` settings back to `"auto"`, or turn Snaglist off, before the release goes live.
 
 ## What next
 
