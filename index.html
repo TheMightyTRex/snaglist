@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Snaglist: try it</title>
+<meta name="description" content="Report a UX issue on any page, tagged with the page and the part of it, without personal information.">
+<link rel="stylesheet" href="https://themightytrex.github.io/design-system/tokens.css">
+<link rel="stylesheet" href="https://themightytrex.github.io/design-system/components.css">
+<style>
+  body { margin: 0; background: var(--color-bg, #f0f5ff); color: var(--color-text, #141416); font-family: var(--font, system-ui, sans-serif); }
+  .demo { max-width: 1200px; margin: 0 auto; padding: 0 16px 96px; display: grid; gap: 24px; grid-template-columns: minmax(0, 1fr) minmax(280px, 380px); align-items: start; }
+  @media (max-width: 900px) { .demo { grid-template-columns: minmax(0, 1fr); } }
+  .intro { max-width: 1200px; margin: 0 auto; padding: 24px 16px 8px; }
+  .intro h1 { margin: 0 0 8px; }
+  .intro p { margin: 0; max-width: 70ch; }
+  .app { border: 1px solid var(--color-border, #7d879a); background: var(--color-surface, #fff); }
+  .app__bar { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; padding: 8px 16px; border-bottom: 1px solid var(--color-divider, #c8d0dc); }
+  .app__bar nav ul { display: flex; flex-wrap: wrap; gap: 4px; margin: 0; padding: 0; list-style: none; }
+  .app__bar nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: inherit; }
+  .app__bar nav a[aria-current] { font-weight: 600; box-shadow: inset 0 -3px 0 var(--color-accent, #0b5f5a); }
+  .app__main { padding: 16px; display: grid; gap: 24px; }
+  .books { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); list-style: none; margin: 0; padding: 0; }
+  .book { display: grid; gap: 4px; }
+  .book__cover { aspect-ratio: 2 / 3; display: grid; place-items: center; padding: 12px; text-align: center; font-weight: 600; color: #fff; }
+  .book__title { margin: 0; font-size: 1rem; }
+  .faint { color: #9aa3b0; }
+  .playground { position: sticky; top: 16px; display: grid; gap: 16px; }
+  .playground fieldset { border: 1px solid var(--color-divider, #c8d0dc); padding: 12px 16px; display: grid; gap: 4px; }
+  .playground legend { font-weight: 600; padding: 0 4px; }
+  .playground label { display: flex; gap: 12px; align-items: center; min-height: 44px; }
+  .playground input[type=checkbox], .playground input[type=radio] { width: 22px; height: 22px; accent-color: var(--color-accent, #0b5f5a); }
+  .playground input[type=text], .playground input[type=email] { width: 100%; }
+  .code { white-space: pre-wrap; font-size: .8125rem; max-height: 320px; overflow: auto; }
+</style>
+</head>
+<body>
+<header class="intro">
+  <h1>Snaglist</h1>
+  <p>Report a UX issue on any page, tagged with the page and the part of it, without personal information. Select
+    <strong>Report an issue</strong>, choose a part of the made-up app below, say what is wrong, then check exactly what
+    would be sent. Change the settings on the right and the button restarts with them.
+    <a href="https://github.com/TheMightyTRex/snaglist">Code and instructions on GitHub</a>.</p>
+</header>
+
+<div class="demo">
+  <section class="app" aria-label="Example app" data-component="app-shell">
+    <div class="app__bar" data-component="site-header">
+      <strong>Harbour Library</strong>
+      <nav aria-label="Example app menu" data-component="main-menu">
+        <ul>
+          <li><a href="#books" aria-current="page">My books</a></li>
+          <li><a href="#books">Following</a></li>
+          <li><a href="#books">Discover</a></li>
+        </ul>
+      </nav>
+      <span data-snag-private data-component="account">Signed in as Alex Example</span>
+    </div>
+    <main class="app__main" id="books">
+      <div>
+        <h2 style="margin:0">My books</h2>
+        <p class="faint" data-component="page-summary">12 books, 3 waiting. This line is too faint on purpose: report it with styles turned on.</p>
+      </div>
+      <ul class="books" data-component="cover-wall">
+        <li class="book"><div class="book__cover" style="background:#0b5f5a">The Glass Harbour</div><h3 class="book__title">The Glass Harbour</h3><span class="chip" data-tone="success">In library</span></li>
+        <li class="book"><div class="book__cover" style="background:#6b3fa0">Lanterns Under Ice</div><h3 class="book__title">Lanterns Under Ice</h3><span class="chip" data-tone="info">Downloading</span></li>
+        <li class="book"><div class="book__cover" style="background:#8a4b12">Salt Roads</div><h3 class="book__title">Salt Roads</h3><span class="chip" data-tone="neutral">Wanted</span></li>
+        <li class="book"><div class="book__cover" style="background:#1e4f8a">Night Ferry</div><h3 class="book__title">Night Ferry</h3><span class="chip" data-tone="warning">Needs attention</span></li>
+      </ul>
+      <form class="panel" data-component="contact-form" onsubmit="event.preventDefault()" style="display:grid;gap:12px;padding:16px">
+        <h2 style="margin:0;font-size:1.25rem">Ask the library</h2>
+        <p class="muted" style="margin:0">Type your own name or email here, then report the field: what you typed is never sent.</p>
+        <div class="field"><label for="d-name">Your name</label><input class="input" id="d-name" autocomplete="off"></div>
+        <div class="field"><label for="d-email">Email</label><input class="input" id="d-email" type="email" autocomplete="off"></div>
+        <div class="actions"><button class="btn btn--primary" type="submit">Send question</button>
+          <button class="btn" type="button" id="broken">A button that breaks</button></div>
+      </form>
+    </main>
+  </section>
+
+  <aside class="playground panel" aria-labelledby="pg-h" style="padding:16px">
+    <h2 id="pg-h" style="margin:0">Settings</h2>
+    <fieldset>
+      <legend>Your own switch</legend>
+      <label><input type="checkbox" id="pg-user" checked> Show Report an issue</label>
+      <p class="muted small" style="margin:0">The setting a user would turn off in your app. It is saved in this browser.</p>
+    </fieldset>
+    <fieldset id="pg-collect">
+      <legend>Record</legend>
+      <label><input type="checkbox" name="page" checked> Page name and path</label>
+      <label><input type="checkbox" name="element" checked> The part chosen</label>
+      <label><input type="checkbox" name="styles" checked> Its font, colours and contrast</label>
+      <label><input type="checkbox" name="environment" checked> Screen and browser</label>
+      <label><input type="checkbox" name="display" checked> Display settings</label>
+      <label><input type="checkbox" name="errors" checked> Script errors</label>
+      <label><input type="checkbox" name="trail" checked> What was selected before</label>
+    </fieldset>
+    <fieldset>
+      <legend>Kinds of issue</legend>
+      <label><input type="radio" name="pg-cat" value="ux" checked> Everyday UX</label>
+      <label><input type="radio" name="pg-cat" value="heuristics"> Nielsen's 10 heuristics</label>
+      <label><input type="radio" name="pg-cat" value="wcag"> WCAG principles</label>
+    </fieldset>
+    <fieldset>
+      <legend>How bad</legend>
+      <label><input type="radio" name="pg-sev" value="three" checked> Three levels</label>
+      <label><input type="radio" name="pg-sev" value="nielsen"> Nielsen 1 to 4</label>
+    </fieldset>
+    <fieldset>
+      <legend>Send to</legend>
+      <label><input type="checkbox" id="pg-gh" checked> GitHub issues</label>
+      <input class="input" type="text" id="pg-repo" value="TheMightyTRex/snaglist" aria-label="GitHub repository, owner/name">
+      <label><input type="checkbox" id="pg-mail"> Email</label>
+      <input class="input" type="email" id="pg-to" value="team@example.com" aria-label="Email address reports go to">
+      <p class="muted small" style="margin:0">Reports from this page go to the Snaglist repository with the demo label. You post them yourself, from your own GitHub account.</p>
+    </fieldset>
+    <div>
+      <h3 style="margin:0 0 8px;font-size:1rem">Your code</h3>
+      <pre class="code code-block" id="pg-code"></pre>
+      <button class="btn" type="button" id="pg-copy">Copy the code</button>
+    </div>
+  </aside>
+</div>
+
+<script src="snaglist.js"></script>
+<script>
+  document.getElementById("broken").addEventListener("click", () => { null.read(); });
+  const $ = (id) => document.getElementById(id);
+  function options() {
+    const collect = {};
+    for (const box of document.querySelectorAll("#pg-collect input")) collect[box.name] = box.checked;
+    return {
+      app: "Harbour Library (Snaglist demo)",
+      version: Snaglist.version,
+      categories: document.querySelector("[name=pg-cat]:checked").value,
+      severities: document.querySelector("[name=pg-sev]:checked").value,
+      collect,
+      send: {
+        github: $("pg-gh").checked ? { repo: $("pg-repo").value.trim(), labels: ["demo"] } : null,
+        email: $("pg-mail").checked ? { to: $("pg-to").value.trim() } : null,
+      },
+    };
+  }
+  function code(o) {
+    const send = {};
+    if (o.send.github) send.github = { repo: o.send.github.repo };
+    if (o.send.email) send.email = o.send.email;
+    return `<script src="snaglist.js"><\/script>\n<script>\n  Snaglist.start(${JSON.stringify({ app: "My app", version: "1.0.0",
+      categories: o.categories, severities: o.severities, collect: o.collect, send }, null, 2).replace(/\n/g, "\n  ")});\n<\/script>`;
+  }
+  function apply() {
+    const o = options();
+    $("pg-code").textContent = code(o);
+    Snaglist.start(o);
+  }
+  document.querySelector(".playground").addEventListener("change", (e) => {
+    if (e.target.id === "pg-user") Snaglist.setUserEnabled(e.target.checked);
+    apply();
+  });
+  $("pg-copy").addEventListener("click", () => navigator.clipboard.writeText($("pg-code").textContent));
+  $("pg-user").checked = Snaglist.isUserEnabled();
+  apply();
+</script>
+</body>
+</html>
