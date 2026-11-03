@@ -9,5 +9,5 @@
   <path d="M41 21h11l-3 4.5 3 4.5h-11z" fill="#f5b301"/>
   <rect x="12" y="46" width="6" height="6" fill="#ffffff"/>
   <rect x="22" y="47" width="24" height="4" fill="#ffffff"/>
-  <text x="80" y="44" font-family="'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', system-ui, sans-serif" font-size="34" font-weight="700" fill="#141416">Snaglist</text>
+  <text x="80" y="44" font-family="'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', system-ui, sans-serif" font-size="34" font-weight="700" fill="#141416" stroke="#ffffff" stroke-width="6" stroke-linejoin="round" paint-order="stroke">Snaglist</text>
 </svg>
