@@ -7,7 +7,7 @@ has your report, tagged with the page and the part of it. Each report takes abou
 
 ## Before you begin
 
-- The site has a **Report an issue** button on its pages.
+- The site has a **Send feedback** button on its pages.
 - To send reports to GitHub, a GitHub account. Other ways need none.
 
 ## The steps at a glance
@@ -31,7 +31,9 @@ an idea.
 
 ## Step 2: choose the part and describe it
 
-Follow [Report an issue on a page](../topics/report-an-issue.md). Say what you expected and what happened.
+Follow [Report a problem with one thing on a page](../topics/send-feedback.md). When it takes several steps to
+happen, [record a series of steps](../topics/record-a-series-of-steps.md). For an idea, read
+[Suggest a feature or an improvement](../topics/suggest-a-feature-or-improvement.md).
 
 ## Step 3: check what is sent
 
@@ -46,4 +48,4 @@ If it does not work, read [If a report does not send](../topics/if-a-report-does
 ## What next
 
 - [What a report holds, and what it never holds](../topics/what-a-report-holds.md)
-- [Turn off Report an issue](../topics/turn-report-an-issue-off.md) when you have finished testing.
+- [Turn off Send feedback](../topics/turn-send-feedback-off.md) when you have finished testing.

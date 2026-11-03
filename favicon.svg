@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="t">
+  <title id="t">Snaglist</title>
+  <rect width="64" height="64" fill="#0b5f5a"/>
+  <rect x="12" y="12" width="6" height="6" fill="#ffffff"/>
+  <rect x="22" y="13" width="30" height="4" fill="#ffffff"/>
+  <rect x="12" y="29" width="6" height="6" fill="#f5b301"/>
+  <rect x="22" y="30" width="13" height="4" fill="#ffffff"/>
+  <rect x="38" y="21" width="3" height="13" fill="#ffffff"/>
+  <path d="M41 21h11l-3 4.5 3 4.5h-11z" fill="#f5b301"/>
+  <rect x="12" y="46" width="6" height="6" fill="#ffffff"/>
+  <rect x="22" y="47" width="24" height="4" fill="#ffffff"/>
+</svg>

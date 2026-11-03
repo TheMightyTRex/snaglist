@@ -13,12 +13,15 @@ Copy one prompt into the assistant, answer its questions, and check what it did.
 
 ## Steps
 
+The quickest way is the [set-up tool](use-the-set-up-tool.md): choose your settings and copy one prompt with
+everything in it. To use the general prompt instead:
+
 1. Open [the prompts for AI assistants](../AI-PROMPTS.md).
 2. Copy the prompt **Add Snaglist to my app**, from the line after "Copy from here" to the line before
    "Copy to here".
-3. Paste it into your assistant and send it. It asks you up to five questions, then makes the changes.
-4. When it says it has finished, open your app and check that **Report an issue** appears.
-5. Make a test report: [Report an issue on a page](report-an-issue.md).
+3. Paste it into your assistant and send it. It asks you up to six questions, then makes the changes.
+4. When it says it has finished, open your app and check that **Send feedback** appears.
+5. Make a test report: [Report a problem with one thing on a page](send-feedback.md).
 
 ## Things to note
 

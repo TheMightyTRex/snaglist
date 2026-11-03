@@ -9,16 +9,20 @@ Everything is optional; the defaults are shown.
 Snaglist.start({
   app: "",                 // your app's name; the site's host name when empty
   version: "",             // your app's version, added to every report
+  language: "auto",        // "auto" reads each page's lang; "en-US" uses US spelling; other languages through text
+  theme: "light",          // Snaglist's windows: "light", "dark", or "auto" to follow the device
   enabled: true,           // your switch: false starts nothing
   userToggle: true,        // respect the user's own switch (Snaglist.setUserEnabled)
   launcher: "bottom-right",// "bottom-right", "bottom-left", or false to open it from your own menu
   shortcut: "",            // a keyboard shortcut, for example "Alt+Shift+R"
-  types: ["bug", "ux", "visual", "accessibility", "performance", "content", "idea"], // report types offered, in order
-  categories: null,        // an extra "Kind of issue" question: "ux", "heuristics", "wcag" or your own list
-  severities: "three",     // "three", "nielsen", or your own list
-  labels: ["ux-report"],   // GitHub labels on every report
+  types: ["bug", "ux", "visual", "accessibility", "performance", "content", "feature", "idea", "other", "check"], // what people can send, in order
+  check: { engine: "built-in", axe: "https://cdn.jsdelivr.net/npm/axe-core@4.10.2/axe.min.js", contrastLimit: 300 }, // the accessibility check
+  categories: null,        // an extra "Kind of issue" question for problems: "ux", "heuristics", "wcag" or your own list
+  severities: "three",     // how bad a problem is: "three", "nielsen", or your own list
+  importance: "importance",// how much a suggestion would help: the preset, or your own list
+  labels: ["feedback"],    // GitHub labels on every report
   collect: {               // true: always; false: never; "auto": when the report type needs it
-    page: true, element: "auto", styles: "auto", layout: "auto", a11y: "auto", html: "auto",
+    page: true, element: "auto", text: "auto", steps: true, styles: "auto", layout: "auto", a11y: "auto", html: "auto",
     environment: true, display: true, performance: "auto",
     errors: "auto", console: "auto", network: "auto", trail: "auto", context: true,
   },
@@ -41,23 +45,30 @@ Snaglist.start({
     download: true,        // Download as JSON
   },
   beforeSend: null,        // (report) => report: add or remove anything; runs before the person sees it
-  text: {},                // replace any interface text, for example { launcher: "Feedback" }
+  text: {},                // replace any interface text, for example { launcher: "Feedback" }; keys are in TEXT in snaglist.js
 });
 ```
 
-## Report types
+## What people can send
 
-| Type | Shown as | Asks | Records when set to "auto" |
-|---|---|---|---|
-| `bug` | Something is broken | What happened, what you expected, steps, does it happen every time | element, html, errors, console, network, trail |
-| `ux` | Hard to use | What is wrong | element, trail |
-| `visual` | Looks wrong | What is wrong | element, styles, layout, html |
-| `accessibility` | Accessibility | What is wrong, what were you using | element, a11y, styles, layout |
-| `performance` | Slow | What is wrong, when is it slow | performance, network, trail |
-| `content` | Words are wrong | What is wrong, suggested wording | element |
-| `idea` | Idea | Your idea | nothing extra |
+| Type | Shown as | Group | Asks | Records when set to "auto" |
+|---|---|---|---|---|
+| `bug` | Something is broken | Problem | What happened, what you expected, steps (when none were recorded) | element, text, html, errors, console, network, trail |
+| `ux` | Hard to use | Problem | What is wrong | element, text, trail |
+| `visual` | Looks wrong | Problem | What is wrong | element, text, styles, layout, html |
+| `accessibility` | Hard to use with my tools or needs | Problem | What is wrong, what were you using | element, text, a11y, styles, layout |
+| `performance` | Slow | Problem | What is wrong, when is it slow | performance, network, trail |
+| `content` | Words are wrong | Problem | What is wrong, suggested wording | element, text |
+| `feature` | A new feature | Suggestion | What you would like, what it would help with, how you manage today | page |
+| `idea` | Make something better | Suggestion | What could be better, your suggestion | element |
+| `other` | Something else | Suggestion | Your message | nothing extra |
+| `check` | Check this page for accessibility problems | Check | Nothing: runs the check, then people choose what to report | page, environment, display, and the problems found |
 
-Your own type is an object. A field is `{ id, label, hint, type, options, required }`, where `type` is
+Problems ask how bad it is (`severities`); suggestions ask how much it would help (`importance`); a type with
+`scale: false` asks neither. Every type can show one thing on the page, record a series of steps, or just describe.
+
+Your own type is an object. Add `group: "suggestion"` to list it under Make a suggestion, and `pick: false` to
+start with the whole page. A field is `{ id, label, hint, type, options, required }`, where `type` is
 `"textarea"`, `"text"` or `"select"`:
 
 ```js
@@ -83,6 +94,8 @@ The presets are in `Snaglist.presets.types`, `Snaglist.presets.categories` and `
 |---|---|
 | `page` | The page's name and path; ids in the path become `:id`; no query or hash |
 | `element` | The part chosen: component, role, label and a CSS selector |
+| `text` | The visible text of the part chosen, up to 300 characters, and messages the page is showing (alerts, status messages, field errors) |
+| `steps` | The steps recorded with A series of steps: what was selected, changed or sent, pages gone to, errors and failed requests, with the time of each |
 | `styles` | Font size, weight and line height, text and background colours, and the contrast ratio with a WCAG pass or fail |
 | `layout` | Size and position, display and position styles, content cut off or spilling out, what covers it, whether the page scrolls sideways |
 | `a11y` | Role, accessible name, states (expanded, pressed, checked, invalid and others), whether it can be focused, target size against WCAG 2.5.8, landmark, page language, a missing label or alt text |
@@ -116,17 +129,18 @@ page only, so the details are there when someone reports. Set one to `false` and
 |---|---|
 | `Snaglist.start(settings)` | Starts, or restarts with new settings. Returns false when switched off |
 | `Snaglist.destroy({ forget })` | Removes everything from the page and puts back anything it wrapped; `forget: true` also clears the user's switch |
-| `Snaglist.open()` | Starts choosing a part, as the button does: use it from your own menu |
-| `Snaglist.report(element)` | Opens the form for one element, or the whole page with no element |
+| `Snaglist.open(type)` | Opens Send feedback, as the button does; give a type, such as `"feature"`, to choose it already. Use it from your own menu |
+| `Snaglist.report(element, type)` | Opens Send feedback about one element; with a type, goes straight to its form |
 | `Snaglist.setUserEnabled(on)` | The user's switch, remembered in this browser |
 | `Snaglist.isUserEnabled()` | Whether the user's switch is on |
 | `Snaglist.redact(text)` | The same hiding the reports use, for your own text |
+| `Snaglist.strings()` | Every piece of interface text by key, to translate and give back as `text` |
 | `Snaglist.version` | The version running on the page |
 
 ## GitHub labels
 
-Each report asks for `ux-report`, `type: <type>`, `severity: <how bad>`, `kind: <kind>` when you ask the extra
-question, and your own labels. GitHub only adds labels that exist, and only when the person reporting may label
+Each report asks for `feedback`, `problem` or `suggestion`, `type: <type>`, `severity: <how bad>` or
+`importance: <how much it would help>`, `kind: <kind>` when you ask the extra question, and your own labels. GitHub only adds labels that exist, and only when the person reporting may label
 issues. The same details are always in the report, so nothing is lost.
 
 ## Content Security Policy
@@ -136,6 +150,8 @@ root, so a policy with `style-src 'self'` needs `'unsafe-inline'` for styles.
 
 ## Find out more
 
-- [Choose the report types](choose-the-report-types.md)
+- [Choose what people can send](choose-what-people-can-send.md)
+- [Show Snaglist in your language](show-snaglist-in-your-language.md)
+- [Turn on the accessibility check](turn-on-the-accessibility-check.md)
 - [Choose what a report records](choose-what-a-report-records.md)
 - [What a report holds, and what it never holds](what-a-report-holds.md)

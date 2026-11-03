@@ -35,7 +35,7 @@ Follow [Turn Snaglist on or off for everyone](../topics/turn-snaglist-on-or-off-
 
 ## Step 2: record more for the session
 
-Offer more report types ([Choose the report types](../topics/choose-the-report-types.md)), and record the
+Offer more report types ([Choose the report types](../topics/choose-what-people-can-send.md)), and record the
 technical details for every report with `collect: { styles: true, layout: true, errors: true, console: true }`:
 [Choose what a report records](../topics/choose-what-a-report-records.md). Check your error and console messages
 hold no personal details first.
@@ -48,7 +48,7 @@ own list:
 
 ## Step 4: brief the testers
 
-Send them [Report issues on a site that uses Snaglist](report-issues-on-a-site.md), the address of the test
+Send them [Report issues on a site that uses Snaglist](send-feedback-on-a-site.md), the address of the test
 build, and what to try. Ask for one report per problem.
 
 ## Step 5: triage the reports

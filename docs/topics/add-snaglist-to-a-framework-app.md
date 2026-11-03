@@ -33,7 +33,7 @@ loads. Snaglist keeps its own element outside your components, so your framework
    });
    ```
 
-4. Run your app and check that **Report an issue** appears.
+4. Run your app and check that **Send feedback** appears.
 
 ## Things to note
 

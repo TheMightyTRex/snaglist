@@ -10,7 +10,7 @@ behind.
 1. Delete the `<script>` tag that loads `snaglist.js` from your pages, and any `Snaglist.start()` call.
 2. Delete any other Snaglist code: your users' switch ([Add a switch for your users](add-a-switch-for-your-users.md))
    and any `Snaglist.` calls.
-3. Delete `snaglist.js` from your site's files.
+3. Delete `snaglist.js` and `snaglist-start.js` (if you made one with the set-up tool) from your site's files.
 4. Remove the `data-snag-private` attributes. Keep the `data-component` attributes if they help your tests;
    they do nothing on their own.
 5. Search your project for `snaglist` and `snag-` to check nothing is left. With Git, this command lists any
@@ -20,7 +20,7 @@ behind.
    git grep -n -i -e snaglist -e "snag-"
    ```
 
-6. Publish your site and check that **Report an issue** has gone.
+6. Publish your site and check that **Send feedback** has gone.
 
 ## Things to note
 

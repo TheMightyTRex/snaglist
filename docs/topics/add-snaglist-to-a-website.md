@@ -2,7 +2,8 @@
 
 # Add Snaglist to a website
 
-Add the **Report an issue** button to every page of a website with one file and one line. This suits plain
+Add the **Send feedback** button to every page of a website with one file and one line. The
+[set-up tool](use-the-set-up-tool.md) writes this code for you, with your choices. This suits plain
 HTML sites, WordPress themes, server-rendered apps and anything else that has HTML pages.
 
 ## Before you begin
@@ -28,8 +29,8 @@ HTML sites, WordPress themes, server-rendered apps and anything else that has HT
    <script src="/snaglist.js" data-github="owner/repo" defer></script>
    ```
 
-4. Publish the site and open any page. You will find **Report an issue** in a corner of the page.
-5. Make a test report: [Report an issue on a page](report-an-issue.md).
+4. Publish the site and open any page. You will find **Send feedback** in a corner of the page.
+5. Make a test report: [Report a problem with one thing on a page](send-feedback.md).
 
 ## Things to note
 
@@ -42,13 +43,13 @@ HTML sites, WordPress themes, server-rendered apps and anything else that has HT
   </script>
   ```
 
-- Snaglist reads nothing until someone selects **Report an issue**, and sends nothing until they choose to.
+- Snaglist reads nothing until someone selects **Send feedback**, and sends nothing until they choose to.
 - To serve the file from your own server with the right headers, read
   [Host Snaglist on your own server](host-snaglist-on-your-own-server.md).
 
 ## If it does not work
 
-Read [If Report an issue does not appear](if-report-an-issue-does-not-appear.md).
+Read [If Send feedback does not appear](if-send-feedback-does-not-appear.md).
 
 ## Find out more
 

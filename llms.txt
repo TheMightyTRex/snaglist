@@ -1,68 +1,91 @@
 # Snaglist
 
-> A single JavaScript file, with no libraries, that adds a "Report an issue" button to any website or web app.
-> People choose the part of the page with a problem and a report type (bug, hard to use, looks wrong,
-> accessibility, slow, words, idea), answer its questions, check exactly what will be sent, and send it
-> as a GitHub issue, an email, a post to the site's own server, or copy or download it. Reports are anonymous:
-> no field contents, cookies, query strings or full browser strings, and emails, long numbers, IP addresses and
-> keys are replaced. Each type records the technical details needed to fix it: script errors with stack, console
-> errors and warnings, failed and slow requests, steps before, styles and contrast, layout, accessibility details,
-> sanitised HTML, Core Web Vitals. MIT licence.
+> A single JavaScript file, with no libraries, that adds a "Send feedback" button to any website or web app.
+> People report bugs and UX problems, suggest features and improvements, record a series of steps, or check the
+> page for accessibility problems. Each report is tagged with the page and the part of it, carries the technical
+> details needed to act on it (text on screen, script errors with stack, console errors and warnings, failed and
+> slow requests, recorded steps, styles and contrast, layout, accessibility details, sanitised HTML, Core Web
+> Vitals), and keeps no personal information: never what people type, no cookies or query strings; emails, long
+> numbers, IP addresses and keys are replaced. People see the whole report before it is sent. MIT licence.
+
+## Quickest install
+
+The set-up tool, https://themightytrex.github.io/snaglist/configure.html, asks what the site needs and writes
+snaglist-start.js, the script tags for the platform, and one prompt for an AI assistant.
 
 ## Install (any site)
 
 1. Download https://raw.githubusercontent.com/TheMightyTRex/snaglist/main/snaglist.js into the folder the site
    serves static files from (public/ or static/ in most frameworks). Do not change it.
-2. Before </body> in the shared layout: <script src="/snaglist.js"></script>
-3. Start once, after the page has loaded (in a framework, in code that runs once, never in a component):
-   Snaglist.start({ app: "App name", send: { github: { repo: "owner/name" }, email: { to: "team@example.com" } } });
-   Shortest form instead of steps 2 and 3: <script src="/snaglist.js" data-github="owner/name" defer></script>
-   Optional: data-types="bug ux visual" to choose the report types.
+2. Create snaglist-start.js next to it:
+   (function start(tries) {
+     if (!window.Snaglist) { if (tries < 100) setTimeout(start, 50, tries + 1); return; }
+     Snaglist.start({ app: "App name", language: "en-GB", send: { github: { repo: "owner/name" } } });
+   })(0);
+3. Before </body> in the shared layout, snaglist.js first:
+   <script src="/snaglist.js" defer></script>
+   <script src="/snaglist-start.js" defer></script>
+   Shortest form instead: <script src="/snaglist.js" data-github="owner/name" defer></script>
+   (optional data-types="bug ux feature check", data-email, data-endpoint, data-app, data-version)
 4. Add data-component="name" to main parts of pages (header, menus, forms, cards, tables, dialogs).
 5. Add data-snag-private to anything that shows personal details.
 6. Never put a token or password in the page; Snaglist does not need one.
 
 ## Settings (all optional)
 
-enabled (true), userToggle (true), launcher ("bottom-right" | "bottom-left" | false), shortcut ("" or
-"Alt+Shift+R"), types (["bug", "ux", "visual", "accessibility", "performance", "content", "idea"], or objects
-{ id, label, hint, fields: [{ id, label, hint, type: "textarea" | "text" | "select", options, required }],
-collect: [parts] }), categories (null | "ux" | "heuristics" | "wcag" | [[value, label, hint]]), severities
-("three" | "nielsen" | list), labels (["ux-report"]), collect (each true | false | "auto": page, element,
-styles, layout, a11y, html, environment, display, performance, errors, console, network, trail, context),
+language ("auto" reads <html lang>; "en-US" uses US spelling; any other language: translate with text),
+theme ("light" default | "dark" | "auto"), enabled (true), userToggle (true), launcher ("bottom-right" |
+"bottom-left" | false), shortcut ("" or "Alt+Shift+F"),
+types (["bug", "ux", "visual", "accessibility", "performance", "content", "feature", "idea", "other", "check"],
+or objects { id, label, hint, group: "problem" | "suggestion", pick, scale, fields: [{ id, label, hint,
+type: "textarea" | "text" | "select", options, required }], collect: [parts] }),
+check ({ engine: "built-in" | "axe", axe: url, contrastLimit: 300 }),
+categories (null | "ux" | "heuristics" | "wcag" | [[value, label, hint]]), severities ("three" | "nielsen" |
+list), importance ("importance" | list), labels (["feedback"]),
+collect (each true | false | "auto": page, element, text, steps, styles, layout, a11y, html, environment,
+display, performance, errors, console, network, trail, context),
 limits { errors: 5, console: 10, network: 8, trail: 8, slowRequest: 2000 }, page { name: fn, keepParams: [] },
-component { attribute: "data-component", from: fn }, context (fn returning app details such as a build
-number), redact ([[regex, "[label]"]]),
-send { github: { repo, labels }, email: { to, subject }, endpoint: { url, headers }, copy: true,
-download: true }, beforeSend (fn(report) => report), text ({ key: "replacement" }).
+component { attribute: "data-component", from: fn }, context (fn returning app details such as a build number),
+redact ([[regex, "[label]"]]), send { github: { repo, labels }, email: { to, subject }, endpoint: { url,
+headers }, copy: true, download: true }, beforeSend (fn(report) => report), text ({ key: "replacement" }).
+
+## Translating
+
+Snaglist.strings() returns every interface string by key (about 170). Translate the values and pass them as
+text: { key: "translation" } with language: "<code>". Keys left out stay in English. Right-to-left languages are
+laid out right to left.
 
 ## Functions
 
-Snaglist.start(settings), Snaglist.destroy({ forget }), Snaglist.open(), Snaglist.report(element),
-Snaglist.setUserEnabled(on), Snaglist.isUserEnabled(), Snaglist.redact(text), Snaglist.version.
+Snaglist.start(settings), Snaglist.destroy({ forget }), Snaglist.open(type), Snaglist.report(element, type),
+Snaglist.setUserEnabled(on), Snaglist.isUserEnabled(), Snaglist.redact(text), Snaglist.strings(),
+Snaglist.version.
 
 ## User setting (recommended)
 
-A switch labelled "Show Report an issue", on by default, with the hint "A button for telling us about a problem
-on any page. Reports never include your personal details." Off calls Snaglist.setUserEnabled(false); on calls
-Snaglist.setUserEnabled(true).
-
-## Turn off for everyone
-
-Set enabled: false in Snaglist.start(), or remove the data-github, data-email and data-endpoint attributes.
+A switch labelled "Show Send feedback", on by default, with the hint "A button for sending feedback or
+reporting a problem on any page. Reports never include your personal details." Off calls
+Snaglist.setUserEnabled(false); on calls Snaglist.setUserEnabled(true).
 
 ## Clean removal
 
-Snaglist.destroy() removes its element and listeners and puts back window.fetch, XMLHttpRequest and
-console.error and console.warn exactly as they were.
+Snaglist.destroy() removes its element, listeners and any recording, and puts back window.fetch,
+XMLHttpRequest and console.error and console.warn exactly as they were.
+
+## Turn off for everyone
+
+Set enabled: false in Snaglist.start() (often in snaglist-start.js), or remove the data-github, data-email and
+data-endpoint attributes.
 
 ## Remove completely
 
-Delete snaglist.js, its <script> tag, every Snaglist.* call, the user setting and the data-snag-private
-attributes. data-component attributes can stay. Search for "snaglist" and "snag-" to confirm nothing is left.
+Delete snaglist.js, snaglist-start.js, their <script> tags, every Snaglist.* call, the user setting and the
+data-snag-private attributes. data-component attributes can stay. Search for "snaglist" and "snag-" to confirm
+nothing is left.
 
 ## More
 
 - Help centre: https://github.com/TheMightyTRex/snaglist/blob/main/docs/README.md
+- Fix common accessibility problems: https://github.com/TheMightyTRex/snaglist/blob/main/docs/topics/fix-common-accessibility-problems.md
 - Prompts for AI assistants: https://github.com/TheMightyTRex/snaglist/blob/main/docs/AI-PROMPTS.md
 - Demo: https://themightytrex.github.io/snaglist/

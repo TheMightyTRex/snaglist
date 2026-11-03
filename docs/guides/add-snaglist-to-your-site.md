@@ -3,7 +3,7 @@
 # Add Snaglist to your site and get your first report
 
 For anyone who runs a website or app and wants people to report UX issues. At the end, every page has a
-**Report an issue** button and your first report is in GitHub. It takes about 20 minutes.
+**Send feedback** button and your first report is in GitHub. It takes about 20 minutes.
 
 ## Before you begin
 
@@ -35,14 +35,16 @@ flowchart TD
 ## Step 1: try Snaglist on the demo page
 
 Open the [online demo](https://themightytrex.github.io/snaglist/) and report something on the made-up app,
-to learn what your users will see. You know it worked when **What is sent** shows your report.
+to learn what your users will see: report one thing, record a series of steps, make a suggestion and check the
+page. You know it worked when **What is sent** shows your report.
 
 ## Step 2: add it to your site
 
-Download one file and add one line to your pages. Follow
+Download one file and add one line to your pages. The quickest way is the
+[set-up tool](../topics/use-the-set-up-tool.md), which writes the code for your choices. Or follow
 [Add Snaglist to a website](../topics/add-snaglist-to-a-website.md), or
 [Add Snaglist to a React, Vue, Svelte or other framework app](../topics/add-snaglist-to-a-framework-app.md).
-You know it worked when **Report an issue** appears on your pages.
+You know it worked when **Send feedback** appears on your pages.
 
 ## Step 3: choose where reports go
 
@@ -59,7 +61,7 @@ Give main parts a `data-component` name and mark anything personal with `data-sn
 ## Step 5: choose what reports record
 
 The defaults suit most sites. To change them, follow
-[Choose the report types](../topics/choose-the-report-types.md),
+[Choose the report types](../topics/choose-what-people-can-send.md),
 [Choose what a report records](../topics/choose-what-a-report-records.md) and
 [Choose the kinds of issue and how bad they can be](../topics/choose-the-kinds-of-issue.md).
 
@@ -69,11 +71,11 @@ Let people turn the button off: [Add a switch for your users](../topics/add-a-sw
 
 ## Step 7: make your first report
 
-Report a real issue on your own site: [Report an issue on a page](../topics/report-an-issue.md). You know it
+Send real feedback on your own site: [Report a problem with one thing on a page](../topics/send-feedback.md). You know it
 worked when the report is in your GitHub issues, inbox or server.
 
 ## What next
 
 - [Run a test session with Snaglist](run-a-test-session.md)
 - [Triage reports on GitHub](../topics/triage-reports-on-github.md)
-- Share [Report issues on a site that uses Snaglist](report-issues-on-a-site.md) with the people who will report.
+- Share [Report issues on a site that uses Snaglist](send-feedback-on-a-site.md) with the people who will report.

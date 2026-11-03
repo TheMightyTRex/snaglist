@@ -62,3 +62,7 @@ Who this is for, what you will have at the end, and about how long it takes.
 7. Commands go in their own fenced block, one command per block, with what it does in the sentence before.
 8. Links name their destination. A link that leaves the help says "(opens in a new tab)".
 9. Made-up examples only: `owner/repo`, `team@example.com`, `reports.example.com`, Alex Example.
+10. Pictures come from `tools/screenshots.sh`, which drives the demo with made-up data. Run it after any change
+    to what Snaglist shows, and look at every picture. Describe each picture in words in its alt text.
+11. `fix-common-accessibility-problems.md` is made from the rules in `snaglist.js` by `tools/fix-guide.py`.
+    Change the rules, then run it; never edit that topic by hand.

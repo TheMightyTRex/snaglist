@@ -2,7 +2,7 @@
 
 # Choose what a report records
 
-Every report holds the person's answers, the report type and how bad it is. You choose what else it records,
+Every report holds the person's answers, what they are sending and how much it matters. You choose what else it records,
 and when: always, never, or only for the report types that need it.
 
 ## Steps
@@ -13,6 +13,8 @@ and when: always, never, or only for the report types that need it.
    |---|---|---|
    | `page` | Page name and path, ids as `:id`, no query or hash | Always |
    | `element` | The part chosen: component, role, label, selector | When needed |
+   | `text` | The visible text of the part chosen, and any error or alert messages on the page | When needed |
+   | `steps` | The steps recorded with A series of steps | Always, when there are some |
    | `styles` | Font, colours and contrast, with a WCAG pass or fail | When needed |
    | `layout` | Size, position, content cut off, what covers it | When needed |
    | `a11y` | Role, name, states, focus, target size, landmark | When needed |
@@ -53,6 +55,6 @@ and when: always, never, or only for the report types that need it.
 
 ## Find out more
 
-- [Choose the report types](choose-the-report-types.md)
+- [Choose what people can send](choose-what-people-can-send.md)
 - [Keep personal details out of reports](keep-personal-details-out.md)
 - [Settings reference](settings-reference.md)

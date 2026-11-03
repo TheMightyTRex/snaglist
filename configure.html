@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en-GB" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Snaglist: set-up tool</title>
+<meta name="description" content="Choose what Snaglist does on your site, then copy the code, where to put it, or one prompt for your AI assistant.">
+<link rel="stylesheet" href="https://themightytrex.github.io/design-system/tokens.css">
+<link rel="stylesheet" href="https://themightytrex.github.io/design-system/components.css">
+<style>
+  body { margin: 0; background: var(--color-bg, #f0f5ff); color: var(--color-text, #141416); font-family: var(--font, system-ui, sans-serif); }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 24px 16px 96px; display: grid; gap: 24px; }
+  .intro h1 { margin: 0 0 8px; }
+  .intro p { margin: 0 0 8px; max-width: 72ch; }
+  .cols { display: grid; gap: 24px; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: start; }
+  @media (max-width: 960px) { .cols { grid-template-columns: minmax(0, 1fr); } }
+  .choices { display: grid; gap: 16px; }
+  .choices fieldset { border: 1px solid var(--color-divider, #c8d0dc); background: var(--color-surface, #fff); padding: 12px 16px 16px; margin: 0; display: grid; gap: 8px; }
+  .choices legend { font-weight: 600; font-size: 1.125rem; padding: 0 4px; }
+  .choices .sub { font-weight: 600; margin: 8px 0 0; }
+  .check { display: flex; gap: 12px; align-items: flex-start; min-height: 44px; padding-top: 10px; }
+  .check input { width: 22px; height: 22px; margin: 0; flex: none; accent-color: var(--color-accent, #0b5f5a); }
+  .check span small { display: block; color: var(--color-text-muted, #424b5b); }
+  .grid2 { display: grid; gap: 8px 16px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); align-items: end; }
+  .output { position: sticky; top: 16px; display: grid; gap: 16px; max-height: calc(100vh - 32px); overflow: auto; padding-bottom: 8px; }
+  .output section { border: 1px solid var(--color-divider, #c8d0dc); background: var(--color-surface, #fff); padding: 12px 16px 16px; display: grid; gap: 8px; }
+  .output h2 { margin: 0; font-size: 1.125rem; }
+  .output p { margin: 0; }
+  .output pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 360px; overflow: auto; font-size: .8125rem; }
+  .row-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="intro">
+    <h1 style="display:flex;align-items:center;gap:12px"><img src="docs/images/logo.svg" alt="" width="40" height="40">Set up Snaglist for your site</h1>
+    <p>Choose what Snaglist does, and the code updates as you go. Then follow the steps, or copy one prompt into your
+      AI assistant and it adds everything for you. Select <strong>Try these settings here</strong> to use them on this page.</p>
+    <p><a href="index.html">Back to the demo</a> · <a href="https://github.com/TheMightyTRex/snaglist/blob/main/docs/README.md">Help centre</a></p>
+  </header>
+
+  <main class="cols" id="main">
+    <form class="choices" id="choices" onsubmit="event.preventDefault()">
+      <fieldset>
+        <legend>Your site</legend>
+        <div class="grid2">
+          <div class="field"><label for="c-app">Name of your site or app</label><input class="input" id="c-app" value="My app"></div>
+          <div class="field"><label for="c-version">Version (optional)</label><input class="input" id="c-version" placeholder="1.0.0"></div>
+        </div>
+        <div class="field"><label for="c-platform">What it is built with</label>
+          <select class="select" id="c-platform">
+            <option value="html">Plain HTML pages</option>
+            <option value="wordpress">WordPress</option>
+            <option value="react">React with Vite</option>
+            <option value="next">Next.js</option>
+            <option value="vue">Vue with Vite</option>
+            <option value="svelte">SvelteKit</option>
+            <option value="astro">Astro</option>
+            <option value="other">Something else</option>
+          </select></div>
+        <div class="field"><label for="c-lang">Main language of your site</label>
+          <span class="hint" id="c-lang-hint">Snaglist's buttons and questions appear in this language.</span>
+          <select class="select" id="c-lang" aria-describedby="c-lang-hint">
+            <option value="auto">The same as each page (its lang attribute)</option>
+            <option value="en-GB">English (UK)</option>
+            <option value="en-US">English (US)</option>
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="it">Italian</option>
+            <option value="pt">Portuguese</option>
+            <option value="nl">Dutch</option>
+            <option value="pl">Polish</option>
+            <option value="sv">Swedish</option>
+            <option value="ar">Arabic</option>
+            <option value="hi">Hindi</option>
+            <option value="ja">Japanese</option>
+            <option value="zh">Chinese</option>
+            <option value="other">Another language</option>
+          </select></div>
+        <div class="field" id="c-lang-other-field" hidden><label for="c-lang-other">Language code, for example "cy" for Welsh</label><input class="input" id="c-lang-other"></div>
+      </fieldset>
+
+      <fieldset id="c-types">
+        <legend>What people can send</legend>
+        <p class="sub">Report a problem</p>
+        <label class="check"><input type="checkbox" value="bug" checked><span>Something is broken <small>Records errors, console, failed requests, steps before</small></span></label>
+        <label class="check"><input type="checkbox" value="ux" checked><span>Hard to use <small>Records the part and steps before</small></span></label>
+        <label class="check"><input type="checkbox" value="visual" checked><span>Looks wrong <small>Records styles, contrast, layout, the part's HTML</small></span></label>
+        <label class="check"><input type="checkbox" value="accessibility" checked><span>Hard to use with my tools or needs <small>Records role, name, states, focus, target size</small></span></label>
+        <label class="check"><input type="checkbox" value="performance" checked><span>Slow <small>Records load timings, Core Web Vitals, long tasks</small></span></label>
+        <label class="check"><input type="checkbox" value="content" checked><span>Words are wrong <small>Records the part and a suggested wording</small></span></label>
+        <p class="sub">Make a suggestion</p>
+        <label class="check"><input type="checkbox" value="feature" checked><span>A new feature <small>Asks what, why and how they manage today</small></span></label>
+        <label class="check"><input type="checkbox" value="idea" checked><span>Make something better <small>Asks what could be better and how</small></span></label>
+        <label class="check"><input type="checkbox" value="other" checked><span>Something else <small>A free message</small></span></label>
+        <p class="sub">Check the page</p>
+        <label class="check"><input type="checkbox" value="check" checked><span>Check this page for accessibility problems <small>An automatic check; people choose which problems to report</small></span></label>
+        <div class="field"><label for="c-engine">Accessibility check</label>
+          <select class="select" id="c-engine"><option value="built-in">Built in: 13 common problems, nothing else loaded</option><option value="axe">axe-core: about 90 rules, loaded from jsDelivr when someone runs it</option></select></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Where it goes</legend>
+        <label class="check"><input type="checkbox" id="c-gh" checked><span>GitHub issues <small>Opens a filled-in issue; people need a GitHub account</small></span></label>
+        <div class="field"><label for="c-repo">GitHub repository (owner/name)</label><input class="input" id="c-repo" value="owner/repo"></div>
+        <label class="check"><input type="checkbox" id="c-mail"><span>Email <small>Opens the person's mail app</small></span></label>
+        <div class="field"><label for="c-to">Email address</label><input class="input" id="c-to" type="email" value="team@example.com"></div>
+        <label class="check"><input type="checkbox" id="c-ep"><span>Your own server <small>Posts the report as JSON; works for anyone</small></span></label>
+        <div class="field"><label for="c-url">Server address</label><input class="input" id="c-url" value="https://reports.example.com/"></div>
+        <label class="check"><input type="checkbox" id="c-copy" checked><span>Copy and Download <small>Always works, even offline</small></span></label>
+      </fieldset>
+
+      <fieldset id="c-collect">
+        <legend>What reports record</legend>
+        <p class="muted small" style="margin:0">"When needed" records it only for the types that use it.</p>
+        <div class="grid2" id="c-collect-grid"></div>
+        <div class="field"><label for="c-context">Your build or version variable (optional)</label>
+          <input class="input" id="c-context" placeholder="window.APP_BUILD"><span class="hint">Added to every report as App details.</span></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Questions and ratings</legend>
+        <div class="field"><label for="c-sev">How bad is it (problems)</label>
+          <select class="select" id="c-sev"><option value="three">Minor, Gets in the way, Stops me</option><option value="nielsen">Nielsen 1 to 4</option></select></div>
+        <div class="field"><label for="c-cat">Extra question for problems: kind of issue</label>
+          <select class="select" id="c-cat"><option value="">Do not ask</option><option value="ux">Everyday UX</option><option value="heuristics">Nielsen's 10 heuristics</option><option value="wcag">WCAG principles</option></select></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>When and how it shows</legend>
+        <div class="field"><label for="c-when">Show it</label>
+          <select class="select" id="c-when">
+            <option value="always">To everyone, everywhere</option>
+            <option value="test">Only on test sites (address starts with staging., test. or dev.)</option>
+            <option value="local">Only on my own computer (localhost)</option>
+          </select></div>
+        <div class="field"><label for="c-theme">Colours of Snaglist's windows</label>
+          <select class="select" id="c-theme"><option value="light">Light</option><option value="dark">Dark</option><option value="auto">The same as the device</option></select></div>
+        <label class="check"><input type="checkbox" id="c-switch" checked><span>Give users a switch to turn it off <small>Adds Show Send feedback to your settings</small></span></label>
+        <div class="grid2">
+          <div class="field"><label for="c-pos">Button position</label>
+            <select class="select" id="c-pos"><option value="bottom-right">Bottom right corner</option><option value="bottom-left">Bottom left corner</option><option value="none">No button: I open it from my own menu</option></select></div>
+          <div class="field"><label for="c-label">Button words</label><input class="input" id="c-label" value="Send feedback"></div>
+          <div class="field"><label for="c-key">Keyboard shortcut (optional)</label><input class="input" id="c-key" placeholder="Alt+Shift+F"></div>
+        </div>
+      </fieldset>
+    </form>
+
+    <div class="output" role="region" aria-label="Your code and prompt" tabindex="0">
+      <section>
+        <h2>Do it in one go with an AI assistant</h2>
+        <p>Copy this prompt into your assistant (Claude, ChatGPT, Gemini, Copilot, Cursor, Lovable or another) with your project open.</p>
+        <pre class="code-block" id="o-prompt" tabindex="0"></pre>
+        <div class="row-actions"><button class="btn btn--primary" type="button" data-copy="o-prompt">Copy the prompt</button></div>
+      </section>
+      <section>
+        <h2>Or do it yourself</h2>
+        <h3 style="margin:8px 0 0;font-size:1rem">Step 1: download Snaglist</h3>
+        <p id="o-where-file"></p>
+        <pre class="code-block" id="o-curl" tabindex="0"></pre>
+        <div class="row-actions"><button class="btn" type="button" data-copy="o-curl">Copy the command</button>
+          <a class="btn" href="snaglist.js" download>Download snaglist.js</a></div>
+        <h3 style="margin:8px 0 0;font-size:1rem">Step 2: save your settings as snaglist-start.js</h3>
+        <p>Save this as <code>snaglist-start.js</code> in the same folder.</p>
+        <pre class="code-block" id="o-start" tabindex="0"></pre>
+        <div class="row-actions"><button class="btn" type="button" data-copy="o-start">Copy the settings file</button>
+          <button class="btn" type="button" id="o-save">Download snaglist-start.js</button></div>
+        <h3 style="margin:8px 0 0;font-size:1rem">Step 3: load both on every page</h3>
+        <p id="o-where-tag"></p>
+        <pre class="code-block" id="o-tag" tabindex="0"></pre>
+        <div class="row-actions"><button class="btn" type="button" data-copy="o-tag">Copy the code</button></div>
+        <div id="o-switch-wrap">
+          <h3 style="margin:8px 0 0;font-size:1rem">Step 4: add the switch for your users</h3>
+          <p>Put this on your settings page, next to your display or accessibility settings.</p>
+          <pre class="code-block" id="o-switch" tabindex="0"></pre>
+          <div class="row-actions"><button class="btn" type="button" data-copy="o-switch">Copy the switch</button></div>
+        </div>
+        <div id="o-labels-wrap">
+          <h3 style="margin:8px 0 0;font-size:1rem" id="o-labels-h">Step 5: make the GitHub labels</h3>
+          <p>Run these once with the GitHub command-line tool, so GitHub can label each report.</p>
+          <pre class="code-block" id="o-labels" tabindex="0"></pre>
+          <div class="row-actions"><button class="btn" type="button" data-copy="o-labels">Copy the commands</button></div>
+        </div>
+        <p id="o-lang-note" hidden>Snaglist's own words are in English. To show them in your site's language, read
+          <a href="https://github.com/TheMightyTRex/snaglist/blob/main/docs/topics/show-snaglist-in-your-language.md">Show Snaglist in your language</a>,
+          or use the prompt, which asks your AI assistant to translate them.</p>
+        <p>Finally, mark anything that shows personal details, such as a signed-in name, with <code>data-snag-private</code>,
+          and name your main parts with <code>data-component</code>.</p>
+      </section>
+      <section>
+        <h2>Try and share</h2>
+        <div class="row-actions">
+          <button class="btn btn--primary" type="button" id="o-try">Try these settings here</button>
+          <button class="btn" type="button" id="o-share">Copy a link to these settings</button>
+        </div>
+        <p class="muted small" id="o-status" role="status"></p>
+      </section>
+    </div>
+  </main>
+</div>
+
+<script src="snaglist.js"></script>
+<script>
+  const $ = (id) => document.getElementById(id);
+  const VERSION = Snaglist.version;
+  const PARTS = [["page", "Page name and path", "true"], ["element", "The part chosen", "auto"], ["styles", "Font, colours, contrast", "auto"],
+    ["layout", "Size, position, what covers it", "auto"], ["a11y", "Accessibility details", "auto"], ["html", "HTML without text", "auto"],
+    ["environment", "Screen, browser, device", "true"], ["display", "Display settings", "true"], ["performance", "Page speed", "auto"],
+    ["errors", "Script errors", "auto"], ["console", "Console messages", "auto"], ["network", "Failed and slow requests", "auto"],
+    ["trail", "What was done before", "auto"]];
+  for (const [key, text, value] of PARTS) {
+    const select = document.createElement("select");
+    select.className = "select"; select.id = `c-p-${key}`; select.dataset.part = key;
+    for (const [v, l] of [["true", "Always"], ["auto", "When needed"], ["false", "Never"]]) select.add(new Option(l, v, false, v === value));
+    const field = document.createElement("div"); field.className = "field";
+    const label = document.createElement("label"); label.htmlFor = select.id; label.textContent = text;
+    field.append(label, select); $("c-collect-grid").append(field);
+  }
+
+  // Where the two files and the script tags go, for each kind of site.
+  const PLATFORMS = {
+    html: { folder: "the folder your pages are served from, next to your other scripts", src: "/", file: "every page, or the shared footer or template, just before </body>" },
+    wordpress: { folder: "your theme's folder, as wp-content/themes/<your theme>/snaglist/ (use a child theme so updates keep it)", src: "", file: "your theme's functions.php (the code below loads both files on every page)" },
+    react: { folder: "public/", src: "/", file: "index.html, just before </body>" },
+    next: { folder: "public/", src: "/", file: "app/layout.tsx (or pages/_document.tsx), inside <body>" },
+    vue: { folder: "public/", src: "/", file: "index.html, just before </body>" },
+    svelte: { folder: "static/", src: "/", file: "src/app.html, just before </body>" },
+    astro: { folder: "public/", src: "/", file: "your shared layout (for example src/layouts/Layout.astro), just before </body>" },
+    other: { folder: "the folder your site serves static files from", src: "/", file: "the layout every page shares, just before </body>" },
+  };
+
+  function read() {
+    const collect = {};
+    for (const s of document.querySelectorAll("[data-part]")) if (s.value !== PARTS.find(([k]) => k === s.dataset.part)[2]) collect[s.dataset.part] = s.value === "auto" ? "auto" : s.value === "true";
+    return {
+      app: $("c-app").value.trim() || "My app", version: $("c-version").value.trim(), platform: $("c-platform").value,
+      types: [...document.querySelectorAll("#c-types input:checked")].map((b) => b.value),
+      github: $("c-gh").checked ? $("c-repo").value.trim() : "", email: $("c-mail").checked ? $("c-to").value.trim() : "",
+      endpoint: $("c-ep").checked ? $("c-url").value.trim() : "", copy: $("c-copy").checked,
+      collect, context: $("c-context").value.trim(), severities: $("c-sev").value, categories: $("c-cat").value,
+      language: $("c-lang").value === "other" ? ($("c-lang-other").value.trim() || "auto") : $("c-lang").value,
+      languageName: $("c-lang").value === "other" ? `the language with the code "${$("c-lang-other").value.trim()}"` : $("c-lang").selectedOptions[0].text,
+      engine: $("c-engine").value, theme: $("c-theme").value,
+      when: $("c-when").value, userSwitch: $("c-switch").checked, launcher: $("c-pos").value, label: $("c-label").value.trim(), shortcut: $("c-key").value.trim(),
+    };
+  }
+
+  const ALL_TYPES = ["bug", "ux", "visual", "accessibility", "performance", "content", "feature", "idea", "other", "check"];
+  function settings(c) {
+    const s = { app: c.app };
+    if (c.version) s.version = c.version;
+    if (c.language !== "auto") s.language = c.language;
+    if (c.theme !== "light") s.theme = c.theme;
+    if (c.engine === "axe" && c.types.includes("check")) s.check = { engine: "axe" };
+    if (c.types.length && c.types.join() !== ALL_TYPES.join()) s.types = c.types;
+    const send = {};
+    if (c.github) send.github = { repo: c.github };
+    if (c.email) send.email = { to: c.email };
+    if (c.endpoint) send.endpoint = { url: c.endpoint };
+    if (!c.copy) { send.copy = false; send.download = false; }
+    s.send = send;
+    if (Object.keys(c.collect).length) s.collect = c.collect;
+    if (c.severities !== "three") s.severities = c.severities;
+    if (c.categories) s.categories = c.categories;
+    if (c.launcher === "none") s.launcher = false; else if (c.launcher !== "bottom-right") s.launcher = c.launcher;
+    if (c.label && c.label !== "Send feedback") s.text = { launcher: c.label };
+    if (c.shortcut) s.shortcut = c.shortcut;
+    return s;
+  }
+
+  function startFile(c) {
+    let body = JSON.stringify(settings(c), null, 2).replace(/\n/g, "\n  ");
+    const extras = [];
+    if (c.when === "test") extras.push(`enabled: /^(staging|test|dev)\\./.test(location.hostname),`);
+    if (c.when === "local") extras.push(`enabled: ["localhost", "127.0.0.1"].includes(location.hostname),`);
+    if (c.context) extras.push(`context: () => ({ build: String(${c.context}) }),`);
+    if (extras.length) body = body.replace(/^\{\n/, `{\n    ${extras.join("\n    ")}\n`);
+    return `// Snaglist settings, made with the set-up tool (${location.origin}${location.pathname}).
+// Keep this file next to snaglist.js. To turn Snaglist off for everyone, set enabled: false.
+(function start(tries) {
+  if (!window.Snaglist) { if (tries < 100) setTimeout(start, 50, tries + 1); return; }
+  Snaglist.start(${body});
+})(0);
+`;
+  }
+
+  function tags(c) {
+    const p = PLATFORMS[c.platform];
+    if (c.platform === "wordpress") return `// In functions.php: loads Snaglist and your settings on every page.
+add_action('wp_enqueue_scripts', function () {
+  $dir = get_stylesheet_directory_uri() . '/snaglist/';
+  wp_enqueue_script('snaglist', $dir . 'snaglist.js', [], '${VERSION}', true);
+  wp_enqueue_script('snaglist-start', $dir . 'snaglist-start.js', ['snaglist'], '${VERSION}', true);
+});`;
+    if (c.platform === "next") return `// In app/layout.tsx: add the import at the top, and the two lines inside <body>.
+import Script from "next/script";
+
+<Script src="/snaglist.js" strategy="afterInteractive" />
+<Script src="/snaglist-start.js" strategy="afterInteractive" />`;
+    const inline = c.platform === "astro" ? " is:inline" : "";
+    return `<script src="${p.src}snaglist.js" defer${inline}><\/script>\n<script src="${p.src}snaglist-start.js" defer${inline}><\/script>`;
+  }
+
+  function switchCode() {
+    return `<!-- The switch: a real switch, so screen readers say on or off -->
+<button type="button" role="switch" aria-checked="true" id="snag-switch" aria-describedby="snag-switch-hint">Show Send feedback</button>
+<p id="snag-switch-hint">A button for sending feedback or reporting a problem on any page. Reports never include your personal details.</p>
+<script>
+  const snagSwitch = document.getElementById("snag-switch");
+  snagSwitch.setAttribute("aria-checked", String(window.Snaglist ? Snaglist.isUserEnabled() : true));
+  snagSwitch.addEventListener("click", () => {
+    const on = snagSwitch.getAttribute("aria-checked") !== "true";
+    snagSwitch.setAttribute("aria-checked", String(on));
+    Snaglist.setUserEnabled(on); // remembered in this browser; on again restarts it with your settings
+  });
+<\/script>`;
+  }
+
+  function labelCommands(c) {
+    const repo = c.github || "owner/repo";
+    const names = ["feedback", "problem", "suggestion", ...(c.types.includes("check") ? ["accessibility"] : []), ...c.types.map((x) => `type: ${x}`),
+      ...(c.types.some((x) => !["feature", "idea", "other"].includes(x)) ? (c.severities === "nielsen" ? ["1", "2", "3", "4"] : ["minor", "in-the-way", "stops-me"]).map((x) => `severity: ${x}`) : []),
+      ...(c.types.some((x) => ["feature", "idea"].includes(x)) ? ["nice", "often", "need"].map((x) => `importance: ${x}`) : [])];
+    return names.map((n) => `gh label create "${n}" --repo ${repo} --force`).join("\n");
+  }
+
+  function prompt(c) {
+    const p = PLATFORMS[c.platform];
+    const platformName = $("c-platform").selectedOptions[0].text;
+    const steps = [
+      `I want to add Snaglist to this project. Snaglist is a small, free script (MIT licence) that adds a "${c.label || "Send feedback"}" button to every page. People use it to report bugs and UX problems, or suggest features and improvements. Each report is tagged with the page and the part of it, records the technical details needed to act on it, collects no personal information, and is shown in full before it is sent.`,
+      `Home page: https://github.com/TheMightyTRex/snaglist. Short instructions for AI tools: https://raw.githubusercontent.com/TheMightyTRex/snaglist/main/llms.txt`,
+      ``,
+      `This project is built with: ${platformName}. Check that is right before you start, and tell me if it is not.`,
+      ``,
+      `Please do all of this, then tell me every file you changed or added:`,
+      ``,
+      `1. Download https://raw.githubusercontent.com/TheMightyTRex/snaglist/v${VERSION}/snaglist.js into ${p.folder}. Do not change it.`,
+      `2. Create snaglist-start.js in the same folder with exactly this content:`,
+      ``, startFile(c).trimEnd().split("\n").map((l) => `   ${l}`).join("\n"), ``,
+      `3. Load both files on every page, snaglist.js first, in ${p.file}:`,
+      ``, tags(c).split("\n").map((l) => `   ${l}`).join("\n"), ``,
+      `   If this project has a Content Security Policy, allow these two files and add 'unsafe-inline' to style-src (Snaglist adds its styles in its own shadow root).`,
+      `4. Add data-component="<name>" to the main parts of each page (header, menus, forms, cards, tables, dialogs), using each part's name from the code.`,
+      `5. Add the attribute data-snag-private to every element that shows personal details: the signed-in user's name or email, messages, addresses, payment details.`,
+    ];
+    let n = 6;
+    if (!/^(auto|en)/.test(c.language)) steps.push(`${n++}. Snaglist's interface is in English. Translate it into ${c.languageName}: open a page with Snaglist, run Snaglist.strings() in the browser console (or read the TEXT, TYPES, GROUPS, SEVERITIES, PARTS and RULES lists in snaglist.js) to get every key and its English text, translate each value into natural, plain ${c.languageName}, and add them to snaglist-start.js as text: { "key": "translation", ... }. Keep every key exactly as it is, keep any word in bold quotes the same as the matching button, and ask me to check the translation with a native speaker.`);
+    if (c.userSwitch) steps.push(`${n++}. Add a user setting next to the app's other display or accessibility settings: a switch labelled "Show Send feedback", on by default, with the hint "A button for sending feedback or reporting a problem on any page. Reports never include your personal details." Turning it off calls Snaglist.setUserEnabled(false); turning it on calls Snaglist.setUserEnabled(true). If the app saves settings per account, save it there too and call Snaglist.setUserEnabled(savedValue) when the app loads. Build it with the app's own switch component if it has one.`);
+    if (c.github) steps.push(`${n++}. If the GitHub command-line tool (gh) is available and signed in, make these labels; if not, list the commands for me to run:`, ``, labelCommands(c).split("\n").map((l) => `   ${l}`).join("\n"), ``);
+    steps.push(`${n++}. Do not put any password, token or API key in the page. Snaglist does not need one.`,
+      `${n++}. When you have finished, tell me how to try it: open a page, select "${c.label || "Send feedback"}", choose what to send, fill in the form and select "Review what is sent". Also tell me how to turn it off for everyone (enabled: false in snaglist-start.js) and how to remove it (delete both files, the two script lines${c.userSwitch ? ", the user setting" : ""} and the data-snag-private attributes).`);
+    return steps.join("\n");
+  }
+
+  function draw() {
+    const c = read();
+    const p = PLATFORMS[c.platform];
+    $("o-prompt").textContent = prompt(c);
+    $("o-where-file").textContent = `Put snaglist.js in ${p.folder}. This command downloads version ${VERSION}:`;
+    $("o-curl").textContent = `curl -fsSLO https://raw.githubusercontent.com/TheMightyTRex/snaglist/v${VERSION}/snaglist.js`;
+    $("o-start").textContent = startFile(c);
+    $("o-where-tag").textContent = `Add this to ${p.file}:`;
+    $("o-tag").textContent = tags(c);
+    $("o-switch-wrap").hidden = !c.userSwitch;
+    $("o-switch").textContent = switchCode();
+    $("o-labels-wrap").hidden = !c.github;
+    $("o-labels-h").textContent = `Step ${c.userSwitch ? 5 : 4}: make the GitHub labels`;
+    $("o-labels").textContent = labelCommands(c);
+    $("o-lang-note").hidden = /^(auto|en)/.test(c.language);
+    return c;
+  }
+
+  const say = (t) => { $("o-status").textContent = t; };
+  document.addEventListener("click", async (e) => {
+    const id = e.target.closest("[data-copy]")?.dataset.copy;
+    if (!id) return;
+    try { await navigator.clipboard.writeText($(id).textContent); say("Copied"); } catch { say("Copy did not work: select the text and copy it"); }
+  });
+  $("o-save").addEventListener("click", () => {
+    const url = URL.createObjectURL(new Blob([$("o-start").textContent], { type: "text/javascript" }));
+    const a = Object.assign(document.createElement("a"), { href: url, download: "snaglist-start.js" });
+    document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+  $("o-try").addEventListener("click", () => {
+    const s = settings(read());
+    s.userToggle = false;
+    if (!s.send.github && !s.send.email && !s.send.endpoint) s.send.copy = true;
+    Snaglist.start(s);
+    say(`Snaglist is running on this page with your settings: select ${s.text?.launcher || "Send feedback"}${s.launcher === false ? " (no button: press your shortcut, or reload to go back)" : ""}.`);
+  });
+
+  // Settings are kept in the address after #, so a link shares them.
+  const FIELDS = ["c-app", "c-version", "c-platform", "c-lang", "c-lang-other", "c-engine", "c-theme", "c-gh", "c-repo", "c-mail", "c-to", "c-ep", "c-url", "c-copy", "c-context", "c-sev", "c-cat", "c-when", "c-switch", "c-pos", "c-label", "c-key"];
+  function save() {
+    const state = {};
+    for (const id of FIELDS) { const el = $(id); state[id] = el.type === "checkbox" ? el.checked : el.value; }
+    state.types = [...document.querySelectorAll("#c-types input:checked")].map((b) => b.value);
+    state.parts = Object.fromEntries([...document.querySelectorAll("[data-part]")].map((s) => [s.dataset.part, s.value]));
+    history.replaceState(null, "", `#${encodeURIComponent(JSON.stringify(state))}`);
+  }
+  function load() {
+    try {
+      const state = JSON.parse(decodeURIComponent(location.hash.slice(1)));
+      for (const id of FIELDS) if (id in state) { const el = $(id); el.type === "checkbox" ? (el.checked = !!state[id]) : (el.value = state[id]); }
+      if (state.types) for (const b of document.querySelectorAll("#c-types input")) b.checked = state.types.includes(b.value);
+      if (state.parts) for (const s of document.querySelectorAll("[data-part]")) if (state.parts[s.dataset.part]) s.value = state.parts[s.dataset.part];
+    } catch { /* no saved settings */ }
+  }
+  $("o-share").addEventListener("click", async () => {
+    save();
+    try { await navigator.clipboard.writeText(location.href); say("Link copied"); } catch { say("Copy the address from the address bar"); }
+  });
+  const langOther = () => { $("c-lang-other-field").hidden = $("c-lang").value !== "other"; };
+  $("c-lang").addEventListener("change", langOther);
+  $("choices").addEventListener("input", () => { draw(); save(); });
+  $("choices").addEventListener("change", () => { draw(); save(); });
+  if (location.hash.length > 1) load();
+  langOther();
+  draw();
+  Snaglist.start({ app: "Snaglist set-up tool", send: { github: { repo: "TheMightyTRex/snaglist", labels: ["demo"] } } });
+</script>
+</body>
+</html>

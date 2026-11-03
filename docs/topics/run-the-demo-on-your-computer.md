@@ -31,9 +31,9 @@ before you add Snaglist to your site. To try it without installing anything, ope
    python3 -m http.server 8777 --bind 127.0.0.1
    ```
 
-4. Open http://127.0.0.1:8777/ in your browser. You will find the made-up app, with **Report an issue**, and
+4. Open http://127.0.0.1:8777/ in your browser. You will find the made-up app, with **Send feedback**, and
    **Settings** beside it.
-5. Change any setting. **Report an issue** restarts with it, and **Your code** shows the code to copy.
+5. Change any setting. **Send feedback** restarts with it, and **Your code** shows the code to copy.
 6. To stop the server, go back to the terminal and press Ctrl and C together.
 
 ## Things to note

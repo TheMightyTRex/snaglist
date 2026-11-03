@@ -1,6 +1,6 @@
 [Help centre](../README.md) · Troubleshooting · Troubleshooting
 
-# If Report an issue does not appear
+# If Send feedback does not appear
 
 The button is missing when Snaglist is not loaded, not started, or turned off. Check each in turn.
 

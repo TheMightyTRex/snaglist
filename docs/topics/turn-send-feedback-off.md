@@ -1,14 +1,14 @@
-[Help centre](../README.md) · For people reporting · How-to
+[Help centre](../README.md) · For people sending feedback · How-to
 
-# Turn off Report an issue
+# Turn off Send feedback
 
-If you would rather not have the **Report an issue** button, turn it off. The choice is kept in this browser.
+If you would rather not have the **Send feedback** button, turn it off. The choice is kept in this browser.
 
 ## Steps
 
 1. Go to the site's settings. The setting is often with the display or accessibility settings.
-2. Turn off **Show Report an issue**. The button goes at once.
-3. To bring it back, turn **Show Report an issue** on.
+2. Turn off **Show Send feedback**. The button goes at once.
+3. To bring it back, turn **Show Send feedback** on.
 
 ## Things to note
 

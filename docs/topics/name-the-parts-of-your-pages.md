@@ -14,7 +14,7 @@ Reports say which component had the problem. Give your main parts clear names so
    <section class="panel" data-component="checkout-summary">
    ```
 
-2. Report an issue on that part and check that **Where** shows the name.
+2. Send feedback about that part and check that **Where** shows the name.
 
 ## Things to note
 

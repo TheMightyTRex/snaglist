@@ -1,4 +1,4 @@
-[Help centre](../README.md) · For people reporting · How-to
+[Help centre](../README.md) · For people sending feedback · How-to
 
 # Post a report on GitHub
 
@@ -22,8 +22,8 @@ own GitHub account.
   personal information.
 - If the report was too long for GitHub's web address, Snaglist puts it on your clipboard and says so. Paste
   it into the issue before you create it.
-- Labels such as `ux-report` are only added when you are allowed to label issues in that project. The kind and
-  how bad it is are written in the report as well, so nothing is lost.
+- Labels such as `feedback` are only added when you are allowed to label issues in that project. What you sent and how
+  much it matters are written in the report as well, so nothing is lost.
 
 ## Find out more
 

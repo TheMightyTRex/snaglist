@@ -1,6 +1,7 @@
 /*
- * Snaglist 0.2.0: report a UX issue or a bug on any page, tagged with the page and the part of it, with the
- * technical detail needed to fix it and without personal information. One file, no libraries, MIT licence.
+ * Snaglist 0.3.0: feedback for any website or app. People report bugs and UX problems, or suggest features and
+ * improvements, tagged with the page and the part of it, with the technical detail needed to act on it and
+ * without personal information. One file, no libraries, MIT licence.
  * https://github.com/TheMightyTRex/snaglist
  *
  * Add it:     <script src="snaglist.js" data-github="owner/repo" defer></script>
@@ -14,37 +15,53 @@
   "use strict";
   if (window.Snaglist) return;
 
-  const VERSION = "0.2.0";
+  const VERSION = "0.3.0";
   const KEY = "snaglist:";
 
-  // Report types. Each has its own questions and the technical detail it records. A field is
-  // { id, label, hint, type: "textarea" | "text" | "select", options: [[value, label]], required }.
+  // What people can send. Each type is a problem or a suggestion, asks its own questions and records the
+  // technical detail it needs. pick: start by choosing a part of the page. scale: the "how bad" or "how much
+  // would it help" question. A field is { id, label, hint, type: "textarea" | "text" | "select", options, required }.
   const WHAT = { id: "what", label: "What is wrong", hint: "What did you expect, and what happened?", type: "textarea", required: true };
   const TYPES = {
-    bug: { label: "Something is broken", hint: "An error, a button that does nothing, wrong data",
+    bug: { group: "problem", pick: true, label: "Something is broken", hint: "An error, a button that does nothing, wrong data",
       fields: [
-        { id: "actual", label: "What happened", hint: "Include any message you saw, word for word.", type: "textarea", required: true },
+        { id: "actual", label: "What happened", type: "textarea", required: true },
         { id: "expected", label: "What you expected", type: "textarea" },
-        { id: "steps", label: "Steps to make it happen again", hint: "One step per line, starting from the page.", type: "textarea" },
-        { id: "repeat", label: "Does it happen every time", type: "select", options: [["always", "Every time"], ["sometimes", "Sometimes"], ["once", "Only once so far"]] },
+        { id: "steps", label: "Steps to make it happen again", hint: "One step per line. Or go back and choose A series of steps to record them.", type: "textarea", unlessRecorded: true },
       ],
-      collect: ["element", "errors", "console", "network", "trail", "html"] },
-    ux: { label: "Hard to use", hint: "Confusing, too many steps, not where you expected",
-      fields: [WHAT], collect: ["element", "trail"] },
-    visual: { label: "Looks wrong", hint: "Overlaps, cut off, misaligned, wrong colour or size",
-      fields: [WHAT], collect: ["element", "styles", "layout", "html"] },
-    accessibility: { label: "Accessibility", hint: "Keyboard, screen reader, zoom, contrast, motion",
+      collect: ["element", "text", "errors", "console", "network", "trail", "html"] },
+    ux: { group: "problem", pick: true, label: "Hard to use", hint: "Confusing, too many steps, not where you expected",
+      fields: [WHAT], collect: ["element", "text", "trail"] },
+    visual: { group: "problem", pick: true, label: "Looks wrong", hint: "Overlaps, cut off, misaligned, wrong colour or size",
+      fields: [WHAT], collect: ["element", "text", "styles", "layout", "html"] },
+    accessibility: { group: "problem", pick: true, label: "Hard to use with my tools or needs", hint: "Keyboard, screen reader, zoom, contrast, motion",
       fields: [WHAT, { id: "using", label: "What were you using", type: "select", options: [["keyboard", "Keyboard only"],
         ["screen-reader", "A screen reader"], ["zoom", "Zoom or large text"], ["voice", "Voice control"], ["switch", "Switch access"],
         ["contrast", "High contrast or forced colours"], ["none", "Nothing special"], ["other", "Something else"]] }],
-      collect: ["element", "a11y", "styles", "layout"] },
-    performance: { label: "Slow", hint: "Takes too long to load, freezes or stutters",
+      collect: ["element", "text", "a11y", "styles", "layout"] },
+    performance: { group: "problem", pick: false, label: "Slow", hint: "Takes too long to load, freezes or stutters",
       fields: [WHAT, { id: "when", label: "When is it slow", type: "select", options: [["load", "While the page loads"],
         ["action", "After I do something"], ["always", "All the time"]] }],
       collect: ["performance", "network", "trail"] },
-    content: { label: "Words are wrong", hint: "Spelling, unclear or out-of-date text",
-      fields: [WHAT, { id: "suggestion", label: "Suggested wording", type: "textarea" }], collect: ["element"] },
-    idea: { label: "Idea", hint: "A suggestion, not a fault", fields: [{ ...WHAT, label: "Your idea", hint: "What would make this better?" }], collect: [] },
+    content: { group: "problem", pick: true, label: "Words are wrong", hint: "Spelling, unclear or out-of-date text",
+      fields: [WHAT, { id: "suggestion", label: "Suggested wording", type: "textarea" }], collect: ["element", "text"] },
+    feature: { group: "suggestion", pick: false, scale: "importance", label: "A new feature", hint: "Something the site cannot do yet",
+      fields: [
+        { id: "want", label: "What would you like to be able to do", type: "textarea", required: true },
+        { id: "why", label: "What would it help you with", hint: "The task or goal behind it, so the team can find the best way.", type: "textarea" },
+        { id: "today", label: "How do you manage today", hint: "A workaround, another site, or not at all.", type: "textarea" },
+      ],
+      collect: ["page"] },
+    idea: { group: "suggestion", pick: true, scale: "importance", label: "Make something better", hint: "An improvement to something that already works",
+      fields: [
+        { id: "now", label: "What could be better", type: "textarea", required: true },
+        { id: "idea", label: "Your suggestion", type: "textarea" },
+      ],
+      collect: ["element"] },
+    other: { group: "suggestion", pick: false, scale: false, label: "Something else", hint: "A question, a thank you, anything",
+      fields: [{ id: "message", label: "Your message", type: "textarea", required: true }], collect: [] },
+    check: { group: "check", pick: false, scale: false, label: "Check this page for accessibility problems", hint: "An automatic check; you choose which problems to report",
+      fields: [], collect: ["page", "environment", "display"] },
   };
 
   // Optional second question, "Kind of issue". A category is [value, label, hint].
@@ -87,11 +104,17 @@
       ["3", "3 Major", "High priority"],
       ["4", "4 Catastrophe", "Fix before release"],
     ],
+    importance: [
+      ["nice", "Nice to have", "I would use it now and then"],
+      ["often", "I would use it often", "It would save me time regularly"],
+      ["need", "I need it", "I cannot do something without it"],
+    ],
   };
+  const GROUPS = [["problem", "Report a problem"], ["suggestion", "Make a suggestion"], ["check", "Check the page"]];
 
   // What a report can record. true: always; false: never; "auto": when the report type asks for it.
   const PARTS = [
-    ["page", "Page name and path"], ["element", "The part of the page"], ["styles", "Its font and colours"],
+    ["page", "Page name and path"], ["element", "The part of the page"], ["text", "Text on screen"], ["steps", "Recorded steps"], ["styles", "Its font and colours"],
     ["layout", "Its size, position and what covers it"], ["a11y", "Its accessibility details"], ["html", "Its HTML, without text"],
     ["environment", "Screen, browser and device"], ["display", "Display settings"], ["performance", "Page speed"],
     ["errors", "Script errors"], ["console", "Console messages"], ["network", "Failed and slow requests"],
@@ -102,16 +125,20 @@
   const DEFAULTS = {
     app: "",
     version: "",
+    language: "auto",      // "auto" (the page's lang), "en-GB", "en-US"; other languages through text
+    theme: "light",        // "light", "dark", or "auto" to follow the device
     enabled: true,
     userToggle: true,
     launcher: "bottom-right",
     shortcut: "",
-    types: ["bug", "ux", "visual", "accessibility", "performance", "content", "idea"],
+    types: ["bug", "ux", "visual", "accessibility", "performance", "content", "feature", "idea", "other", "check"],
+    check: { engine: "built-in", axe: "https://cdn.jsdelivr.net/npm/axe-core@4.10.2/axe.min.js", contrastLimit: 300 },
     categories: null,
     severities: "three",
-    labels: ["ux-report"],
+    importance: "importance",
+    labels: ["feedback"],
     collect: {
-      page: true, element: "auto", styles: "auto", layout: "auto", a11y: "auto", html: "auto",
+      page: true, element: "auto", text: "auto", steps: true, styles: "auto", layout: "auto", a11y: "auto", html: "auto",
       environment: true, display: true, performance: "auto",
       errors: "auto", console: "auto", network: "auto", trail: "auto", context: true,
     },
@@ -126,22 +153,59 @@
   };
 
   const TEXT = {
-    launcher: "Report an issue",
-    pickPrompt: "Choose the part with the issue: select it, or Tab to it and press Enter. Escape stops.",
+    launcher: "Send feedback",
+    chooseTitle: "Send feedback",
+    chooseNext: "Continue",
+    show: "What do you want to show",
+    showOne: "One thing on the page",
+    showOneHint: "Choose it, and Snaglist notes what it is and the text on it",
+    showSteps: "A series of steps",
+    showStepsHint: "Record what you do, step by step, then describe it",
+    showNone: "Nothing, just describe it",
+    showNoneHint: "",
+    recRegion: "Recording steps",
+    recReady: "Ready to record. Select Start recording, then use the page as you normally would.",
+    recStart: "Start recording",
+    recPause: "Pause",
+    recResume: "Resume",
+    recStop: "Stop and describe",
+    recRestart: "Start again",
+    recRecording: "Recording",
+    recPaused: "Paused",
+    recLast: "Last step",
+    recSteps: "Recorded steps",
+    recNone: "No steps yet",
+    checkTitle: "Accessibility check",
+    checking: "Checking this page…",
+    checkNone: "No problems found by the automatic check. Automatic checks find only some problems: also try the page with a keyboard only, at 200% zoom and with a screen reader.",
+    checkFound: "problems found",
+    checkLimits: "Automatic checks find only some problems. Also try the page with a keyboard only, at 200% zoom and with a screen reader.",
+    checkShow: "Show on the page",
+    checkReport: "Report this",
+    checkReportAll: "Report all",
+    checkFix: "How to fix it",
+    checkWhy: "Why it matters",
+    checkWhere: "Where",
+    checkFailed: "The check could not run",
+    pickPrompt: "Choose the part this is about: select it, or Tab to it and press Enter. Escape stops.",
     wholePage: "Whole page",
     stop: "Stop",
-    formTitle: "Report an issue",
+    formTitle: "Send feedback",
     where: "Where",
     chooseAgain: "Choose again",
-    type: "What kind of report",
+    choosePart: "Choose a part of the page",
+    type: "What would you like to send",
+    sending: "Sending",
+    change: "Change",
     fieldError: "Fill this in",
     category: "Kind of issue",
     severity: "How bad is it",
+    importance: "How much would it help you",
     review: "Review what is sent",
     cancel: "Cancel",
     reviewTitle: "What is sent",
     include: "Include",
-    privacy: "No personal information is kept in this report: no name, email, account, address, cookies or anything typed into the page's fields. Things that look like an email, a long number or a key are replaced. Untick anything you would rather not send.",
+    privacy: "No personal information is kept in this report: no account, cookies or anything typed into the page's fields, and things that look like an email, a long number or a key are replaced. Text on screen is copied from the part you chose, so check it shows nothing personal. Untick anything you would rather not send.",
     githubNote: "GitHub opens with the report filled in. You post it from your own GitHub account, so GitHub shows your user name on the issue.",
     emailNote: "Your mail app opens with the report filled in. The reply address is your own.",
     endpointNote: "The report is sent to the site's own server, without cookies.",
@@ -165,6 +229,7 @@
   let wrap = null;
   let launcher = null;
   let picking = null;
+  let rec = null; // the step recorder: { status, steps, values, started, bar }
   let lastFocus = null;
   const buffers = { errors: [], console: [], network: [], trail: [], longTasks: [], resources: [] };
   const vitals = { lcp: null, cls: 0, inp: null };
@@ -197,7 +262,14 @@
     return s;
   }
 
-  const t = (key) => (config && config.text[key]) || TEXT[key];
+  const US = [[/colour/g, "color"], [/Colour/g, "Color"], [/behaviour/g, "behavior"], [/Behaviour/g, "Behavior"], [/organis/g, "organiz"],
+    [/recognis/g, "recogniz"], [/centre/g, "center"], [/favourite/g, "favorite"], [/catalogue/g, "catalog"], [/licence/g, "license"],
+    [/minimise/g, "minimize"], [/customis/g, "customiz"], [/optimis/g, "optimiz"], [/summaris/g, "summariz"]];
+  let american = false;
+  const spell = (s) => (american && typeof s === "string" ? US.reduce((out, [a, b]) => out.replace(a, b), s) : s);
+  // tr("types.bug.label", "Something is broken"): the site's own text for a key, or the default.
+  const tr = (key, fallback) => (config && config.text[key] != null ? config.text[key] : spell(fallback));
+  const t = (key) => tr(key, TEXT[key]);
   const store = {
     get(name) { try { return localStorage.getItem(KEY + name); } catch { return null; } },
     set(name, value) { try { value == null ? localStorage.removeItem(KEY + name) : localStorage.setItem(KEY + name, value); } catch { /* private window */ } },
@@ -276,6 +348,7 @@
           push(buffers.resources, `${target.tagName.toLowerCase()} did not load: ${cleanUrl(target.src || target.href || "")}`, 10);
           return;
         }
+        recNote(`Error on the page: ${clip(redact(e.message || "Error"), 160)}`);
         push(buffers.errors, { message: clip(redact(e.message || "Error"), 300),
           where: e.filename ? `${cleanUrl(e.filename)}:${e.lineno}:${e.colno}` : undefined, stack: stackLines(e.error?.stack) }, lim.errors * 2);
       });
@@ -299,6 +372,8 @@
     if (wanted("network")) {
       const note = (method, url, status, started) => {
         const duration = performance.now() - started;
+        if (status >= 400 || status === 0) recNote(`Request failed: ${String(method || "GET").toUpperCase()} ${cleanUrl(url)} ${status || "(no answer)"}`);
+        else if (duration > lim.slowRequest) recNote(`Slow request: ${String(method || "GET").toUpperCase()} ${cleanUrl(url)} took ${Math.round(duration)} ms`);
         if (status >= 400 || status === 0 || duration > lim.slowRequest) {
           push(buffers.network, { method: String(method || "GET").toUpperCase(), url: cleanUrl(url), status: status || "failed", duration: Math.round(duration) }, lim.network * 2);
         }
@@ -516,10 +591,37 @@
     return clip(copy.outerHTML.replace(/\s+/g, " "), 1500);
   }
 
+  // The visible text of the chosen part, cleaned; never a field's value.
+  function textOf(el) {
+    if (el.closest("[data-snag-private]")) return "[private]";
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)) return "";
+    const text = (el.innerText || "").replace(/\s+/g, " ").trim();
+    return clip(redact(text), 300);
+  }
+
+  // Messages the page is showing now: alerts, status messages and field errors.
+  function messagesOnScreen() {
+    const seen = new Set();
+    const out = [];
+    for (const el of document.querySelectorAll("[role=alert], [role=status], [aria-live=assertive], [aria-live=polite], .error, .alert, .notice, [aria-invalid=true]")) {
+      if (el === host || host.contains(el) || el.closest("[data-snag-private]")) continue;
+      const r = el.getBoundingClientRect();
+      if (!r.width || !r.height) continue;
+      let text = el.getAttribute("aria-invalid") === "true"
+        ? `${nameOf(el)}: ${(el.getAttribute("aria-describedby") || "").split(/\s+/).map((id) => document.getElementById(id)?.innerText || "").join(" ")}`
+        : el.innerText || "";
+      text = clip(redact(text.replace(/\s+/g, " ").trim()), 200);
+      if (text && !seen.has(text)) { seen.add(text); out.push(text); }
+      if (out.length >= 5) break;
+    }
+    return out;
+  }
+
   function describe(el) {
     if (!el || el === document.body || el === document.documentElement) return { whole: true, label: t("wholePage") };
     const out = { component: componentOf(el), role: roleOf(el), name: nameOf(el), selector: selectorOf(el) };
     out.label = [out.component, out.role, out.name && `"${out.name}"`].filter(Boolean).join(", ");
+    out.text = textOf(el);
     out.node = el;
     return out;
   }
@@ -551,8 +653,8 @@
     const type = types().find(([k]) => k === typeKey)[1];
     const lim = config.limits;
     const report = { tool: `snaglist ${VERSION}`, app: config.app || location.host, version: config.version || undefined, type: typeKey,
-      category: values.category, severity: values.severity, answers: {} };
-    for (const f of type.fields) if (values[f.id]) report.answers[f.id] = f.type === "select" ? values[f.id] : clip(redact(values[f.id]), 3000);
+      category: values.category, severity: values.severity || undefined, scale: values.severity ? scaleOf(type).name : undefined, answers: {} };
+    for (const f of type.fields) if (values[f.id] && typeof values[f.id] === "string") report.answers[f.id] = f.type === "select" ? values[f.id] : clip(redact(values[f.id]), 3000);
     const el = part.node;
     for (const key of partsFor(type)) {
       if (key === "page") {
@@ -561,6 +663,12 @@
         report.page = { name: clip(redact(name), 120), path: pathPattern() };
       }
       if (key === "element") report.element = part.whole ? { whole: true } : { component: part.component, role: part.role, name: part.name, selector: part.selector };
+      if (key === "text") {
+        const messages = messagesOnScreen();
+        if ((part.text && !part.whole) || messages.length) report.text = { chosen: part.whole ? undefined : part.text || undefined, messages: messages.length ? messages : undefined };
+      }
+      if (key === "steps" && values.steps?.length) report.steps = values.steps;
+      if (key === "page" && values.check) report.check = values.check;
       if (el && key === "styles") report.styles = stylesOf(el);
       if (el && key === "layout") report.layout = layoutOf(el);
       if (el && key === "a11y") report.a11y = a11yOf(el);
@@ -603,12 +711,27 @@
   const label = (items, value) => (items?.find(([v]) => v === value) || [value, value])[1];
 
   function types() {
-    return config.types.map((x) => (typeof x === "string" ? [x, TYPES[x]] : [x.id, { collect: [], ...x }])).filter(([, v]) => v);
+    return config.types.map((x) => (typeof x === "string" ? [x, TYPES[x]] : [x.id, { collect: [], group: "problem", pick: true, ...x }]))
+      .filter(([, v]) => v).map(([k, v]) => [k, { ...v, label: tr(`types.${k}.label`, v.label), hint: tr(`types.${k}.hint`, v.hint),
+        fields: (v.fields || []).map((f) => ({ ...f, label: tr(`fields.${f.id}.label`, f.label), hint: f.hint && tr(`fields.${f.id}.hint`, f.hint),
+          options: f.options && f.options.map(([ov, ol]) => [ov, tr(`fields.${f.id}.options.${ov}`, ol)]) })) }]);
+  }
+  const scaleItems = (name, items) => items.map(([v, l, hint]) => [v, tr(`scales.${name}.${v}`, l), hint && tr(`scales.${name}.${v}.hint`, hint)]);
+  const typeOf = (key) => types().find(([k]) => k === key)?.[1];
+
+  // The rating question for a type: problems ask how bad, suggestions how much it would help; scale: false asks nothing.
+  function scaleOf(type) {
+    if (type.scale === false) return null;
+    if (type.scale === "importance" || (type.group === "suggestion" && type.scale == null)) {
+      return { name: "importance", items: scaleItems("importance", list(config.importance, SEVERITIES) || SEVERITIES.importance), question: t("importance"), row: "How much it would help" };
+    }
+    return { name: "severity", items: scaleItems("severity", list(type.scale || config.severities, SEVERITIES) || SEVERITIES.three), question: t("severity"), row: "How bad" };
   }
 
   function titleOf(report) {
     const type = types().find(([k]) => k === report.type)?.[1];
-    const first = (report.answers.what || report.answers.actual || Object.values(report.answers)[0] || type?.label || "").split("\n")[0];
+    if (report.check) return clip(report.check.length === 1 ? `Accessibility: ${report.check[0].name} (${report.check[0].count})` : `Accessibility check: ${report.check.length} problems on ${report.page?.name || "this page"}`, 90);
+    const first = (Object.values(report.answers).find((v) => v && v.length > 8) || type?.label || "").split("\n")[0];
     const where = report.element && !report.element.whole && report.element.component ? `${report.element.component}: ` : "";
     return clip(`${where}${first}`, 90);
   }
@@ -625,7 +748,9 @@
     }
     out.push("| | |", "|---|---|", row("Report", type.label || report.type));
     if (report.category) out.push(row("Kind", label(list(config.categories, CATEGORIES), report.category)));
-    out.push(row("How bad", label(list(config.severities, SEVERITIES), report.severity)), row("App", [report.app, report.version].filter(Boolean).join(" ")));
+    const scale = report.severity ? scaleOf(type) : null;
+    if (scale) out.push(row(scale.row, label(scale.items, report.severity)));
+    out.push(row("App", [report.app, report.version].filter(Boolean).join(" ")));
     if (report.page) out.push(row("Page", report.page.name), row("Path", `\`${report.page.path}\``));
     const e = report.element;
     if (e) {
@@ -643,6 +768,16 @@
     if (short) {
       lines.push("", "_The technical details did not fit in GitHub's address: paste the full report from your clipboard here._");
     } else {
+      if (report.check) for (const c of report.check) {
+        section(`Accessibility check: ${c.name}`, [
+          `WCAG ${c.wcag}${c.level ? `, level ${c.level}` : ""}${c.impact ? `, impact ${c.impact}` : ""}. Found ${c.count} ${c.count === 1 ? "time" : "times"}.`, "",
+          `${c.why}`, "", `**How to fix it:** ${c.fix}`,
+          ...(c.example ? ["", "```html", "<!-- Before -->", c.example.before, "", "<!-- After -->", c.example.after, "```"] : []),
+          "", "| Where | Part |", "|---|---|", ...c.where.map((w) => `| \`${w.selector}\` | ${w.part.replace(/\|/g, "\\|")} |`),
+          ...(c.count > c.where.length ? [`| and ${c.count - c.where.length} more | |`] : [])]);
+      }
+      if (report.steps) section("Recorded steps", report.steps.map((s, i) => `${i + 1}. ${s.text} (${s.at} s)`));
+      if (report.text) section("Text on screen", [...(report.text.chosen ? [`> ${report.text.chosen}`] : []), ...(report.text.messages || []).map((m) => `- Message: ${m}`)]);
       if (report.styles) section("Styles", table(report.styles));
       if (report.layout) section("Layout", table(report.layout, { coveredBy: "Covered by", onScreen: "On the page", pageScrollsSideways: "Page scrolls sideways" }));
       if (report.a11y) section("Accessibility", table(report.a11y, { a11y: "Accessibility" }));
@@ -681,7 +816,9 @@
 
   async function sendGithub(report) {
     const g = config.send.github;
-    const labels = [...config.labels, ...(g.labels || []), `type: ${report.type}`, report.category && `kind: ${report.category}`, `severity: ${report.severity}`].filter(Boolean).join(",");
+    const group = typeOf(report.type)?.group;
+    const labels = [...config.labels, ...(g.labels || []), group === "suggestion" ? "suggestion" : group === "problem" ? "problem" : null, report.check ? "accessibility" : null, `type: ${report.type}`,
+      report.category && `kind: ${report.category}`, report.severity && `${report.scale}: ${report.severity}`].filter(Boolean).join(",");
     const base = `https://github.com/${g.repo}/issues/new?labels=${encodeURIComponent(labels)}&title=${encodeURIComponent(titleOf(report))}`;
     let url = `${base}&body=${encodeURIComponent(markdown(report))}`;
     if (url.length > 7500) {
@@ -698,7 +835,7 @@
     const m = config.send.email;
     let body = plain(markdown(report));
     if (body.length > 1800) { await copyText(body); body = `${clip(plain(markdown(report, true)), 1600)}\n\n(The full report is on your clipboard.)`; }
-    openUrl(`mailto:${encodeURIComponent(m.to)}?subject=${encodeURIComponent(`${m.subject || "UX report"}: ${titleOf(report)}`)}&body=${encodeURIComponent(body)}`);
+    openUrl(`mailto:${encodeURIComponent(m.to)}?subject=${encodeURIComponent(`${m.subject || "Feedback"}: ${titleOf(report)}`)}&body=${encodeURIComponent(body)}`);
     return t("opened");
   }
 
@@ -713,7 +850,7 @@
 
   function download(report) {
     const url = URL.createObjectURL(new Blob([JSON.stringify(report, null, 2)], { type: "application/json" }));
-    const a = h("a", { href: url, download: `ux-report-${report.created.slice(0, 10)}.json` });
+    const a = h("a", { href: url, download: `feedback-${report.created.slice(0, 10)}.json` });
     wrap.append(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
@@ -747,9 +884,9 @@
     target?.focus?.();
   }
 
-  function startPicking() {
+  function startPicking(values = {}) {
     if (picking || !config) return;
-    lastFocus = document.activeElement;
+    if (!host.contains(document.activeElement) && document.activeElement !== host) lastFocus = document.activeElement;
     if (launcher) launcher.hidden = true;
     const outline = h("div", { class: "sl-outline", hidden: true });
     const whole = h("button", { type: "button", class: "sl-btn", text: t("wholePage"), onclick: () => finishPicking(document.body) });
@@ -780,7 +917,7 @@
       scroll: () => current && show(current),
     };
     for (const [type, fn] of Object.entries(listeners)) window.addEventListener(type, fn, { capture: true, passive: false });
-    picking = { outline, banner, listeners };
+    picking = { outline, banner, listeners, values };
     whole.focus();
   }
 
@@ -795,12 +932,53 @@
   }
 
   function finishPicking(target) {
+    const values = picking?.values || {};
     endPicking(false);
-    openForm(describe(target));
+    openForm(describe(target), values);
   }
 
-  function choiceGroup(name, items, checked, legend) {
-    return h("fieldset", { class: "sl-choices" }, h("legend", { text: legend }),
+  // First question: what would you like to send. Problems usually start by choosing a part of the page.
+  function openChooser(part = null, previous = {}) {
+    if (!config) return;
+    if (document.activeElement && !host.contains(document.activeElement) && document.activeElement !== host) lastFocus = document.activeElement;
+    const all = types();
+    const go = (key, show) => {
+      const values = { ...previous, type: key };
+      if (key === "check") openCheck();
+      else if (values.steps?.length) openForm(describe(document.body), values);
+      else if (show === "steps") startRecorder(values);
+      else if (show === "one" && !part) startPicking(values);
+      else openForm(show === "none" ? describe(document.body) : part || describe(document.body), values);
+    };
+    const defaultShow = (key) => (part && !part.whole ? "one" : typeOf(key).pick ? "one" : "none");
+    const first = previous.type && typeOf(previous.type) ? previous.type : all[0][0];
+    const groups = GROUPS.map(([g, legend]) => [tr(`groups.${g}`, legend), all.filter(([, v]) => (v.group || "problem") === g)]).filter(([, items]) => items.length);
+    const typeGroups = all.length > 1 ? groups.map(([legend, items]) => choiceGroup("type", items.map(([k, v]) => [k, v.label, v.hint]), first, legend, "cards")) : [];
+    const showGroup = choiceGroup("show", [["one", t("showOne"), t("showOneHint")], ["steps", t("showSteps"), t("showStepsHint")], ["none", t("showNone"), t("showNoneHint")]],
+      defaultShow(first), t("show"), "cards");
+    const form = h("form", { id: "sl-choose", class: "sl-form", novalidate: true }, ...typeGroups, previous.steps?.length ? null : showGroup);
+    for (const input of form.querySelectorAll("[name=type]")) input.checked = input.value === first;
+    showGroup.hidden = first === "check";
+    let touched = false;
+    form.addEventListener("change", (e) => {
+      if (e.target.name === "show") touched = true;
+      if (e.target.name === "type" && !touched) for (const r of form.querySelectorAll("[name=show]")) r.checked = r.value === defaultShow(e.target.value);
+      if (e.target.name === "type") showGroup.hidden = e.target.value === "check";
+    });
+    const next = h("button", { type: "submit", form: "sl-choose", class: "sl-btn sl-btn--primary", text: t("chooseNext") });
+    const d = dialog(t("chooseTitle"), form, [next, h("button", { type: "button", class: "sl-btn", text: t("cancel"), onclick: () => d.close() })]);
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const key = form.querySelector("[name=type]:checked")?.value || all[0][0];
+      const show = form.querySelector("[name=show]:checked")?.value || "none";
+      d.close();
+      go(key, show);
+    });
+    form.querySelector("input:checked").focus();
+  }
+
+  function choiceGroup(name, items, checked, legend, style) {
+    return h("fieldset", { class: `sl-choices${style ? ` sl-choices--${style}` : ""}` }, h("legend", { text: legend }),
       items.map(([value, text, hint], i) => h("label", { class: "sl-choice" },
         h("input", { type: "radio", name, value, checked: value === checked || (!checked && i === 0) }),
         h("span", {}, h("span", { class: "sl-choice__name", text }), hint ? h("span", { class: "sl-muted", text: hint }) : null))));
@@ -821,29 +999,27 @@
 
   function openForm(part, previous = {}) {
     const all = types();
-    const typeKey = previous.type && all.some(([k]) => k === previous.type) ? previous.type : all[0][0];
-    const cats = list(config.categories, CATEGORIES);
-    const sevs = list(config.severities, SEVERITIES) || SEVERITIES.three;
-    const fields = h("div", { class: "sl-form" });
-    const drawFields = (key, values) => {
-      const type = all.find(([k]) => k === key)[1];
-      fields.replaceChildren(...type.fields.map((f) => fieldFor(f, values[f.id])));
-    };
-    const typeGroup = all.length > 1 ? choiceGroup("type", all.map(([k, v]) => [k, v.label, v.hint]), typeKey, t("type")) : null;
+    const typeKey = previous.type && typeOf(previous.type) ? previous.type : all[0][0];
+    const type = typeOf(typeKey);
+    const cats = type.group === "problem" ? list(config.categories, CATEGORIES) : null;
+    const scale = scaleOf(type);
+    const recorded = previous.steps?.length ? previous.steps : null;
+    const fields = h("div", { class: "sl-form" }, type.fields.filter((f) => !(f.unlessRecorded && recorded)).map((f) => fieldFor(f, previous[f.id])));
+    const kept = () => ({ ...previous, ...Object.fromEntries([...form.querySelectorAll("[name]")].filter((c) => c.type !== "radio" || c.checked).map((c) => [c.name, c.value])), type: typeKey });
     const category = cats ? h("select", { id: "sl-category", name: "category" },
       cats.map(([value, text, hint]) => h("option", { value, text: hint ? `${text}: ${hint}` : text, selected: value === previous.category }))) : null;
+    const where = recorded ? `${recorded.length} ${recorded.length === 1 ? "step" : "steps"} recorded` : part.label;
+    const summary = h("div", { class: "sl-summary" },
+      h("p", {}, h("strong", { text: type.label }), h("span", { text: ` · ${where}` })),
+      part.text && !part.whole ? h("p", { class: "sl-muted", text: `"${clip(part.text, 120)}"` }) : null,
+      h("div", { class: "sl-actions" },
+        all.length > 1 ? h("button", { type: "button", class: "sl-link", text: t("change"), onclick: () => { const v = kept(); d.close(); openChooser(recorded ? null : part, v); } }) : null,
+        recorded ? null : h("button", { type: "button", class: "sl-link", text: part.whole ? t("choosePart") : t("chooseAgain"), onclick: () => { const v = kept(); d.close(); startPicking(v); } })),
+      recorded ? h("details", { class: "sl-steps" }, h("summary", { text: t("recSteps") }), h("ol", {}, recorded.map((s) => h("li", { text: s.text })))) : null);
     const form = h("form", { id: "sl-form", class: "sl-form", novalidate: true },
-      h("div", { class: "sl-field" }, h("span", { class: "sl-label", text: t("where") }), h("p", { class: "sl-where", text: part.label }),
-        h("button", { type: "button", class: "sl-link", text: t("chooseAgain"), onclick: () => { d.close(); startPicking(); } })),
-      typeGroup, fields,
+      summary, fields,
       category ? h("div", { class: "sl-field" }, h("label", { class: "sl-label", for: "sl-category", text: t("category") }), category) : null,
-      choiceGroup("severity", sevs, previous.severity || sevs[Math.min(1, sevs.length - 1)][0], t("severity")));
-    drawFields(typeKey, previous);
-    typeGroup?.addEventListener("change", (e) => {
-      if (e.target.name !== "type") return;
-      const kept = Object.fromEntries([...fields.querySelectorAll("[name]")].map((c) => [c.name, c.value]));
-      drawFields(e.target.value, kept);
-    });
+      scale ? choiceGroup("severity", scale.items.map(([v, l]) => [v, l]), previous.severity || scale.items[Math.min(1, scale.items.length - 1)][0], scale.question, "row") : null);
     const next = h("button", { type: "submit", form: "sl-form", class: "sl-btn sl-btn--primary", text: t("review") });
     const d = dialog(t("formTitle"), form, [next, h("button", { type: "button", class: "sl-btn", text: t("cancel"), onclick: () => d.close() })]);
     form.addEventListener("submit", (e) => {
@@ -859,13 +1035,14 @@
       }
       if (firstEmpty) { firstEmpty.focus(); return; }
       const values = Object.fromEntries([...fields.querySelectorAll("[name]")].map((c) => [c.name, c.value.trim()]));
-      values.type = form.type ? form.type.value : typeKey;
-      values.severity = form.severity.value;
+      values.type = typeKey;
+      if (recorded) values.steps = recorded;
+      if (scale) values.severity = form.severity.value;
       if (category) values.category = category.value;
       d.close();
       openReview(part, values);
     });
-    (fields.querySelector("textarea, input, select") || form.querySelector("input")).focus();
+    (fields.querySelector("textarea, input, select") || form.querySelector("input, button")).focus();
   }
 
   function openReview(part, values) {
@@ -874,7 +1051,7 @@
     const removed = new Set();
     const preview = h("pre", { class: "sl-preview", tabindex: "0", "aria-label": t("reviewTitle") });
     const draw = () => { preview.textContent = markdown(report); };
-    const optional = PARTS.filter(([key]) => full[key] !== undefined);
+    const optional = PARTS.filter(([key]) => full[key] !== undefined).map(([key, text]) => [key, tr(`parts.${key}`, text)]);
     const toggles = optional.map(([key, text]) =>
       h("label", { class: "sl-check" }, h("input", { type: "checkbox", checked: true, onchange: (e) => {
         e.target.checked ? removed.delete(key) : removed.add(key);
@@ -913,6 +1090,300 @@
     buttons[0].focus();
   }
 
+  // Automatic accessibility check ---------------------------------------------------------------------------
+  // Built-in rules for the most common problems, each with its WCAG criterion, why it matters and how to fix it.
+  // With check.engine "axe", Snaglist loads axe-core (from check.axe) and reports what it finds instead.
+
+  const visible = (el) => { const r = el.getBoundingClientRect(); const s = getComputedStyle(el); return r.width > 0 && r.height > 0 && s.visibility !== "hidden" && s.display !== "none"; };
+  const outside = (el) => el === host || host.contains(el) || !!el.closest("snag-list, [aria-hidden='true'], [hidden], template");
+  const named = (el) => !!(el.getAttribute("aria-label")?.trim() || el.getAttribute("aria-labelledby") || el.getAttribute("title")?.trim() ||
+    el.textContent.trim() || el.querySelector("img[alt]:not([alt=''])") || (el.tagName === "INPUT" && el.value));
+  const all = (sel) => [...document.querySelectorAll(sel)].filter((el) => !outside(el));
+
+  const RULES = [
+    { id: "image-alt", name: "Pictures with no text alternative", wcag: "1.1.1 Non-text content", level: "A", impact: "serious",
+      why: "Screen reader users hear nothing, or the file name, instead of what the picture shows.",
+      fix: "Add alt text that says what the picture shows. For a picture that is only decoration, use an empty alt.",
+      before: '<img src="cover.jpg">', after: '<img src="cover.jpg" alt="Cover of The Glass Harbour">\n<img src="divider.svg" alt="">',
+      find: () => all("img:not([alt]), [role=img]:not([aria-label]):not([aria-labelledby])").filter((el) => el.getAttribute("role") !== "presentation") },
+    { id: "control-name", name: "Buttons and links with no name", wcag: "4.1.2 Name, role, value", level: "A", impact: "critical",
+      why: "Screen readers announce only \"button\" or \"link\", so people cannot tell what it does.",
+      fix: "Give every button and link a name: visible words, or an aria-label when it shows only an icon.",
+      before: '<button><svg>…</svg></button>', after: '<button aria-label="Close the menu"><svg aria-hidden="true">…</svg></button>',
+      find: () => all("button, a[href], [role=button], [role=link], [role=menuitem], [role=tab]").filter((el) => visible(el) && !named(el)) },
+    { id: "field-label", name: "Fields with no label", wcag: "1.3.1 Info and relationships, 3.3.2 Labels or instructions", level: "A", impact: "critical",
+      why: "People using a screen reader or voice control cannot tell what to type, and a placeholder disappears as soon as they type.",
+      fix: "Give every field a visible label joined to it with for and id.",
+      before: '<input type="email" placeholder="Email">', after: '<label for="email">Email</label>\n<input type="email" id="email" autocomplete="email">',
+      find: () => all("input:not([type=hidden]):not([type=submit]):not([type=button]):not([type=reset]):not([type=image]), select, textarea")
+        .filter((el) => visible(el) && !(el.labels && el.labels.length) && !el.getAttribute("aria-label")?.trim() && !el.getAttribute("aria-labelledby") && !el.getAttribute("title")) },
+    { id: "contrast", name: "Text with too little contrast", wcag: "1.4.3 Contrast (minimum)", level: "AA", impact: "serious",
+      why: "Faint text is hard or impossible to read for people with low vision, and for everyone in bright light.",
+      fix: "Make text at least 4.5 to 1 against its background, or 3 to 1 for large text (24px, or 18.66px bold). Use a darker text colour or a stronger background.",
+      before: '.summary { color: #9aa3b0; }  /* 2.4:1 on white */', after: '.summary { color: #424b5b; }  /* 8.9:1 on white */',
+      find: () => {
+        const out = [];
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode: (n) => (n.textContent.trim().length > 1 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP) });
+        const seen = new Set();
+        for (let n = walker.nextNode(), i = 0; n && i < config.check.contrastLimit; n = walker.nextNode()) {
+          const el = n.parentElement;
+          if (!el || seen.has(el) || outside(el) || !visible(el)) continue;
+          seen.add(el); i++;
+          const s = stylesOf(el);
+          const ratio = parseFloat(s.contrast);
+          if (s.contrast && /\bfails\b/.test(s.contrast) && ratio > 0) out.push(el);
+        }
+        return out;
+      } },
+    { id: "target-size", name: "Controls too small to select easily", wcag: "2.5.8 Target size (minimum)", level: "AA", impact: "moderate",
+      why: "Small targets are hard to hit for people with tremors, on touch screens, and for anyone in a hurry.",
+      fix: "Make buttons, links in menus and other controls at least 24 by 24 pixels (44 is better), or leave space around them.",
+      before: '<button class="icon">⚙</button>  /* 18 × 18 */', after: '.icon { min-width: 44px; min-height: 44px; }',
+      find: () => all("button, [role=button], input[type=checkbox], input[type=radio], select, a[href]")
+        .filter((el) => { if (!visible(el)) return false;
+          if (el.tagName === "A" && getComputedStyle(el).display === "inline" && el.closest("p, li, td, dd")) return false; // a link inside a sentence is exempt
+          // A tick box or radio button inside, or joined to, a big enough label is selected through the label.
+          const target = (/^(checkbox|radio)$/.test(el.type) && el.labels?.[0]) || el;
+          const r = target.getBoundingClientRect();
+          return r.width < 24 || r.height < 24; }) },
+    { id: "headings", name: "Headings out of order", wcag: "1.3.1 Info and relationships, 2.4.6 Headings and labels", level: "AA", impact: "moderate",
+      why: "Screen reader users move around a page by its headings. A missing main heading or a skipped level makes the page hard to follow.",
+      fix: "Give each page one h1, then go down one level at a time: h2 for sections, h3 inside them. Style headings with CSS, not by choosing the level.",
+      before: '<h1>My books</h1>\n<h4>Following</h4>', after: '<h1>My books</h1>\n<h2>Following</h2>',
+      find: () => {
+        const hs = all("h1, h2, h3, h4, h5, h6, [role=heading]").filter(visible);
+        const out = [];
+        if (!hs.some((x) => x.tagName === "H1" || x.getAttribute("aria-level") === "1")) out.push(document.body);
+        let last = 0;
+        for (const x of hs) { const lvl = +(x.getAttribute("aria-level") || x.tagName[1] || 2); if (last && lvl > last + 1) out.push(x); last = lvl; }
+        return out;
+      } },
+    { id: "page-language", name: "Page language not set", wcag: "3.1.1 Language of page", level: "A", impact: "serious",
+      why: "Screen readers choose their voice and pronunciation from the page's language. Without it, words can be read out wrongly.",
+      fix: "Set the lang attribute on the html element to the page's main language.",
+      before: '<html>', after: '<html lang="en-GB">',
+      find: () => (document.documentElement.lang.trim() ? [] : [document.documentElement]) },
+    { id: "page-title", name: "Page has no title", wcag: "2.4.2 Page titled", level: "A", impact: "serious",
+      why: "The title is the first thing a screen reader says and the name of the browser tab.",
+      fix: "Give every page a title that says what it is, then the site's name.",
+      before: '<title></title>', after: '<title>My books · Harbour Library</title>',
+      find: () => (document.title.trim() ? [] : [document.documentElement]) },
+    { id: "zoom", name: "Zoom is blocked", wcag: "1.4.4 Resize text", level: "AA", impact: "critical",
+      why: "People with low vision zoom in on phones. Blocking it can make the site impossible to read.",
+      fix: "Remove user-scalable=no and maximum-scale from the viewport tag.",
+      before: '<meta name="viewport" content="width=device-width, user-scalable=no">', after: '<meta name="viewport" content="width=device-width, initial-scale=1">',
+      find: () => all("meta[name=viewport]").filter((m) => /user-scalable\s*=\s*(no|0)|maximum-scale\s*=\s*(1(\.0)?|0\.\d)\b/i.test(m.content)) },
+    { id: "tab-order", name: "Tab order changed by tabindex", wcag: "2.4.3 Focus order", level: "A", impact: "serious",
+      why: "A tabindex above 0 makes keyboard focus jump around the page in an order that does not match what people see.",
+      fix: "Use tabindex=\"0\" or none, and put elements in the order they should be reached.",
+      before: '<button tabindex="3">Save</button>', after: '<button>Save</button>',
+      find: () => all("[tabindex]").filter((el) => +el.getAttribute("tabindex") > 0) },
+    { id: "hidden-focus", name: "Focusable things hidden from screen readers", wcag: "4.1.2 Name, role, value", level: "A", impact: "serious",
+      why: "Keyboard users can reach them, but screen readers say nothing, so it feels like focus has disappeared.",
+      fix: "Do not put aria-hidden on anything that can take focus. Use the inert attribute, or hide it completely.",
+      before: '<div aria-hidden="true"><a href="/help">Help</a></div>', after: '<div inert><a href="/help">Help</a></div>',
+      find: () => [...document.querySelectorAll("[aria-hidden='true'] a[href], [aria-hidden='true'] button, [aria-hidden='true'] input, [aria-hidden='true'] select, [aria-hidden='true'] textarea, [aria-hidden='true'] [tabindex]")]
+        .filter((el) => !host.contains(el) && el.tabIndex >= 0 && !el.disabled && !el.closest("[inert]")) },
+    { id: "link-text", name: "Links that do not say where they go", wcag: "2.4.4 Link purpose (in context)", level: "A", impact: "moderate",
+      why: "Screen reader users often list a page's links. \"Click here\" and \"Read more\" say nothing on their own.",
+      fix: "Make the link's words name where it goes.",
+      before: 'To change your plan, <a href="/plan">click here</a>.', after: '<a href="/plan">Change your plan</a>.',
+      find: () => all("a[href]").filter((el) => /^(click here|here|read more|more|link|this|learn more|details)\.?$/i.test(el.textContent.trim()) && !el.getAttribute("aria-label")) },
+    { id: "duplicate-id", name: "The same id used twice", wcag: "4.1.2 Name, role, value", level: "A", impact: "moderate",
+      why: "Labels, descriptions and skip links point at ids. When an id is used twice, they can point at the wrong thing.",
+      fix: "Make every id unique on the page.",
+      before: '<input id="name"> … <input id="name">', after: '<input id="first-name"> … <input id="last-name">',
+      find: () => { const seen = new Map(); for (const el of all("[id]")) { const k = el.id; seen.set(k, [...(seen.get(k) || []), el]); }
+        return [...seen.values()].filter((v) => v.length > 1).map((v) => v[1]); } },
+  ];
+
+  async function runCheck() {
+    if (config.check.engine === "axe") {
+      if (!window.axe) {
+        await new Promise((resolve, reject) => {
+          const s = Object.assign(document.createElement("script"), { src: config.check.axe, onload: resolve, onerror: () => reject(new Error("axe-core did not load")) });
+          document.head.append(s);
+          undo.push(() => s.remove());
+        });
+      }
+      const result = await window.axe.run(document, { exclude: [["snag-list"]] });
+      return result.violations.map((v) => ({
+        id: v.id, name: v.help, wcag: v.tags.filter((x) => /^wcag\d{3,}$/.test(x)).map((x) => x.replace(/^wcag(\d)(\d)(\d+)$/, "$1.$2.$3")).join(", ") || "Best practice",
+        level: v.tags.includes("wcag2aa") || v.tags.includes("wcag21aa") || v.tags.includes("wcag22aa") ? "AA" : v.tags.includes("wcag2a") || v.tags.includes("wcag21a") ? "A" : "",
+        impact: v.impact || "", why: v.description, fix: `Read how to fix it: ${v.helpUrl}`, helpUrl: v.helpUrl,
+        elements: v.nodes.map((n) => { try { return document.querySelector(n.target[0]); } catch { return null; } }).filter(Boolean),
+      }));
+    }
+    return RULES.map((r) => {
+      let elements = [];
+      try { elements = r.find(); } catch { /* one rule failing must not stop the others */ }
+      return { ...r, name: tr(`checks.${r.id}.name`, r.name), fix: tr(`checks.${r.id}.fix`, r.fix), why: spell(r.why), elements };
+    }).filter((r) => r.elements.length);
+  }
+
+  function flash(el) {
+    if (!el || el === document.documentElement || el === document.body) return;
+    el.scrollIntoView({ block: "center", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    const outline = h("div", { class: "sl-outline sl-outline--found" });
+    wrap.append(outline);
+    const place = () => { const r = el.getBoundingClientRect(); Object.assign(outline.style, { top: `${r.top}px`, left: `${r.left}px`, width: `${r.width}px`, height: `${r.height}px` }); };
+    place();
+    const timer = setInterval(place, 50);
+    setTimeout(() => { clearInterval(timer); outline.remove(); }, 4000);
+  }
+
+  // A found problem becomes an accessibility report, with where, why and how to fix it.
+  function checkPart(results) {
+    return results.map((r) => ({
+      rule: r.id, name: r.name, wcag: r.wcag, level: r.level || undefined, impact: r.impact || undefined, why: r.why, fix: r.fix,
+      example: r.before ? { before: r.before, after: r.after } : undefined, help: r.helpUrl,
+      count: r.elements.length,
+      where: r.elements.slice(0, 10).map((el) => { const d = describe(el); return { selector: d.whole ? "the whole page" : d.selector, part: d.whole ? "" : d.label }; }),
+    }));
+  }
+
+  async function openCheck() {
+    const body = h("div", { class: "sl-form" }, h("p", { role: "status", text: t("checking") }));
+    const close = h("button", { type: "button", class: "sl-btn", text: t("close"), onclick: () => d.close() });
+    const d = dialog(t("checkTitle"), body, [close]);
+    let results;
+    try { results = await runCheck(); }
+    catch (err) { body.replaceChildren(h("p", { class: "sl-error", role: "alert", text: `${t("checkFailed")}: ${err.message || err}` })); return; }
+    if (!d.open) return;
+    if (!results.length) { body.replaceChildren(h("p", { role: "status", text: t("checkNone") })); return; }
+    const total = results.reduce((n, r) => n + r.elements.length, 0);
+    const report = (picked) => { const values = { type: "check", check: checkPart(picked) }; d.close(); openReview(describe(document.body), values); };
+    body.replaceChildren(
+      h("p", { role: "status" }, h("strong", { text: `${total} ${t("checkFound")}` }), ` · ${results.length} ${results.length === 1 ? "rule" : "rules"}`),
+      h("p", { class: "sl-muted", text: t("checkLimits") }),
+      h("ul", { class: "sl-results" }, results.map((r) => h("li", { class: "sl-result" },
+        h("details", {},
+          h("summary", {}, h("span", { class: "sl-result__name", text: r.name }), h("span", { class: "sl-muted", text: ` ${r.elements.length} · WCAG ${r.wcag}${r.level ? ` (${r.level})` : ""}` })),
+          h("p", {}, h("strong", { text: `${t("checkWhy")}: ` }), r.why),
+          h("p", {}, h("strong", { text: `${t("checkFix")}: ` }), r.fix),
+          r.before ? h("pre", { class: "sl-preview sl-preview--code", text: `<!-- Before -->\n${r.before}\n\n<!-- After -->\n${r.after}` }) : null,
+          h("p", {}, h("strong", { text: `${t("checkWhere")}: ` }), r.elements.slice(0, 3).map((el) => describe(el).label).join("; ") + (r.elements.length > 3 ? " …" : "")),
+          h("div", { class: "sl-actions" },
+            h("button", { type: "button", class: "sl-btn", text: t("checkShow"), onclick: () => { d.close(); flash(r.elements[0]); } }),
+            h("button", { type: "button", class: "sl-btn sl-btn--primary", text: t("checkReport"), onclick: () => report([r]) })))))));
+    d.querySelector(".sl-foot").prepend(h("button", { type: "button", class: "sl-btn sl-btn--primary", text: t("checkReportAll"), onclick: () => report(results) }));
+    d.querySelector("summary")?.focus();
+  }
+
+  // Recording a series of steps ---------------------------------------------------------------------------
+  // The recorder notes what the person selects, changes and sends, page changes, errors and failed requests,
+  // by component and label only, never what they type. It is kept in this tab (sessionStorage), so it carries
+  // on across page loads, and cleared when it stops.
+
+  const REC_KEY = `${KEY}recording`;
+  const MAX_STEPS = 60;
+  function saveRec() {
+    try { rec ? sessionStorage.setItem(REC_KEY, JSON.stringify({ status: rec.status, steps: rec.steps, values: rec.values, started: rec.started, path: location.pathname })) : sessionStorage.removeItem(REC_KEY); } catch { /* private window */ }
+  }
+  function recNote(text) {
+    if (!rec || rec.status !== "recording") return;
+    const last = rec.steps[rec.steps.length - 1];
+    if (last && last.text === text && Date.now() - rec.started - last.at * 1000 < 800) return; // the same step twice in a row
+    rec.steps.push({ at: Math.round((Date.now() - rec.started) / 100) / 10, text });
+    if (rec.steps.length > MAX_STEPS) rec.steps.shift();
+    saveRec();
+    drawRec();
+  }
+  function stepFor(e) {
+    if (!(e.target instanceof Element) || ours(e)) return null;
+    if (e.type === "submit") return `Sent the form ${componentOf(e.target) || nameOf(e.target) || ""}`.trim();
+    const el = e.type === "click" ? e.target.closest("a, button, summary, label, [role=button], [role=link], [role=tab], [role=menuitem], [role=option], [role=switch], [role=checkbox], input, select, textarea") || e.target : e.target;
+    const d = describe(el);
+    const what = [d.role, d.name && `"${d.name}"`].filter(Boolean).join(" ");
+    const where = d.component ? ` in ${d.component}` : "";
+    if (e.type === "click") {
+      if (/^(INPUT|SELECT|TEXTAREA)$/.test(el.tagName) && !/^(radio|button|submit|reset)$/.test(el.type)) return null; // noted on change
+      if (el.tagName === "LABEL" && el.control) return null; // the control's own click follows
+      return `Selected ${what || "the page"}${where}`;
+    }
+    if (el.tagName === "SELECT") return `Chose "${clip(redact(el.selectedOptions[0]?.textContent?.trim() || ""), 60)}" in ${what}${where}`;
+    if (el.type === "checkbox" || el.getAttribute("role") === "switch") return `Turned ${el.checked ? "on" : "off"} ${what}${where}`;
+    if (el.type === "radio") return null; // the click already says which was chosen
+    if (/^(INPUT|TEXTAREA)$/.test(el.tagName) || el.isContentEditable) return `Typed in ${what}${where} (what was typed is not kept)`;
+    return null;
+  }
+  function listenRec() {
+    const handler = (e) => { const s = stepFor(e); if (s) recNote(s); };
+    for (const type of ["click", "change", "submit"]) on(window, type, handler);
+    let lastPath = location.pathname;
+    const timer = setInterval(() => { if (location.pathname !== lastPath) { lastPath = location.pathname; recNote(`Went to ${cleanPath(lastPath)}`); } }, 500);
+    undo.push(() => clearInterval(timer));
+  }
+
+  const REC_ICON = (state) => {
+    const ns = "http://www.w3.org/2000/svg";
+    const s = document.createElementNS(ns, "svg");
+    for (const [k, v] of Object.entries({ viewBox: "0 0 24 24", "aria-hidden": "true", focusable: "false" })) s.setAttribute(k, v);
+    const shape = state === "pause" ? [["rect", { x: 6, y: 5, width: 4, height: 14 }], ["rect", { x: 14, y: 5, width: 4, height: 14 }]]
+      : state === "stop" ? [["rect", { x: 6, y: 6, width: 12, height: 12 }]]
+      : state === "again" ? [["path", { d: "M3 12a9 9 0 1 0 3-6.7L3 8", fill: "none", stroke: "currentColor", "stroke-width": 2, "stroke-linecap": "round" }], ["path", { d: "M3 3v5h5", fill: "none", stroke: "currentColor", "stroke-width": 2, "stroke-linecap": "round" }]]
+      : [["circle", { cx: 12, cy: 12, r: 7 }]];
+    for (const [tag, attrs] of shape) { const n = document.createElementNS(ns, tag); for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v); if (!attrs.fill) n.setAttribute("fill", "currentColor"); s.append(n); }
+    return s;
+  };
+
+  function startRecorder(values, restored) {
+    if (!config) return;
+    rec?.bar?.remove();
+    rec = restored || { status: "ready", steps: [], values, started: Date.now() };
+    if (launcher) launcher.hidden = true;
+    rec.bar = h("div", { class: "sl-recorder", role: "region", "aria-label": t("recRegion") });
+    wrap.append(rec.bar);
+    drawRec(true);
+    saveRec();
+  }
+
+  function drawRec(focus) {
+    if (!rec || !rec.bar) return;
+    const btn = (text, iconName, fn, primary) => h("button", { type: "button", class: primary ? "sl-btn sl-btn--primary" : "sl-btn", onclick: fn }, REC_ICON(iconName), text);
+    const n = rec.steps.length;
+    const count = n ? `${n} ${n === 1 ? "step" : "steps"}` : t("recNone");
+    const status = rec.status === "ready" ? t("recReady") : `${rec.status === "recording" ? t("recRecording") : t("recPaused")}: ${count}`;
+    const actions = rec.status === "ready"
+      ? [btn(t("recStart"), "record", () => { rec.status = "recording"; rec.started = Date.now(); saveRec(); drawRec(true); }, true),
+        h("button", { type: "button", class: "sl-btn", text: t("cancel"), onclick: () => stopRecorder(false) })]
+      : [rec.status === "recording"
+          ? btn(t("recPause"), "pause", () => { rec.status = "paused"; saveRec(); drawRec(true); })
+          : btn(t("recResume"), "record", () => { rec.status = "recording"; saveRec(); drawRec(true); }),
+        btn(t("recStop"), "stop", () => stopRecorder(true), true),
+        btn(t("recRestart"), "again", () => { rec.steps = []; rec.status = "recording"; rec.started = Date.now(); saveRec(); drawRec(true); }),
+        h("button", { type: "button", class: "sl-btn", text: t("cancel"), onclick: () => stopRecorder(false) })];
+    const last = rec.steps[n - 1];
+    const focused = rec.bar.contains(root.activeElement) ? [...rec.bar.querySelectorAll("button")].indexOf(root.activeElement) : -1;
+    rec.bar.replaceChildren(...[
+      h("div", { class: `sl-recorder__status is-${rec.status}` }, h("span", { class: "sl-recorder__dot", "aria-hidden": "true" }),
+        h("p", { role: "status", text: status })),
+      last ? h("p", { class: "sl-muted sl-recorder__last", text: `${t("recLast")}: ${last.text}` }) : null,
+      h("div", { class: "sl-actions" }, actions)].filter(Boolean));
+    const buttons = rec.bar.querySelectorAll("button");
+    if (focus) buttons[0].focus();
+    else if (focused >= 0) buttons[Math.min(focused, buttons.length - 1)]?.focus();
+  }
+
+  function stopRecorder(describeIt) {
+    if (!rec) return;
+    const { steps, values } = rec;
+    rec.bar?.remove();
+    rec = null;
+    saveRec();
+    if (launcher) launcher.hidden = false;
+    if (describeIt) openForm(describe(document.body), { ...values, steps: steps.length ? steps : undefined });
+    else restoreFocus();
+  }
+
+  function restoreRecorder() {
+    let saved = null;
+    try { saved = JSON.parse(sessionStorage.getItem(REC_KEY)); } catch { /* none */ }
+    if (!saved) return;
+    startRecorder(saved.values, { status: saved.status, steps: saved.steps || [], values: saved.values, started: saved.started });
+    if (saved.path !== location.pathname) recNote(`Went to ${cleanPath(location.pathname)}`);
+  }
+
   // Styles, inside the shadow root only. Colours come from the page's design tokens when it has them. ----------
 
   const CSS_TEXT = `
@@ -920,11 +1391,12 @@
 * { box-sizing: border-box; }
 .sl { --a: var(--color-accent, #0b5f5a); --at: var(--color-accent-text, #fff); --bg: var(--color-surface-raised, #fff);
   --tx: var(--color-text, #141416); --mu: var(--color-text-muted, #424b5b); --bd: var(--color-border, #7d879a);
-  --sk: var(--color-surface-sunken, #eef1f6); --fo: var(--color-focus, var(--a)); --er: var(--status-danger-fg, #a1262a);
+  --sk: var(--color-surface-sunken, #eef1f6); --fo: var(--color-focus, var(--a)); --er: var(--status-danger-fg, #a1262a); --rec: #c4161c;
   font: 1rem/1.5 var(--font, system-ui, -apple-system, "Segoe UI", sans-serif); color: var(--tx); }
-@media (prefers-color-scheme: dark) { .sl:not(.sl--light) { --a: var(--color-accent, #5ed3c6); --at: var(--color-accent-text, #101827);
+.sl--dark { --a: #5ed3c6; --at: #101827; --bg: #232f42; --tx: #f3f4f6; --mu: #a4aec1; --bd: #6f7b91; --sk: #0c1220; --er: #ff9b9b; --rec: #ff6b6b; }
+@media (prefers-color-scheme: dark) { .sl--auto { --a: var(--color-accent, #5ed3c6); --at: var(--color-accent-text, #101827);
   --bg: var(--color-surface-raised, #232f42); --tx: var(--color-text, #f3f4f6); --mu: var(--color-text-muted, #a4aec1);
-  --bd: var(--color-border, #6f7b91); --sk: var(--color-surface-sunken, #0c1220); --er: var(--status-danger-fg, #ff9b9b); } }
+  --bd: var(--color-border, #6f7b91); --sk: var(--color-surface-sunken, #0c1220); --er: var(--status-danger-fg, #ff9b9b); --rec: #ff6b6b; } }
 button, input, select, textarea { font: inherit; color: inherit; }
 :focus-visible { outline: 3px solid var(--fo); outline-offset: 2px; }
 [hidden] { display: none !important; }
@@ -961,7 +1433,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .sl-error { color: var(--er); font-weight: 600; margin: 0; }
 input[type=text], textarea, select { width: 100%; min-height: 44px; padding: 8px 12px; border: 1px solid var(--bd); background: var(--bg); border-radius: 0; }
 [aria-invalid] { border: 2px solid var(--er) !important; }
-fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 4px; }
+fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 4px; min-inline-size: 0; }
+.sl-choices--cards { grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 8px; }
+.sl-choices--cards legend { grid-column: 1 / -1; margin-bottom: 4px; }
+.sl-choices--cards .sl-choice { border: 1px solid var(--bd); padding: 8px 12px; min-height: 44px; gap: 10px; }
+.sl-choices--cards .sl-choice:has(input:checked) { border: 2px solid var(--a); padding: 7px 11px; }
+.sl-choices--cards .sl-muted { font-size: .8125rem; }
 .sl-choice, .sl-check { display: flex; gap: 12px; align-items: flex-start; min-height: 44px; padding: 8px 0; cursor: pointer; }
 .sl-choice input, .sl-check input { width: 22px; height: 22px; margin: 1px 0 0; accent-color: var(--a); flex: none; }
 .sl-choice > span { display: grid; }
@@ -972,6 +1449,36 @@ fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 4px; }
 .sl-privacy { margin: 0; padding: 12px 16px; border-left: 4px solid var(--a); background: var(--sk); }
 .sl-preview { margin: 0; padding: 12px; background: var(--sk); border: 1px solid var(--bd); white-space: pre-wrap; overflow-wrap: anywhere;
   font: .8125rem/1.5 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; min-height: 12rem; max-height: 40vh; overflow: auto; }
+.sl-summary { display: grid; gap: 4px; padding: 12px 16px; background: var(--sk); }
+.sl-summary p { margin: 0; overflow-wrap: anywhere; }
+.sl-summary .sl-actions { gap: 16px; }
+.sl-steps summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 600; }
+.sl-steps ol { margin: 0; padding-left: 24px; font-size: .875rem; }
+.sl-choices--row { grid-template-columns: 1fr; }
+.sl-choices--row legend { margin-bottom: 4px; }
+.sl-choices--row .sl-choice { padding: 4px 0; min-height: 44px; align-items: center; }
+@media (min-width: 560px) { .sl-choices--row { display: flex; flex-wrap: wrap; gap: 0 24px; } .sl-choices--row legend { width: 100%; } }
+.sl-recorder { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 2147483001; width: min(720px, calc(100vw - 32px));
+  background: var(--bg); border: 2px solid var(--a); padding: 12px 16px; display: grid; gap: 8px; box-shadow: 0 4px 16px rgb(0 0 0 / .3); }
+.sl-recorder p { margin: 0; }
+.sl-recorder__status { display: flex; gap: 12px; align-items: center; font-weight: 600; }
+.sl-recorder__dot { width: 14px; height: 14px; border-radius: 50%; background: var(--mu); flex: none; }
+.sl-recorder__status.is-recording .sl-recorder__dot { background: var(--rec); animation: sl-pulse 1.2s ease-in-out infinite; }
+.sl-recorder__status.is-paused .sl-recorder__dot { background: var(--rec); opacity: .45; }
+.sl-recorder__last { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sl-recorder .sl-btn svg { width: 16px; height: 16px; }
+.sl-recorder .sl-btn:first-child svg circle { fill: var(--rec); }
+.sl-recorder .sl-btn--primary svg circle { fill: currentColor; }
+@keyframes sl-pulse { 50% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) { .sl-recorder__dot { animation: none !important; } }
+.sl-results { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.sl-result details { border: 1px solid var(--bd); padding: 0 12px; }
+.sl-result details[open] { padding-bottom: 12px; display: grid; gap: 8px; }
+.sl-result summary { min-height: 44px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; cursor: pointer; padding: 8px 0; }
+.sl-result__name { font-weight: 600; }
+.sl-result p { margin: 0; }
+.sl-preview--code { min-height: 0; max-height: none; }
+.sl-outline--found { outline-color: var(--rec); outline-width: 4px; background: color-mix(in srgb, var(--rec) 12%, transparent); }
 .sl-status { position: fixed; bottom: 72px; right: 16px; z-index: 2147483002; max-width: min(420px, calc(100vw - 32px)); padding: 12px 16px;
   background: var(--tx); color: var(--bg); box-shadow: 0 2px 8px rgb(0 0 0 / .3); }
 @media (forced-colors: active) { .sl-outline { outline-color: Highlight; background: none; } .sl-btn--primary { border: 2px solid ButtonText; } }
@@ -989,20 +1496,26 @@ fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 4px; }
     host = document.createElement("snag-list");
     host.setAttribute("data-snag-private", "");
     root = host.attachShadow({ mode: "open" });
-    wrap = h("div", { class: "sl" }, h("div", { class: "sl-status", role: "status", hidden: true }));
+    const lang = config.language === "auto" ? document.documentElement.lang || navigator.language || "en-GB" : config.language;
+    american = /^en-(US|PH|PR)$/i.test(lang) || /^en$/i.test(lang) && /^en-US/i.test(navigator.language);
+    const rtl = /^(ar|he|fa|ur|ps|yi)\b/i.test(lang);
+    wrap = h("div", { class: `sl sl--${["dark", "auto"].includes(config.theme) ? config.theme : "light"}`, lang, dir: rtl ? "rtl" : null },
+      h("div", { class: "sl-status", role: "status", hidden: true }));
     root.append(h("style", { text: CSS_TEXT }), wrap);
     if (config.launcher) {
-      launcher = h("button", { type: "button", class: `sl-btn sl-btn--primary sl-launcher sl-launcher--${config.launcher}`, onclick: startPicking },
+      launcher = h("button", { type: "button", class: `sl-btn sl-btn--primary sl-launcher sl-launcher--${config.launcher}`, onclick: () => openChooser() },
         icon("flag"), t("launcher"));
       wrap.append(launcher);
     }
     (document.body || document.documentElement).append(host);
     record();
+    listenRec();
+    restoreRecorder();
     if (config.shortcut) {
       const parts = config.shortcut.toLowerCase().split("+");
       on(window, "keydown", (e) => {
         if (e.key.toLowerCase() === parts[parts.length - 1] && e.altKey === parts.includes("alt") && e.shiftKey === parts.includes("shift") &&
-          e.ctrlKey === parts.includes("ctrl") && e.metaKey === parts.includes("meta")) { e.preventDefault(); startPicking(); }
+          e.ctrlKey === parts.includes("ctrl") && e.metaKey === parts.includes("meta")) { e.preventDefault(); openChooser(); }
       });
     }
     return true;
@@ -1010,6 +1523,7 @@ fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 4px; }
 
   function destroy({ forget = false } = {}) {
     endPicking(false);
+    if (rec) { rec.bar?.remove(); rec = null; try { sessionStorage.removeItem(REC_KEY); } catch { /* none */ } }
     while (undo.length) { try { undo.pop()(); } catch { /* already gone */ } }
     host?.remove();
     host = root = wrap = launcher = config = null;
@@ -1030,12 +1544,28 @@ fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 4px; }
     version: VERSION,
     start: (options) => { lastOptions = options || {}; return start(lastOptions); },
     destroy,
-    open: () => startPicking(),
-    report: (element) => { if (config) openForm(describe(element || document.body)); },
+    open: (type) => openChooser(null, type ? { type } : {}),
+    report: (element, type) => { if (config) { const part = describe(element || document.body); type && typeOf(type) ? openForm(part, { type }) : openChooser(part); } },
     isUserEnabled: userEnabled,
     setUserEnabled,
-    presets: { types: TYPES, categories: CATEGORIES, severities: SEVERITIES },
+    presets: { types: TYPES, categories: CATEGORIES, severities: SEVERITIES, groups: GROUPS },
     redact: (text) => redact(text),
+    // Every piece of interface text, by key, for translating: Snaglist.start({ text: { key: "translation" } }).
+    strings: () => {
+      const out = { ...TEXT };
+      for (const [k, v] of Object.entries(TYPES)) {
+        out[`types.${k}.label`] = v.label; out[`types.${k}.hint`] = v.hint;
+        for (const f of v.fields) {
+          out[`fields.${f.id}.label`] = f.label; if (f.hint) out[`fields.${f.id}.hint`] = f.hint;
+          for (const [ov, ol] of f.options || []) out[`fields.${f.id}.options.${ov}`] = ol;
+        }
+      }
+      for (const [g, l] of GROUPS) out[`groups.${g}`] = l;
+      for (const [name, items] of [["severity", SEVERITIES.three], ["importance", SEVERITIES.importance]]) for (const [v, l, hint] of items) { out[`scales.${name}.${v}`] = l; if (hint) out[`scales.${name}.${v}.hint`] = hint; }
+      for (const [k, l] of PARTS) out[`parts.${k}`] = l;
+      for (const r of RULES) { out[`checks.${r.id}.name`] = r.name; out[`checks.${r.id}.fix`] = r.fix; }
+      return out;
+    },
   };
 
   // Start from the script tag's data attributes, when it has any.

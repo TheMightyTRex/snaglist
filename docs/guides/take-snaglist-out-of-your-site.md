@@ -32,7 +32,7 @@ that calls `Snaglist.destroy({ forget: true })` on page load before you remove S
 ## Step 2: remove Snaglist from your code
 
 Follow [Remove Snaglist](../topics/remove-snaglist.md). You know it worked when the search in its step 5
-finds nothing and **Report an issue** has gone.
+finds nothing and **Send feedback** has gone.
 
 ## Step 3: remove the report server (if you set one up)
 

@@ -6,9 +6,10 @@ Snaglist is built so that a report says what is wrong and where, and nothing abo
 
 ## Never collected
 
-- Anything typed into the page's fields, including search boxes and passwords. A field is named by its label.
-- The text of whole areas, such as a list of messages or a profile card. Only things whose text is a label
-  (buttons, links, headings, field labels, table headings) are named.
+- Anything typed into the page's fields, including search boxes and passwords. A field is named by its label,
+  and a recorded step says "Typed in field Your name", never what was typed.
+- The text of anything other than the part the person chose and the page's own messages. The person sees that
+  text in full before sending and can take it out.
 - Anything inside an element marked `data-snag-private`.
 - Cookies, local storage (other than Snaglist's own on and off switch), session ids or tokens.
 - The query string and the hash of the address, unless you list safe parameters in `page.keepParams`.
@@ -26,7 +27,8 @@ For some kinds of report, Snaglist adds technical details that developers need. 
 | Script errors | The message and three lines of stack | Query strings and site addresses in file names; emails, numbers and keys in messages |
 | Console messages | Errors and warnings | Emails, numbers and keys; anything over 300 characters |
 | The part's HTML | Tags and safe attributes such as `class`, `role` and `aria-*` | Every bit of text (shown as `…(12)`, its length), field values, and any other attribute |
-| What was done before | The component and label of each thing selected, changed or sent | What was typed, and anything marked private |
+| What was done before, and recorded steps | The component and label of each thing selected, changed or sent; pages gone to; errors and failed requests | What was typed, and anything marked private |
+| Text on screen | The visible text of the part chosen (up to 300 characters) and messages the page is showing, such as errors | Field values, anything marked private; emails, numbers and keys are replaced |
 | Page speed and device | Timings, memory, connection type, screen size | Nothing personal is read |
 
 These are kept in memory on the page only, and only leave it when someone sends a report.
@@ -50,8 +52,9 @@ Add your own with `redact: [[/pattern/g, "[label]"]]`.
 
 Before anything is sent, Snaglist shows the whole report, exactly as it will be sent, with this statement:
 
-> No personal information is kept in this report: no name, email, account, address, cookies or anything typed
-> into the page's fields.
+> No personal information is kept in this report: no account, cookies or anything typed into the page's fields,
+> and things that look like an email, a long number or a key are replaced. Text on screen is copied from the
+> part you chose, so check it shows nothing personal.
 
 They can untick any part of the technical details (for example the console, requests or the page's HTML)
 and the preview changes at once. Nothing is sent until they choose a way to send it.

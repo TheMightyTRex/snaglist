@@ -2,7 +2,7 @@
 
 # Choose the kinds of issue and how bad they can be
 
-Every report asks how bad the problem is. You can also ask an extra question, "Kind of issue", to sort reports
+Every problem report asks how bad it is, and every suggestion how much it would help. You can also ask an extra question, "Kind of issue", to sort reports
 by a scheme your team already uses, such as Nielsen's heuristics or the WCAG principles.
 
 ## Steps
@@ -10,7 +10,7 @@ by a scheme your team already uses, such as Nielsen's heuristics or the WCAG pri
 1. Choose a scale for how bad it is, with `severities`:
    - `"three"` (the default): Minor, Gets in the way, Stops me.
    - `"nielsen"`: 1 Cosmetic, 2 Minor, 3 Major, 4 Catastrophe.
-2. If you want the extra question, choose a list with `categories`. It is off by default:
+2. If you want an extra question for problems, choose a list with `categories`. It is off by default:
    - `"ux"`: Layout, Words, Behaviour, Accessibility and Looks.
    - `"heuristics"`: Jakob Nielsen's 10 usability heuristics, in plain words. Best for UX reviews.
    - `"wcag"`: the four WCAG (Web Content Accessibility Guidelines) principles. Best for accessibility testing.
@@ -29,9 +29,12 @@ by a scheme your team already uses, such as Nielsen's heuristics or the WCAG pri
    });
    ```
 
+5. Suggestions use **How much would it help you**: Nice to have, I would use it often, I need it. To use your own
+   scale, set `importance` to a list of the same shape.
+
 ## Things to note
 
-- The report type already sorts reports broadly ([Choose the report types](choose-the-report-types.md)). Only
+- What people send already sorts reports broadly ([Choose what people can send](choose-what-people-can-send.md)). Only
   add the extra question when your team needs the finer scheme.
 - The value goes into GitHub labels (`kind: wording`) and the report's data, so keep it short, lower case and
   without spaces.

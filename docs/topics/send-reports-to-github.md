@@ -19,17 +19,19 @@ from their own GitHub account, so no key is ever put in your page.
 
    With the script tag only, use `data-github="owner/repo"`.
 2. Create the labels in the repository, so GitHub can add them. This command makes the main one with the
-   GitHub command-line tool:
+   GitHub command-line tool; the [set-up tool](use-the-set-up-tool.md) lists the rest:
 
    ```bash
-   gh label create ux-report --repo owner/repo --description "Sent with Snaglist"
+   gh label create feedback --repo owner/repo --description "Sent with Snaglist"
    ```
 
 3. Make a test report and select **Open in GitHub**. Check the issue that opens.
 
 ## Things to note
 
-- Each report asks for the labels `ux-report`, `type: <report type>` and `severity: <how bad>`, plus your own. GitHub
+- Each report asks for the labels `feedback`, `problem` or `suggestion`, `type: <type>`, and
+  `severity: <how bad>` or `importance: <how much it would help>`, plus your own. The
+  [set-up tool](use-the-set-up-tool.md) gives the commands to make them all. GitHub
   only adds labels that exist, and only when the person may label issues. The kind and severity are always in
   the report too.
 - The people reporting need a GitHub account. For reports from anyone, read
