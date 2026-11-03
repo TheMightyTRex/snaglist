@@ -367,7 +367,7 @@ import Script from "next/script";
       ``, startFile(c).trimEnd().split("\n").map((l) => `   ${l}`).join("\n"), ``,
       `3. Load both files on every page, snaglist.js first, in ${p.file}:`,
       ``, tags(c).split("\n").map((l) => `   ${l}`).join("\n"), ``,
-      `   If this project has a Content Security Policy, allow these two files and add 'unsafe-inline' to style-src (Snaglist adds its styles in its own shadow root).`,
+      `   If this project has a Content Security Policy, it only needs to allow these two files from the same site: Snaglist needs no inline script and no inline styles.`,
       `4. Add data-component="<name>" to the main parts of each page (header, menus, forms, cards, tables, dialogs), using each part's name from the code.`,
       `5. Add the attribute data-snag-private to every element that shows personal details: the signed-in user's name or email, messages, addresses, payment details.`,
     ];

@@ -147,8 +147,10 @@ issues. The same details are always in the report, so nothing is lost.
 
 ## Content Security Policy
 
-Snaglist needs no inline script and no other site. It sets styles through a `<style>` element in its own shadow
-root, so a policy with `style-src 'self'` needs `'unsafe-inline'` for styles.
+Snaglist needs no inline script, no inline styles and no other site, so it works under a strict policy such as
+`default-src 'self'`. It styles its own shadow root with a constructed style sheet, which a policy does not block.
+Only a browser too old for constructed style sheets falls back to a `<style>` element, which needs
+`'unsafe-inline'` for styles.
 
 ## Find out more
 

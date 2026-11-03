@@ -151,4 +151,17 @@ await test("SEC-19", "a backslash or | in page text cannot add a column to the r
   expect(columns === 4, `the Page row has ${columns - 1} columns: ${line}`);
 });
 
+await test("SEC-20", "Snaglist is styled under a strict Content Security Policy (default-src 'self')", async () => {
+  const page = await open("", {}, "/tools/tests/strict-csp.html");
+  const result = await page.evaluate(() => {
+    const blocked = [];
+    document.addEventListener("securitypolicyviolation", (e) => blocked.push(e.violatedDirective));
+    Snaglist.start({ send: { copy: true } });
+    const launcher = document.querySelector("snag-list").shadowRoot.querySelector(".sl-launcher");
+    return new Promise((done) => setTimeout(() => done({ position: getComputedStyle(launcher).position, blocked }), 200));
+  });
+  expect(result.position === "fixed", `the launcher is not styled (position ${result.position})`);
+  expect(!result.blocked.length, `the policy blocked: ${result.blocked.join(", ")}`);
+});
+
 await done();

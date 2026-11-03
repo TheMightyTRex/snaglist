@@ -107,6 +107,7 @@ prints its ID.
 | SEC-17 | The privacy check catches a private word written with "TRex", and lets the public names through | Pass |
 | SEC-18 | The privacy check checks a private word that starts with a hyphen | Pass |
 | SEC-19 | A backslash or `\|` in page text cannot add a column to a report's tables | Pass |
+| SEC-20 | Snaglist is styled under a strict Content Security Policy (`default-src 'self'`) | Pass |
 
 The journeys in `tools/screenshots.sh` go through every main path in a real browser (one part, a recording, a
 suggestion, a phone in dark mode, the accessibility check, the demo's display settings and the set-up tool) and

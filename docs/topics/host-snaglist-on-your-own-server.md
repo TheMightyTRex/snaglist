@@ -33,8 +33,8 @@ update.
    ```
 
 5. Add the script tag to your pages: [Add Snaglist to a website](add-snaglist-to-a-website.md).
-6. If your site sends a Content Security Policy, allow Snaglist's styles. It adds them in its own shadow root,
-   so `style-src` needs `'unsafe-inline'`. It needs no other site and no inline script.
+6. If your site sends a Content Security Policy, Snaglist works under a strict one such as `default-src 'self'`.
+   It needs no other site, no inline script and no inline styles.
 
 ## Things to note
 
