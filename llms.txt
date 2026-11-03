@@ -1,0 +1,55 @@
+# Snaglist
+
+> A single JavaScript file, with no libraries, that adds a "Report an issue" button to any website or web app.
+> People choose the part of the page with a problem, describe it, check exactly what will be sent, and send it
+> as a GitHub issue, an email, a post to the site's own server, or copy or download it. Reports are anonymous:
+> no field contents, cookies, query strings or full browser strings, and emails, long numbers, IP addresses and
+> keys are replaced. MIT licence.
+
+## Install (any site)
+
+1. Download https://raw.githubusercontent.com/TheMightyTRex/snaglist/main/snaglist.js into the folder the site
+   serves static files from (public/ or static/ in most frameworks). Do not change it.
+2. Before </body> in the shared layout: <script src="/snaglist.js"></script>
+3. Start once, after the page has loaded (in a framework, in code that runs once, never in a component):
+   Snaglist.start({ app: "App name", send: { github: { repo: "owner/name" }, email: { to: "team@example.com" } } });
+   Shortest form instead of steps 2 and 3: <script src="/snaglist.js" data-github="owner/name" defer></script>
+4. Add data-component="name" to main parts of pages (header, menus, forms, cards, tables, dialogs).
+5. Add data-snag-private to anything that shows personal details.
+6. Never put a token or password in the page; Snaglist does not need one.
+
+## Settings (all optional)
+
+enabled (true), userToggle (true), launcher ("bottom-right" | "bottom-left" | false), shortcut ("" or
+"Alt+Shift+R"), categories ("ux" | "heuristics" | "wcag" | [[value, label, hint]]), severities ("three" |
+"nielsen" | list), labels (["ux-report"]), collect { page: true, element: true, styles: false,
+environment: true, display: true, errors: false, trail: false }, page { name: fn, keepParams: [] },
+component { attribute: "data-component", from: fn }, redact ([[regex, "[label]"]]),
+send { github: { repo, labels }, email: { to, subject }, endpoint: { url, headers }, copy: true,
+download: true }, beforeSend (fn(report) => report), text ({ key: "replacement" }).
+
+## Functions
+
+Snaglist.start(settings), Snaglist.destroy({ forget }), Snaglist.open(), Snaglist.report(element),
+Snaglist.setUserEnabled(on), Snaglist.isUserEnabled(), Snaglist.redact(text), Snaglist.version.
+
+## User setting (recommended)
+
+A switch labelled "Show Report an issue", on by default, with the hint "A button for telling us about a problem
+on any page. Reports never include your personal details." Off calls Snaglist.setUserEnabled(false); on calls
+Snaglist.setUserEnabled(true).
+
+## Turn off for everyone
+
+Set enabled: false in Snaglist.start(), or remove the data-github, data-email and data-endpoint attributes.
+
+## Remove completely
+
+Delete snaglist.js, its <script> tag, every Snaglist.* call, the user setting and the data-snag-private
+attributes. data-component attributes can stay. Search for "snaglist" and "snag-" to confirm nothing is left.
+
+## More
+
+- Help centre: https://github.com/TheMightyTRex/snaglist/blob/main/docs/README.md
+- Prompts for AI assistants: https://github.com/TheMightyTRex/snaglist/blob/main/docs/AI-PROMPTS.md
+- Demo: https://themightytrex.github.io/snaglist/

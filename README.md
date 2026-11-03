@@ -7,7 +7,8 @@ button to your app or site. The person reporting chooses the part of the page wi
 wrong and how bad it is, checks exactly what will be sent, and sends it as a GitHub issue, an email or a post to
 your own server.
 
-**[Try it on the demo page](https://themightytrex.github.io/snaglist/)**
+**[Try it on the demo page](https://themightytrex.github.io/snaglist/)** · **[Help centre](docs/README.md)** ·
+**[Prompts for AI assistants](docs/AI-PROMPTS.md)**
 
 - One file, about 40 KB, with no libraries and no build step.
 - Installs with one script tag and removes cleanly: one element, its own styles, nothing left behind.
@@ -27,7 +28,7 @@ your own server.
    <script src="snaglist.js" data-github="owner/repo" defer></script>
    ```
 
-   Or start it yourself, with any of the settings in [docs/CONFIGURATION.md](docs/CONFIGURATION.md):
+   Or start it yourself, with any of the settings in the [settings reference](docs/topics/settings-reference.md):
 
    ```html
    <script src="snaglist.js"></script>
@@ -54,8 +55,8 @@ Snaglist.destroy({ forget: true });
 - **You, the developer:** `enabled: false` in the settings, or do not call `Snaglist.start()`, for example
   outside your test builds.
 - **Your users:** give them a switch. `Snaglist.setUserEnabled(false)` hides the button and remembers the choice
-  in this browser; `Snaglist.setUserEnabled(true)` brings it back. A suggested switch is in
-  [docs/AI-PROMPT.md](docs/AI-PROMPT.md).
+  in this browser; `Snaglist.setUserEnabled(true)` brings it back. Read
+  [Add a switch for your users](docs/topics/add-a-switch-for-your-users.md).
 
 ## What a report holds
 
@@ -75,7 +76,8 @@ The kinds of issue come from three presets: everyday UX (layout, words, behaviou
 broken, slow, idea), Nielsen's ten usability heuristics, or the four WCAG principles. Severity is three levels
 (minor, gets in the way, stops me) or Nielsen's 1 to 4. You can give your own lists.
 
-[docs/PRIVACY.md](docs/PRIVACY.md) says what is never collected and how it is hidden.
+[What a report holds, and what it never holds](docs/topics/what-a-report-holds.md) says what is never
+collected and how it is hidden.
 
 ## Sending
 
@@ -83,7 +85,7 @@ broken, slow, idea), Nielsen's ten usability heuristics, or the four WCAG princi
 |---|---|---|
 | GitHub | Opens a new issue with the title, report and labels filled in. The person posts it from their own account | A GitHub account for the person reporting |
 | Email | Opens their mail app with the report filled in | A mail app |
-| Your server | Posts the report as JSON, without cookies | An address that accepts it; [docs/SERVER.md](docs/SERVER.md) has an example that files GitHub issues for people without an account |
+| Your server | Posts the report as JSON, without cookies | An address that accepts it; [Send reports to your own server](docs/topics/send-reports-to-your-own-server.md) has an example that files GitHub issues for people without an account |
 | Copy and Download | Markdown on the clipboard, or a JSON file | Nothing |
 
 No token or password is ever put in the page.
@@ -94,6 +96,19 @@ Snaglist names the part chosen from, in order: your own function (`component.fro
 `data-component` attribute, then the first plain class name (such as `card` or `btn`). Add
 `data-component="checkout-summary"` to the parts of your app you want named clearly. Add `data-snag-private` to
 anything that shows personal details, such as an account name: its text is never read.
+
+## Help
+
+The [help centre](docs/README.md) has guides from start to finish and a topic for each task:
+
+- [Add Snaglist to your site and get your first report](docs/guides/add-snaglist-to-your-site.md)
+- [Set up Snaglist on your own server](docs/guides/set-up-snaglist-on-your-own-server.md)
+- [Run a test session with Snaglist](docs/guides/run-a-test-session.md)
+- [Report issues on a site that uses Snaglist](docs/guides/report-issues-on-a-site.md), for the people reporting
+- [Take Snaglist out of your site](docs/guides/take-snaglist-out-of-your-site.md)
+
+Building with an AI assistant? [Prompts for AI assistants](docs/AI-PROMPTS.md) work with any of them, and
+[llms.txt](llms.txt) is a short summary written for AI tools.
 
 ## Part of a family
 

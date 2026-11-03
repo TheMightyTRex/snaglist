@@ -1,6 +1,8 @@
-# Settings
+[Help centre](../README.md) · Reference · Reference
 
-Pass any of these to `Snaglist.start({ ... })`. Everything is optional; the defaults are shown.
+# Settings reference
+
+Every setting, function and script tag attribute in Snaglist. Pass any of these to `Snaglist.start({ ... })`. Everything is optional; the defaults are shown.
 
 ```js
 Snaglist.start({
@@ -92,7 +94,7 @@ For the simplest set-up, put the settings on the tag. It starts when the page ha
 
 GitHub only adds labels when the person reporting may label issues in that repository, and only labels that
 exist. Every report also lists its kind and severity in the body, so nothing is lost. To have labels on every
-report, file them through your own server ([SERVER.md](SERVER.md)), or let a GitHub Action add labels from the
+report, file them through your own server ([Send reports to your own server](send-reports-to-your-own-server.md)), or let a GitHub Action add labels from the
 body.
 
 ## Content Security Policy
@@ -100,3 +102,9 @@ body.
 Snaglist needs no inline script and no other site. It sets styles through a `<style>` element in its own shadow
 root, so a policy with `style-src 'self'` needs `'unsafe-inline'` for styles, or a nonce on the script's styles.
 A future version may ship a stylesheet file instead.
+
+## Find out more
+
+- [Choose what a report records](choose-what-a-report-records.md)
+- [Choose the kinds of issue and how bad they can be](choose-the-kinds-of-issue.md)
+- [What a report holds, and what it never holds](what-a-report-holds.md)

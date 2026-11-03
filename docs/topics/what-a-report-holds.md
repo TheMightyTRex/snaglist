@@ -1,4 +1,6 @@
-# Privacy
+[Help centre](../README.md) · Reference · Reference
+
+# What a report holds, and what it never holds
 
 Snaglist is built so that a report says what is wrong and where, and nothing about who found it.
 
@@ -48,9 +50,10 @@ and the preview changes at once. Nothing is sent until they choose a way to send
 | Your server | Your server sees the request, without cookies or referrer. What it stores is up to you |
 | Copy and Download | Nobody: the report stays with the person |
 
-## Your responsibilities
+## What site owners need to do
 
-- Mark parts of your pages that show personal details with `data-snag-private`.
+- Mark parts of your pages that show personal details with `data-snag-private`: read
+  [Keep personal details out of reports](keep-personal-details-out.md).
 - Only turn on `errors` if your error messages do not include personal details.
 - If you use `beforeSend`, do not add personal details back in.
 - If your server stores reports, say so in your own privacy notice.

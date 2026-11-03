@@ -1,14 +1,19 @@
-# Filing GitHub issues from your own server
+[Help centre](../README.md) · Send reports · How-to
 
-With `send.github`, the person reporting needs a GitHub account and posts the issue themselves. To take
-reports from anyone, send them to your own server, which files the issue with a token that never reaches the
-browser.
+# Send reports to your own server
+
+Send reports straight to a server you run, so people can report without a GitHub account or a mail app. Your
+server can store them, or file GitHub issues with a key that never reaches the browser.
+
+## Steps
+
+1. Set the address that takes reports:
 
 ```js
 Snaglist.start({ send: { endpoint: { url: "https://reports.example.com/" } } });
 ```
 
-Snaglist posts this JSON, without cookies:
+2. Snaglist posts this JSON to it, without cookies or the page's address:
 
 ```json
 {
@@ -18,7 +23,11 @@ Snaglist posts this JSON, without cookies:
 }
 ```
 
-## Example: a Cloudflare Worker
+3. Make your server accept it. Your server must answer the browser's `OPTIONS` check with
+   `Access-Control-Allow-Origin` set to your site, then reply to the `POST` with any 2xx status.
+4. Make a test report and select **Send**. Snaglist says "Report sent. Thank you." when your server replies.
+
+## Example: file GitHub issues with a Cloudflare Worker
 
 `examples/github-worker.js` is a complete worker. It checks the request came from your site, limits its size,
 and files the issue with labels.
@@ -34,7 +43,13 @@ The same steps work on any server: check the origin, limit the size, rebuild the
 report's own fields, and call `POST /repos/{owner}/{repo}/issues` with the token. Do not trust the labels or
 the title from the request as they are; they come from the browser.
 
-## Spam
+## Things to note
 
-A public form attracts spam. Add a rate limit per address on your server, or only start Snaglist for signed-in
+- A public form attracts spam. Add a rate limit per address on your server, or only start Snaglist for signed-in
 users or in test builds.
+- Store only what the report holds. If you add anything, say so in your privacy notice.
+
+## Find out more
+
+- [Set up Snaglist on your own server](../guides/set-up-snaglist-on-your-own-server.md)
+- [What a report holds, and what it never holds](what-a-report-holds.md)

@@ -7,7 +7,7 @@
  * Remove it:  Snaglist.destroy({ forget: true }), then delete the script tag. Nothing else is left behind.
  *
  * Everything lives in one element, <snag-list>, with its own shadow root, so its styles never touch the page
- * and the page's styles never break it. Settings are in docs/CONFIGURATION.md; privacy in docs/PRIVACY.md.
+ * and the page's styles never break it. Help is in docs/README.md; settings in docs/topics/settings-reference.md.
  */
 (() => {
   "use strict";
@@ -398,9 +398,13 @@
     }
   }
 
+  // A new tab for GitHub, cut off from this page; the same tab when pop-ups are blocked. Mail links open the
+  // mail app without leaving the page.
   function openUrl(url) {
-    const w = window.open(url, "_blank", "noopener");
-    if (!w) location.href = url;
+    if (url.startsWith("mailto:")) { location.href = url; return; }
+    const w = window.open(url, "_blank");
+    if (w) w.opener = null;
+    else location.href = url;
   }
 
   async function sendGithub(report) {

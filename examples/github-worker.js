@@ -1,5 +1,5 @@
 // Snaglist to GitHub issues, as a Cloudflare Worker. Settings: GITHUB_TOKEN (secret), GITHUB_REPO, ALLOWED_ORIGIN.
-// The token stays here; the browser never sees it. See docs/SERVER.md.
+// The token stays here; the browser never sees it. See docs/topics/send-reports-to-your-own-server.md.
 
 const KINDS = /^[a-z0-9-]{1,30}$/;
 
