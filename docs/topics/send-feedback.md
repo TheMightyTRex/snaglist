@@ -1,13 +1,15 @@
-[Help centre](../README.md) · For people sending feedback · How-to
+[Help centre](../README.md) · Sending feedback
 
 # Report a problem with one thing on a page
+
+How-to
 
 Tell the site's team about something on a page that is broken, confusing, slow or hard to use. You choose the
 part of the page, say what is wrong, and check the report before it goes.
 
 ## Before you begin
 
-- The site must have Snaglist turned on. You will find a **Send feedback** button on each page. If there is
+- The site must have Snaglist active. You will find a 'Send feedback' button on each page. If there is
   none, read [If Send feedback does not appear](if-send-feedback-does-not-appear.md).
 - To show a problem that takes several steps, read [Record a series of steps](record-a-series-of-steps.md)
   instead. To suggest something, read [Suggest a feature or an improvement](suggest-a-feature-or-improvement.md).
@@ -19,7 +21,7 @@ part of the page, say what is wrong, and check the report before it goes.
    or **Words are wrong**.
 3. Under **What do you want to show**, choose **One thing on the page**, then select **Continue**.
 
-   ![The Send feedback window. Report a problem lists Something is broken, Hard to use, Looks wrong, Hard to use with my tools or needs, Slow and Words are wrong. Make a suggestion lists A new feature, Make something better and Something else. What do you want to show offers One thing on the page, A series of steps, and Nothing, just describe it.](../images/choose.png)
+   ![The Send feedback window. Report a problem lists Something is broken, Hard to use, Looks wrong, Hard to use with my tools or needs, Slow and Words are wrong. Make a suggestion lists A new feature, Make something better and Something else. Check the page offers Check this page for accessibility problems. What do you want to show offers One thing on the page, A series of steps, and Describe it in words.](../images/choose.png)
 
 4. Choose the part with the problem. A box shows what will be chosen.
    - With a mouse or touch screen, select the part.
@@ -39,7 +41,7 @@ part of the page, say what is wrong, and check the report before it goes.
 
 ## Things to note
 
-- Nothing you have typed into the page's own fields is ever read, so it is safe to report a form you have
+- Nothing you have entered in the page's own fields is ever read, so it is safe to report a form you have
   filled in.
 - Snaglist copies the visible text of the part you chose, and any error or alert messages on the page, because
   they help the team find the problem. You can take them out before sending.
@@ -49,4 +51,4 @@ part of the page, say what is wrong, and check the report before it goes.
 
 - [Record a series of steps](record-a-series-of-steps.md)
 - [What a report holds, and what it never holds](what-a-report-holds.md)
-- [Turn off Send feedback](turn-send-feedback-off.md)
+- [Deactivate Send feedback](deactivate-send-feedback.md)

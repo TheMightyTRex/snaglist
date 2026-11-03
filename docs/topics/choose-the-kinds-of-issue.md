@@ -1,6 +1,8 @@
-[Help centre](../README.md) · Add and set up · How-to
+[Help centre](../README.md) · Settings
 
 # Choose the kinds of issue and how bad they can be
+
+How-to
 
 Every problem report asks how bad it is, and every suggestion how much it would help. You can also ask an extra question, "Kind of issue", to sort reports
 by a scheme your team already uses, such as Nielsen's heuristics or the WCAG principles.
@@ -30,7 +32,7 @@ by a scheme your team already uses, such as Nielsen's heuristics or the WCAG pri
    ```
 
 5. Suggestions use **How much would it help you**: Nice to have, I would use it often, I need it. To use your own
-   scale, set `importance` to a list of the same shape.
+   scale, set `importance` to a list in the same format.
 
 ## Things to note
 

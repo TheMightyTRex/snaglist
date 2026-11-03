@@ -1,6 +1,8 @@
-[Help centre](../README.md) · Add and set up · How-to
+[Help centre](../README.md) · Add and update
 
 # Add Snaglist to a React, Vue, Svelte or other framework app
+
+How-to
 
 In an app built with a framework, load `snaglist.js` as a plain file and start it once, when the app first
 loads. Snaglist keeps its own element outside your components, so your framework never redraws it.
@@ -44,5 +46,5 @@ loads. Snaglist keeps its own element outside your components, so your framework
 
 ## Find out more
 
-- [Turn Snaglist on or off for everyone](turn-snaglist-on-or-off-for-everyone.md)
+- [Activate or deactivate Snaglist for everyone](activate-or-deactivate-snaglist.md)
 - [Use an AI assistant to add Snaglist](use-an-ai-assistant-to-add-snaglist.md)

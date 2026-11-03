@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for helping. Snaglist stays one file with no libraries, so it is easy to add and easy to remove.
+Thank you for helping. Snaglist stays one file with no libraries, so it takes one line to add and one to remove.
 
 - Try changes on the demo page: run `python3 -m http.server 8777 --bind 127.0.0.1` here and open
   http://127.0.0.1:8777/.

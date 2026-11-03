@@ -3,7 +3,7 @@
 # Add Snaglist to your site and get your first report
 
 For anyone who runs a website or app and wants people to report UX issues. At the end, every page has a
-**Send feedback** button and your first report is in GitHub. It takes about 20 minutes.
+'Send feedback' button and your first report is in GitHub. It takes about 20 minutes.
 
 ## Before you begin
 
@@ -24,6 +24,8 @@ For anyone who runs a website or app and wants people to report UX issues. At th
 
 ```mermaid
 flowchart TD
+  accTitle: The steps at a glance
+  accDescr: The steps in order: try Snaglist on the demo page; add it to your site; choose where reports go; name the parts of your pages and mark private ones; choose what reports record; give your users a switch; make your first report.
   A[Try the demo] --> B[Add it to your site]
   B --> C[Choose where reports go]
   C --> D[Name parts, mark private ones]
@@ -67,7 +69,7 @@ The defaults suit most sites. To change them, follow
 
 ## Step 6: give your users a switch
 
-Let people turn the button off: [Add a switch for your users](../topics/add-a-switch-for-your-users.md).
+Let people deactivate the button: [Add a switch for your users](../topics/add-a-switch-for-your-users.md).
 
 ## Step 7: make your first report
 

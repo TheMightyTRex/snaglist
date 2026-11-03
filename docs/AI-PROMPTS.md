@@ -24,12 +24,12 @@ Short instructions for AI tools: https://raw.githubusercontent.com/TheMightyTRex
 
 Please do this:
 
-1. Read llms.txt from the address above. If you cannot open web pages, use the steps below.
-2. Look at my project and tell me in one or two sentences what kind of app it is, what it is built with, and
+1. Read llms.txt from the address above. If you cannot open web pages, use these steps.
+2. Read my project and tell me in one or two sentences what kind of app it is, what it is built with, and
    where its shared page layout is. Then ask me these questions, all at once, and wait for my answers:
    a. Where should reports go: a GitHub repository (owner/name), an email address, or both?
    b. Should the button show for everyone, or only in testing (for example on a staging address)?
-   c. Should users get a setting to turn the button off? (Recommended: yes.)
+   c. Should users get a setting to deactivate the button? (Recommended: yes.)
    d. What is the app's name?
    e. What is the site's main language? (Snaglist is in English; for US English it uses US spelling; for any
       other language you will translate its text.)
@@ -52,7 +52,7 @@ Please do this:
        });
      })(0);
    Leave out github or email if I did not choose it.
-5. Load both files on every page, snaglist.js first, just before the closing </body> tag of the shared layout:
+5. Load both files on every page, snaglist.js first, immediately before the closing </body> tag of the shared layout:
      <script src="/snaglist.js" defer></script>
      <script src="/snaglist-start.js" defer></script>
    In a framework app, put them where its documentation says static scripts go (for example next/script in
@@ -69,14 +69,14 @@ Please do this:
    - Label: "Show Send feedback"
    - Hint: "A button for sending feedback or reporting a problem on any page. Reports never include your
      personal details."
-   - A switch, on by default. Turning it off calls Snaglist.setUserEnabled(false); turning it on calls
+   - A switch, on by default. Deactivating it calls Snaglist.setUserEnabled(false); activating it calls
      Snaglist.setUserEnabled(true). Save the choice the way this app saves other settings.
 10. Do not put any password, token or API key in the page. Snaglist does not need one.
 11. When you have finished, tell me:
    - every file you changed or added,
    - how to try it: open a page, select "Send feedback", choose what to send, and follow it through to
      "Review what is sent",
-   - how to turn it off for everyone (set enabled: false),
+   - how to deactivate it for everyone (set enabled: false),
    - how to remove it (the prompt "Remove Snaglist from my app").
 ```
 
@@ -90,7 +90,7 @@ assistant the GitHub issues' addresses.
 Copy from here
 
 ```text
-Below are accessibility problems found on this site by Snaglist's automatic check. Each one gives the WCAG
+These are accessibility problems found on this site by Snaglist's automatic check. Each one gives the WCAG
 criterion, why it matters, how to fix it with example code, and where it is (a CSS selector and the part).
 Fix guide: https://github.com/TheMightyTRex/snaglist/blob/main/docs/topics/fix-common-accessibility-problems.md
 
@@ -101,7 +101,7 @@ Please:
    component once rather than each page that uses it.
 3. Write any new text (alt text, labels, link words) in plain language that says what the thing is or does.
    Ask me when you cannot tell what a picture shows.
-4. Do not hide problems: never add aria-hidden, role="presentation" or empty alt to something meaningful just
+4. Do not hide problems: never add aria-hidden, role="presentation" or empty alt to something meaningful only
    to pass the check.
 5. Tell me every file you changed, and which problems you could not fix and why.
 6. Remind me to run the check again, and to try the pages with a keyboard only and a screen reader.
@@ -152,15 +152,15 @@ Please remove Snaglist (https://github.com/TheMightyTRex/snaglist) from this pro
 
 Copy to here
 
-## Turn Snaglist off for now
+## Deactivate Snaglist for now
 
 Copy from here
 
 ```text
-Please turn off Snaglist in this project without removing it. Find the Snaglist.start() call (often in
+Please deactivate Snaglist in this project without removing it. Find the Snaglist.start() call (often in
 snaglist-start.js, or the <script> tag with data-github or data-email) and set enabled: false, so the "Send feedback" button no longer
 shows. If there is a "Show Send feedback" user setting, hide it while Snaglist is off. Tell me which line to
-change to turn it back on.
+change to activate it again.
 ```
 
 Copy to here
@@ -175,7 +175,7 @@ technical details, whatever its type: add collect: { styles: true, layout: true,
 performance: true, errors: true, console: true, network: true, trail: true } to Snaglist.start(), and offer
 every report type. Before you do, check whether this app's error messages, console messages or request paths
 could include personal details (names or emails; query strings and ids in paths are already removed) and tell
-me if any could. Only turn this on where enabled is true for testing, and tell me how to go back to the
+me if any could. Only activate this where enabled is true for testing, and tell me how to go back to the
 defaults.
 ```
 

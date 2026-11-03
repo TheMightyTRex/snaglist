@@ -6,7 +6,7 @@
 > details needed to act on it (text on screen, script errors with stack, console errors and warnings, failed and
 > slow requests, recorded steps, styles and contrast, layout, accessibility details, sanitised HTML, Core Web
 > Vitals), and keeps no personal information: never what people type, no cookies or query strings; emails, long
-> numbers, IP addresses and keys are replaced. People see the whole report before it is sent. MIT licence.
+> numbers, IP addresses and keys are replaced. People are shown the whole report before it is sent. MIT licence.
 
 ## Quickest install
 
@@ -72,7 +72,7 @@ Snaglist.setUserEnabled(false); on calls Snaglist.setUserEnabled(true).
 Snaglist.destroy() removes its element, listeners and any recording, and puts back window.fetch,
 XMLHttpRequest and console.error and console.warn exactly as they were.
 
-## Turn off for everyone
+## Deactivate for everyone
 
 Set enabled: false in Snaglist.start() (often in snaglist-start.js), or remove the data-github, data-email and
 data-endpoint attributes.

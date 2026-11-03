@@ -1,6 +1,8 @@
-[Help centre](../README.md) · For people sending feedback · How-to
+[Help centre](../README.md) · Sending feedback
 
 # Record a series of steps
+
+How-to
 
 When a problem only happens after several steps, record them. Snaglist notes each thing you select, change or
 send, each page you go to, and any errors along the way, then you describe what went wrong.
@@ -26,13 +28,13 @@ send, each page you go to, and any errors along the way, then you describe what 
 6. Select **Recorded steps** to check them, then say what happened and what you expected, and choose
    **How bad is it**.
 
-   ![The form shows Something is broken with 6 steps recorded, the list of steps, and boxes for What happened and What you expected.](../images/form-steps.png)
+   ![The form shows Something is broken and A series of steps, the Recorded steps list opened with its 6 steps, and boxes for What happened and What you expected.](../images/form-steps.png)
 
 7. Select **Review what is sent**, then read [Check what is sent, then send it](check-what-is-sent.md).
 
 ## Things to note
 
-- What you type is never recorded. A step says "Typed in field Your name", not what you typed.
+- What you enter is never recorded. A step says "Entered text in field Your name", never the text.
 - The recording carries on when you go to another page on the same site, in the same browser tab. It stops
   when you close the tab.
 - A recording keeps the last 60 steps.

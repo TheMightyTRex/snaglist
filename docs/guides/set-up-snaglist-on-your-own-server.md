@@ -24,6 +24,8 @@ key that never reaches the browser. It takes about 45 minutes.
 
 ```mermaid
 flowchart TD
+  accTitle: The steps at a glance
+  accDescr: The steps in order: host the file on your server; add it to your pages; mark private parts of your pages; set up the server that takes reports; point Snaglist at your server; make a test report; guard against spam.
   A[Host snaglist.js] --> B[Add the script tag]
   B --> C[Mark private parts]
   C --> D[Set up the report server]
@@ -54,7 +56,7 @@ the example in [Send reports to your own server](../topics/send-reports-to-your-
 
 ## Step 5: point Snaglist at your server
 
-Set `send: { endpoint: { url: "https://reports.example.com/" } }`. You can keep `github` as well, for people
+Set `send: { endpoint: { url: "https://reports.example/" } }`. You can keep `github` as well, for people
 who would rather post from their own account.
 
 ## Step 6: make a test report
@@ -65,7 +67,7 @@ issue appears in GitHub with its labels. If not, read [If a report does not send
 ## Step 7: guard against spam
 
 Add a rate limit on your report server, or start Snaglist only for signed-in users or in test builds:
-[Turn Snaglist on or off for everyone](../topics/turn-snaglist-on-or-off-for-everyone.md).
+[Activate or deactivate Snaglist for everyone](../topics/activate-or-deactivate-snaglist.md).
 
 ## What next
 

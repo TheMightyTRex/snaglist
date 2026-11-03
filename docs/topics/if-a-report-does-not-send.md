@@ -1,8 +1,10 @@
-[Help centre](../README.md) · Troubleshooting · Troubleshooting
+[Help centre](../README.md) · When something is wrong
 
 # If a report does not send
 
-Each way of sending fails in its own way. Find yours, and keep **Copy as Markdown** as a way that always works.
+Troubleshooting
+
+Each way of sending fails in its own way. Find yours, and keep 'Copy as Markdown' as a way that always works.
 
 ## Steps
 

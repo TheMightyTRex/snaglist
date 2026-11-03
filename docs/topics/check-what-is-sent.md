@@ -1,6 +1,8 @@
-[Help centre](../README.md) · For people sending feedback · How-to
+[Help centre](../README.md) · Sending feedback
 
 # Check what is sent, then send it
+
+How-to
 
 Before anything leaves your browser, Snaglist shows the whole report exactly as it will be sent. You can take
 parts out, then choose how to send it.
@@ -16,7 +18,7 @@ parts out, then choose how to send it.
 1. Read the statement at the start of **What is sent**: no personal information is kept in the report.
 2. Under **Include**, untick anything you would rather not send, such as **Text on screen** or **Screen,
    browser and device**. The preview changes at once.
-3. Read the preview. Anything that looked like an email address, a long number or a key is shown as
+3. Read the preview. Anything in the form of an email address, a long number or a key is shown as
    `[email]`, `[number]` or `[key]`. Check the text on screen shows nothing personal.
 
    ![What is sent shows the privacy statement, a list of parts to include with a tick each, and the report as it will be sent, with the buttons Open in GitHub, Copy as Markdown, Download and Back.](../images/review.png)

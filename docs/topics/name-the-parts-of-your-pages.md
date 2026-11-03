@@ -1,6 +1,8 @@
-[Help centre](../README.md) · Add and set up · How-to
+[Help centre](../README.md) · Settings
 
 # Name the parts of your pages
+
+How-to
 
 Reports say which component had the problem. Give your main parts clear names so a report says
 `checkout-summary`, not `div`.

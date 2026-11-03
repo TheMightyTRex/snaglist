@@ -1,6 +1,8 @@
-[Help centre](../README.md) · Add and set up · How-to
+[Help centre](../README.md) · Add and update
 
 # Use the set-up tool
+
+How-to
 
 The set-up tool asks what you want Snaglist to do on your site, then gives you the files, the code, where each
 piece goes, and one prompt that has an AI assistant add it all in one go.
@@ -8,7 +10,7 @@ piece goes, and one prompt that has an AI assistant add it all in one go.
 ## Steps
 
 1. Open the [set-up tool](https://themightytrex.github.io/snaglist/configure.html) (opens in a new tab).
-2. Under **Your site**, type its name and choose **What it is built with**, such as WordPress, React or plain
+2. Under **Your site**, enter its name and choose **What it is built with**, such as WordPress, React or plain
    HTML pages. The steps change to match.
 3. Choose **What people can send**, **Where it goes**, **What reports record**, **Questions and ratings** and
    **When and how it shows**. The code updates as you go.
@@ -26,8 +28,8 @@ piece goes, and one prompt that has an AI assistant add it all in one go.
 
 - Your settings live in one small file, `snaglist-start.js`, next to `snaglist.js`. To change them later, edit
   that file, or make a new one with the set-up tool.
-- Select **Copy a link to these settings** to save your choices, or share them with someone else.
-- The set-up tool runs in your browser. Nothing you type in it is sent anywhere.
+- Select 'Copy a link to these settings' to save your choices, or share them with someone else.
+- The set-up tool runs in your browser. Nothing you enter in it is sent anywhere.
 
 ## Find out more
 

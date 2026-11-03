@@ -15,13 +15,13 @@ questions, check exactly what will be sent, and send it as a GitHub issue, an em
 **[Set it up for your site](https://themightytrex.github.io/snaglist/configure.html)** ·
 **[Help centre](docs/README.md)** · **[Prompts for AI assistants](docs/AI-PROMPTS.md)**
 
-![The Send feedback window. Report a problem lists Something is broken, Hard to use, Looks wrong, Hard to use with my tools or needs, Slow and Words are wrong. Make a suggestion lists A new feature, Make something better and Something else. What do you want to show offers One thing on the page, A series of steps, and Nothing, just describe it.](docs/images/choose.png)
+![The Send feedback window. Report a problem lists Something is broken, Hard to use, Looks wrong, Hard to use with my tools or needs, Slow and Words are wrong. Make a suggestion lists A new feature, Make something better and Something else. Check the page offers Check this page for accessibility problems. What do you want to show offers One thing on the page, A series of steps, and Describe it in words.](docs/images/choose.png)
 
 - **One file, no libraries:** about 100 KB, or 33 KB when your server compresses it. No build step.
 - **Simple to add and to remove:** one script tag, or the [set-up tool](https://themightytrex.github.io/snaglist/configure.html)
   writes the code and one prompt for your AI assistant. Removing it leaves nothing behind.
 - **Anonymous by design:** never what people type, no cookies, no query strings; emails, phone numbers,
-  addresses and keys are replaced. People see the whole report before it goes, and can take parts out.
+  addresses and keys are replaced. People are shown the whole report before it goes, and can take parts out.
 - **Accessible:** keyboard first, 44px targets, a visible focus ring, reduced motion, forced colours, and it
   follows the page's text size. Light by default, or dark, or the same as the device.
 - **Any language:** British or US English built in; give your own text for any other language.
@@ -91,9 +91,9 @@ want, then copy the code, or one prompt that has your AI assistant add everythin
 3. Add `data-component="checkout-summary"` to the main parts of your pages so reports name them, and
    `data-snag-private` to anything that shows personal details.
 
-## Turn it on and off, or remove it
+## Activate, deactivate or remove it
 
-- **For everyone:** `enabled: false`, or start it only in test builds.
+- **For everyone:** set `enabled: false` to deactivate it, or activate it only in test builds.
 - **For each user:** give them a switch. `Snaglist.setUserEnabled(false)` hides the button and remembers the choice
   in that browser. Read [Add a switch for your users](docs/topics/add-a-switch-for-your-users.md).
 - **Remove it:** delete the script tags and `snaglist.js`. `Snaglist.destroy({ forget: true })` removes it from a
@@ -130,13 +130,6 @@ short summary written for AI tools.
 Snaglist began as the UX notes tool in the [design system](https://github.com/TheMightyTRex/design-system)
 shared by [Storyarr](https://github.com/TheMightyTRex/storyarr) and
 [Starboard](https://github.com/TheMightyTRex/starboard), and uses its design tokens when a page has them.
-
-## Ideas for later
-
-- A picture of the chosen part, opt-in, blurred outside it.
-- Look for similar open issues before sending, to cut duplicates.
-- Ready-made translations for the most used languages.
-- Wrappers for React, Vue and WordPress.
 
 ## Licence
 

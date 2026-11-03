@@ -1,6 +1,8 @@
-[Help centre](../README.md) · Add and set up · How-to
+[Help centre](../README.md) · Add and update
 
 # Use an AI assistant to add Snaglist
+
+How-to
 
 If you build with an AI coding assistant, it can add Snaglist, set it up and take it out again for you.
 Copy one prompt into the assistant, answer its questions, and check what it did.
@@ -25,7 +27,7 @@ everything in it. To use the general prompt instead:
 
 ## Things to note
 
-- The same page has prompts to turn Snaglist off, to record more during a test session, and to remove it.
+- The same page has prompts to deactivate Snaglist, to record more during a test session, and to remove it.
 - Any assistant can also read [llms.txt](../../llms.txt), a short summary of Snaglist written for AI tools.
 - Check the assistant's changes before you publish them, as you would anyone's.
 

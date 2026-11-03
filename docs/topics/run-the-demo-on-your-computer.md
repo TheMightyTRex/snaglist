@@ -1,6 +1,8 @@
-[Help centre](../README.md) · Run, update and remove · How-to
+[Help centre](../README.md) · Before you add Snaglist
 
 # Run the demo on your computer
+
+How-to
 
 The demo page is a made-up app with Snaglist and a settings panel. Run it on your own computer to try changes
 before you add Snaglist to your site. To try it without installing anything, open the
@@ -41,7 +43,7 @@ before you add Snaglist to your site. To try it without installing anything, ope
 - The demo loads the design system's styles from the internet. Without a connection it still works, in plain
   colours.
 - Reports from the demo go to the Snaglist repository with the `demo` label. Change the repository in
-  **Send to** to send them to your own.
+  'Send to' to send them to your own.
 
 ## Find out more
 

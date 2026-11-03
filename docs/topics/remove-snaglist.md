@@ -1,6 +1,8 @@
-[Help centre](../README.md) · Run, update and remove · How-to
+[Help centre](../README.md) · Add and update
 
 # Remove Snaglist
+
+How-to
 
 Snaglist keeps everything in one file, one element and one saved setting, so removing it leaves nothing
 behind.
@@ -24,11 +26,11 @@ behind.
 
 ## Things to note
 
-- Each browser that used it keeps one small setting, `snaglist:off`, only if the person turned the button off.
+- Each browser that used it keeps one small setting, `snaglist:off`, only if the person deactivated the button.
   To clear it while Snaglist is still installed, run `Snaglist.destroy({ forget: true })` on the page first.
 - Reports already sent stay where they went: GitHub issues, emails or your server.
 - To stop it for a while without removing it, read
-  [Turn Snaglist on or off for everyone](turn-snaglist-on-or-off-for-everyone.md).
+  [Activate or deactivate Snaglist for everyone](activate-or-deactivate-snaglist.md).
 
 ## Find out more
 

@@ -1,5 +1,5 @@
 /*
- * Snaglist 0.3.0: feedback for any website or app. People report bugs and UX problems, or suggest features and
+ * Snaglist 0.3.1: feedback for any website or app. People report bugs and UX problems, or suggest features and
  * improvements, tagged with the page and the part of it, with the technical detail needed to act on it and
  * without personal information. One file, no libraries, MIT licence.
  * https://github.com/TheMightyTRex/snaglist
@@ -15,7 +15,7 @@
   "use strict";
   if (window.Snaglist) return;
 
-  const VERSION = "0.3.0";
+  const VERSION = "0.3.1";
   const KEY = "snaglist:";
 
   // What people can send. Each type is a problem or a suggestion, asks its own questions and records the
@@ -94,9 +94,9 @@
   };
   const SEVERITIES = {
     three: [
-      ["minor", "Minor", "Cosmetic, easy to live with"],
+      ["minor", "Minor", "Cosmetic: I can carry on as normal"],
       ["in-the-way", "Gets in the way", "Slows me down or confuses me"],
-      ["stops-me", "Stops me", "I cannot finish what I came to do"],
+      ["stops-me", "Stops me", "It stops me finishing what I came to do"],
     ],
     nielsen: [
       ["1", "1 Cosmetic", "Fix if there is time"],
@@ -107,7 +107,7 @@
     importance: [
       ["nice", "Nice to have", "I would use it now and then"],
       ["often", "I would use it often", "It would save me time regularly"],
-      ["need", "I need it", "I cannot do something without it"],
+      ["need", "I need it", "I need it to do what I came to do"],
     ],
   };
   const GROUPS = [["problem", "Report a problem"], ["suggestion", "Make a suggestion"], ["check", "Check the page"]];
@@ -161,10 +161,10 @@
     showOneHint: "Choose it, and Snaglist notes what it is and the text on it",
     showSteps: "A series of steps",
     showStepsHint: "Record what you do, step by step, then describe it",
-    showNone: "Nothing, just describe it",
-    showNoneHint: "",
+    showNone: "Describe it in words",
+    showNoneHint: "Without choosing a part of the page",
     recRegion: "Recording steps",
-    recReady: "Ready to record. Select Start recording, then use the page as you normally would.",
+    recReady: "Ready to record. Select 'Start recording', then use the site as normal.",
     recStart: "Start recording",
     recPause: "Pause",
     recResume: "Resume",
@@ -187,6 +187,7 @@
     checkWhy: "Why it matters",
     checkWhere: "Where",
     checkFailed: "The check could not run",
+    checkFailedNext: "Reload the page, then try again. Nothing was sent.",
     pickPrompt: "Choose the part this is about: select it, or Tab to it and press Enter. Escape stops.",
     wholePage: "Whole page",
     stop: "Stop",
@@ -205,7 +206,7 @@
     cancel: "Cancel",
     reviewTitle: "What is sent",
     include: "Include",
-    privacy: "No personal information is kept in this report: no account, cookies or anything typed into the page's fields, and things that look like an email, a long number or a key are replaced. Text on screen is copied from the part you chose, so check it shows nothing personal. Untick anything you would rather not send.",
+    privacy: "No personal information is kept in this report: no account, cookies or anything entered in the page's fields, and anything in the form of an email, a long number or a key is replaced. Text on screen is copied from the part you chose, so check it shows nothing personal. Untick anything you would rather not send.",
     githubNote: "GitHub opens with the report filled in. You post it from your own GitHub account, so GitHub shows your user name on the issue.",
     emailNote: "Your mail app opens with the report filled in. The reply address is your own.",
     endpointNote: "The report is sent to the site's own server, without cookies.",
@@ -220,6 +221,7 @@
     copiedForGithub: "The technical details were too long for GitHub's address, so the full report is on your clipboard: paste it into the issue.",
     sent: "Report sent. Thank you.",
     sendFailed: "Not sent",
+    sendFailedSafe: "Your report is kept: select 'Back', then send it another way, such as 'Copy as Markdown'.",
     opened: "Opened. Thank you.",
   };
 
@@ -1008,16 +1010,19 @@
     const kept = () => ({ ...previous, ...Object.fromEntries([...form.querySelectorAll("[name]")].filter((c) => c.type !== "radio" || c.checked).map((c) => [c.name, c.value])), type: typeKey });
     const category = cats ? h("select", { id: "sl-category", name: "category" },
       cats.map(([value, text, hint]) => h("option", { value, text: hint ? `${text}: ${hint}` : text, selected: value === previous.category }))) : null;
-    const where = recorded ? `${recorded.length} ${recorded.length === 1 ? "step" : "steps"} recorded` : part.label;
+    const where = recorded ? t("showSteps") : part.label;
     const summary = h("div", { class: "sl-summary" },
       h("p", {}, h("strong", { text: type.label }), h("span", { text: ` · ${where}` })),
       part.text && !part.whole ? h("p", { class: "sl-muted", text: `"${clip(part.text, 120)}"` }) : null,
       h("div", { class: "sl-actions" },
         all.length > 1 ? h("button", { type: "button", class: "sl-link", text: t("change"), onclick: () => { const v = kept(); d.close(); openChooser(recorded ? null : part, v); } }) : null,
         recorded ? null : h("button", { type: "button", class: "sl-link", text: part.whole ? t("choosePart") : t("chooseAgain"), onclick: () => { const v = kept(); d.close(); startPicking(v); } })),
-      recorded ? h("details", { class: "sl-steps" }, h("summary", { text: t("recSteps") }), h("ol", {}, recorded.map((s) => h("li", { text: s.text })))) : null);
+    );
+    const stepsBox = recorded ? h("details", { class: "sl-disclosure" },
+      h("summary", {}, h("span", { text: t("recSteps") }), h("span", { class: "sl-disclosure__meta", text: `${recorded.length} ${recorded.length === 1 ? "step" : "steps"}` })),
+      h("ol", { class: "sl-disclosure__body sl-steps" }, recorded.map((s) => h("li", { text: s.text })))) : null;
     const form = h("form", { id: "sl-form", class: "sl-form", novalidate: true },
-      summary, fields,
+      summary, stepsBox, fields,
       category ? h("div", { class: "sl-field" }, h("label", { class: "sl-label", for: "sl-category", text: t("category") }), category) : null,
       scale ? choiceGroup("severity", scale.items.map(([v, l]) => [v, l]), previous.severity || scale.items[Math.min(1, scale.items.length - 1)][0], scale.question, "row") : null);
     const next = h("button", { type: "submit", form: "sl-form", class: "sl-btn sl-btn--primary", text: t("review") });
@@ -1071,7 +1076,7 @@
     const run = async (button, fn) => {
       button.disabled = true;
       try { const message = await fn(report); if (message) say(message); d.close(); }
-      catch (err) { say(`${t("sendFailed")}: ${err.message || err}`); button.disabled = false; }
+      catch (err) { say(`${t("sendFailed")}: ${err.message || err}. ${t("sendFailedSafe")}`); button.disabled = false; }
     };
     // The first way of sending is the primary button; the rest are secondary.
     const buttons = [];
@@ -1135,7 +1140,7 @@
         }
         return out;
       } },
-    { id: "target-size", name: "Controls too small to select easily", wcag: "2.5.8 Target size (minimum)", level: "AA", impact: "moderate",
+    { id: "target-size", name: "Controls smaller than 24 by 24 pixels", wcag: "2.5.8 Target size (minimum)", level: "AA", impact: "moderate",
       why: "Small targets are hard to hit for people with tremors, on touch screens, and for anyone in a hurry.",
       fix: "Make buttons, links in menus and other controls at least 24 by 24 pixels (44 is better), or leave space around them.",
       before: '<button class="icon">⚙</button>  /* 18 × 18 */', after: '.icon { min-width: 44px; min-height: 44px; }',
@@ -1248,7 +1253,7 @@
     const d = dialog(t("checkTitle"), body, [close]);
     let results;
     try { results = await runCheck(); }
-    catch (err) { body.replaceChildren(h("p", { class: "sl-error", role: "alert", text: `${t("checkFailed")}: ${err.message || err}` })); return; }
+    catch (err) { body.replaceChildren(h("p", { class: "sl-error", role: "alert", text: `${t("checkFailed")}: ${err.message || err}. ${t("checkFailedNext")}` })); return; }
     if (!d.open) return;
     if (!results.length) { body.replaceChildren(h("p", { role: "status", text: t("checkNone") })); return; }
     const total = results.reduce((n, r) => n + r.elements.length, 0);
@@ -1257,8 +1262,8 @@
       h("p", { role: "status" }, h("strong", { text: `${total} ${t("checkFound")}` }), ` · ${results.length} ${results.length === 1 ? "rule" : "rules"}`),
       h("p", { class: "sl-muted", text: t("checkLimits") }),
       h("ul", { class: "sl-results" }, results.map((r) => h("li", { class: "sl-result" },
-        h("details", {},
-          h("summary", {}, h("span", { class: "sl-result__name", text: r.name }), h("span", { class: "sl-muted", text: ` ${r.elements.length} · WCAG ${r.wcag}${r.level ? ` (${r.level})` : ""}` })),
+        h("details", { class: "sl-disclosure" },
+          h("summary", {}, h("span", { class: "sl-result__name", text: r.name }), h("span", { class: "sl-disclosure__meta", text: `${r.elements.length} · WCAG ${r.wcag}${r.level ? ` (${r.level})` : ""}` })),
           h("p", {}, h("strong", { text: `${t("checkWhy")}: ` }), r.why),
           h("p", {}, h("strong", { text: `${t("checkFix")}: ` }), r.fix),
           r.before ? h("pre", { class: "sl-preview sl-preview--code", text: `<!-- Before -->\n${r.before}\n\n<!-- After -->\n${r.after}` }) : null,
@@ -1302,9 +1307,10 @@
       return `Selected ${what || "the page"}${where}`;
     }
     if (el.tagName === "SELECT") return `Chose "${clip(redact(el.selectedOptions[0]?.textContent?.trim() || ""), 60)}" in ${what}${where}`;
-    if (el.type === "checkbox" || el.getAttribute("role") === "switch") return `Turned ${el.checked ? "on" : "off"} ${what}${where}`;
+    if (el.getAttribute("role") === "switch") return `${el.getAttribute("aria-checked") === "true" ? "Activated" : "Deactivated"} ${what}${where}`;
+    if (el.type === "checkbox") return `${el.checked ? "Ticked" : "Unticked"} ${what}${where}`;
     if (el.type === "radio") return null; // the click already says which was chosen
-    if (/^(INPUT|TEXTAREA)$/.test(el.tagName) || el.isContentEditable) return `Typed in ${what}${where} (what was typed is not kept)`;
+    if (/^(INPUT|TEXTAREA)$/.test(el.tagName) || el.isContentEditable) return `Entered text in ${what}${where} (the text is not kept)`;
     return null;
   }
   function listenRec() {
@@ -1452,8 +1458,20 @@ fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 4px; min-inline
 .sl-summary { display: grid; gap: 4px; padding: 12px 16px; background: var(--sk); }
 .sl-summary p { margin: 0; overflow-wrap: anywhere; }
 .sl-summary .sl-actions { gap: 16px; }
-.sl-steps summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 600; }
-.sl-steps ol { margin: 0; padding-left: 24px; font-size: .875rem; }
+.sl-disclosure { border: 1px solid var(--bd); background: var(--bg); }
+.sl-disclosure > summary { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; min-height: 44px; padding: 8px 40px 8px 16px;
+  font-weight: 600; cursor: pointer; list-style: none; position: relative; }
+.sl-disclosure > summary::-webkit-details-marker { display: none; }
+.sl-disclosure > summary::after { content: ""; position: absolute; right: 18px; top: 50%; width: 8px; height: 8px; margin-top: -6px;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); transition: transform 120ms; }
+.sl-disclosure[open] > summary::after { transform: rotate(225deg); margin-top: -2px; }
+.sl-disclosure > summary:hover { background: var(--sk); }
+.sl-disclosure__meta { color: var(--mu); font-weight: 400; font-size: .875rem; }
+.sl-disclosure__body { padding: 0 16px 16px; }
+.sl-steps { margin: 0; padding-left: 40px; font-size: .875rem; display: grid; gap: 4px; }
+[dir=rtl] .sl-disclosure > summary { padding: 8px 16px 8px 40px; }
+[dir=rtl] .sl-disclosure > summary::after { right: auto; left: 18px; }
+@media (prefers-reduced-motion: reduce) { .sl-disclosure > summary::after { transition: none; } }
 .sl-choices--row { grid-template-columns: 1fr; }
 .sl-choices--row legend { margin-bottom: 4px; }
 .sl-choices--row .sl-choice { padding: 4px 0; min-height: 44px; align-items: center; }
@@ -1471,10 +1489,10 @@ fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 4px; min-inline
 .sl-recorder .sl-btn--primary svg circle { fill: currentColor; }
 @keyframes sl-pulse { 50% { opacity: .35; } }
 @media (prefers-reduced-motion: reduce) { .sl-recorder__dot { animation: none !important; } }
-.sl-results { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-.sl-result details { border: 1px solid var(--bd); padding: 0 12px; }
-.sl-result details[open] { padding-bottom: 12px; display: grid; gap: 8px; }
-.sl-result summary { min-height: 44px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; cursor: pointer; padding: 8px 0; }
+.sl-results { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.sl-results .sl-result + .sl-result .sl-disclosure { border-top: 0; }
+.sl-result details[open] { padding-bottom: 16px; display: grid; gap: 8px; }
+.sl-result details[open] > :not(summary) { margin-left: 16px; margin-right: 16px; }
 .sl-result__name { font-weight: 600; }
 .sl-result p { margin: 0; }
 .sl-preview--code { min-height: 0; max-height: none; }

@@ -11,7 +11,7 @@ issues, fixed, and checked again. Allow an hour to set up and check your main pa
 
 ## The steps at a glance
 
-1. Turn on the accessibility check
+1. Activate the accessibility check
 2. Try it on the demo
 3. Check each main page and report what it finds
 4. Fix the problems
@@ -19,16 +19,18 @@ issues, fixed, and checked again. Allow an hour to set up and check your main pa
 
 ```mermaid
 flowchart TD
-  A[Turn on the check] --> B[Try it on the demo]
+  accTitle: The steps at a glance
+  accDescr: The steps in order: activate the accessibility check; try it on the demo; check each main page and report what it finds; fix the problems; check again, then test by hand.
+  A[Activate the check] --> B[Try it on the demo]
   B --> C[Check pages and report]
   C --> D[Fix the problems]
   D --> E[Check again, test by hand]
 ```
 
-## Step 1: turn on the accessibility check
+## Step 1: activate the accessibility check
 
 It is on by default. To choose axe-core for more rules, follow
-[Turn on the accessibility check](../topics/turn-on-the-accessibility-check.md).
+[Activate the accessibility check](../topics/activate-the-accessibility-check.md).
 
 ## Step 2: try it on the demo
 
@@ -55,4 +57,4 @@ listed at the end of [Fix common accessibility problems](../topics/fix-common-ac
 ## What next
 
 - Ask testers who use a screen reader, magnifier or voice control to try the site, and to report with
-  **Hard to use with my tools or needs**.
+  'Hard to use with my tools or needs'.

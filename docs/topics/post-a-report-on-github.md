@@ -1,8 +1,10 @@
-[Help centre](../README.md) · For people sending feedback · How-to
+[Help centre](../README.md) · Sending feedback
 
 # Post a report on GitHub
 
-When you select **Open in GitHub**, GitHub opens a new issue with the report filled in. You post it from your
+How-to
+
+When you select 'Open in GitHub', GitHub opens a new issue with the report filled in. You post it from your
 own GitHub account.
 
 ## Before you begin

@@ -1,6 +1,8 @@
-[Help centre](../README.md) · Send reports · How-to
+[Help centre](../README.md) · Reports
 
 # Triage reports on GitHub
+
+How-to
 
 Reports arrive as issues with labels for the kind and how bad it is. Sort them, find the part of the page each
 one is about, and close them as you fix them.
@@ -17,8 +19,8 @@ one is about, and close them as you fix them.
    document.querySelector("#books > div > p.faint")
    ```
 
-5. Match the report's window size, theme and text size from the **Window** and **Display** rows to see what
-   the person saw.
+5. Match the report's window size, theme and text size from the **Window** and **Display** rows to match what
+   the person had.
 6. Use the technical sections under the table:
    - **Script errors**, **Console** and **Failed and slow requests** point to the code that failed.
    - **Before this** lists what the person did, in order: repeat it to reproduce the problem.

@@ -1,6 +1,8 @@
-[Help centre](../README.md) · Send reports · How-to
+[Help centre](../README.md) · Reports
 
 # Send reports by email
+
+How-to
 
 Reports open in the person's own mail app, addressed to you, with the subject and report filled in.
 
@@ -17,10 +19,10 @@ Reports open in the person's own mail app, addressed to you, with the subject an
 
 ## Things to note
 
-- The email comes from the person's own address, and **What is sent** tells them so.
+- The email comes from the person's own address, and 'What is sent' tells them so.
 - Mail apps take a limited amount of text from a link. Long reports are shortened and the full report is put
   on the clipboard, with a note in the email to paste it.
-- On a computer with no mail app set up, **Open in email** does nothing. Keep **Copy as Markdown** on
+- On a computer with no mail app set up, 'Open in email' does nothing. Keep 'Copy as Markdown' on
   (the default) as another way.
 
 ## Find out more

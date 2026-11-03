@@ -1,6 +1,8 @@
-[Help centre](../README.md) · Add and set up · How-to
+[Help centre](../README.md) · Settings
 
 # Show Snaglist in your language
+
+How-to
 
 Snaglist's buttons and questions are in English by default, in British or US spelling. You can show them in any
 language by giving your own text for each one.
@@ -42,7 +44,7 @@ language by giving your own text for each one.
 - Any key you leave out stays in English, so you can translate a few at a time.
 - For Arabic, Hebrew, Persian and Urdu, Snaglist's windows are laid out right to left.
 - Reports themselves (the table and section headings) stay in English, so a team can read reports from any
-  language site. What people type stays in their own language.
+  language site. What people enter stays in their own language.
 - An AI assistant can translate them for you: the [set-up tool](use-the-set-up-tool.md) asks for your language and
   adds the step to its prompt. Ask a native speaker to check the result.
 

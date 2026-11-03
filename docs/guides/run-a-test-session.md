@@ -12,25 +12,27 @@ tagged by page and component, sorted by how bad they are. Allow 30 minutes to se
 
 ## The steps at a glance
 
-1. Turn Snaglist on for the test build only
+1. Activate Snaglist for the test build only
 2. Record more for the session
 3. Choose an extra question for the session
 4. Brief the testers
 5. Triage the reports
-6. Turn the extra recording off
+6. Deactivate the extra recording
 
 ```mermaid
 flowchart TD
-  A[Turn on for the test build] --> B[Record more]
+  accTitle: The steps at a glance
+  accDescr: The steps in order: activate Snaglist for the test build only; record more for the session; choose an extra question for the session; brief the testers; triage the reports; deactivate the extra recording.
+  A[Activate for the test build] --> B[Record more]
   B --> C[Choose an extra question]
   C --> D[Brief the testers]
   D --> E[Triage the reports]
-  E --> F[Turn extra recording off]
+  E --> F[Deactivate extra recording]
 ```
 
-## Step 1: turn Snaglist on for the test build only
+## Step 1: activate Snaglist for the test build only
 
-Follow [Turn Snaglist on or off for everyone](../topics/turn-snaglist-on-or-off-for-everyone.md) and set
+Follow [Activate or deactivate Snaglist for everyone](../topics/activate-or-deactivate-snaglist.md) and set
 `enabled` from your build or a feature flag.
 
 ## Step 2: record more for the session
@@ -55,9 +57,9 @@ build, and what to try. Ask for one report per problem.
 
 Sort, reproduce and close: [Triage reports on GitHub](../topics/triage-reports-on-github.md).
 
-## Step 6: turn the extra recording off
+## Step 6: deactivate the extra recording
 
-Set the `collect` settings back to `"auto"`, or turn Snaglist off, before the release goes live.
+Set the `collect` settings back to `"auto"`, or deactivate Snaglist, before the release goes live.
 
 ## What next
 

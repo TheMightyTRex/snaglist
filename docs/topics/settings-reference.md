@@ -1,6 +1,8 @@
-[Help centre](../README.md) · Reference · Reference
+[Help centre](../README.md) · Settings
 
 # Settings reference
+
+Reference
 
 Every setting, function and script tag attribute in Snaglist. Pass any of these to `Snaglist.start({ ... })`.
 Everything is optional; the defaults are shown.
@@ -40,11 +42,11 @@ Snaglist.start({
   send: {
     github: null,          // { repo: "owner/repo", labels: ["web"] }
     email: null,           // { to: "team@example.com", subject: "UX report" }
-    endpoint: null,        // { url: "https://example.com/api/reports", headers: {} }
+    endpoint: null,        // { url: "https://reports.example/api", headers: {} }
     copy: true,            // Copy as Markdown
     download: true,        // Download as JSON
   },
-  beforeSend: null,        // (report) => report: add or remove anything; runs before the person sees it
+  beforeSend: null,        // (report) => report: add or remove anything; runs before the report is shown
   text: {},                // replace any interface text, for example { launcher: "Feedback" }; keys are in TEXT in snaglist.js
 });
 ```
@@ -65,7 +67,7 @@ Snaglist.start({
 | `check` | Check this page for accessibility problems | Check | Nothing: runs the check, then people choose what to report | page, environment, display, and the problems found |
 
 Problems ask how bad it is (`severities`); suggestions ask how much it would help (`importance`); a type with
-`scale: false` asks neither. Every type can show one thing on the page, record a series of steps, or just describe.
+`scale: false` asks neither. Every type can show one thing on the page, record a series of steps, or describe it in words.
 
 Your own type is an object. Add `group: "suggestion"` to list it under Make a suggestion, and `pick: false` to
 start with the whole page. A field is `{ id, label, hint, type, options, required }`, where `type` is
@@ -127,7 +129,7 @@ page only, so the details are there when someone reports. Set one to `false` and
 
 | Function | What it does |
 |---|---|
-| `Snaglist.start(settings)` | Starts, or restarts with new settings. Returns false when switched off |
+| `Snaglist.start(settings)` | Starts, or restarts with new settings. Returns false when deactivated |
 | `Snaglist.destroy({ forget })` | Removes everything from the page and puts back anything it wrapped; `forget: true` also clears the user's switch |
 | `Snaglist.open(type)` | Opens Send feedback, as the button does; give a type, such as `"feature"`, to choose it already. Use it from your own menu |
 | `Snaglist.report(element, type)` | Opens Send feedback about one element; with a type, goes straight to its form |
@@ -152,6 +154,6 @@ root, so a policy with `style-src 'self'` needs `'unsafe-inline'` for styles.
 
 - [Choose what people can send](choose-what-people-can-send.md)
 - [Show Snaglist in your language](show-snaglist-in-your-language.md)
-- [Turn on the accessibility check](turn-on-the-accessibility-check.md)
+- [Activate the accessibility check](activate-the-accessibility-check.md)
 - [Choose what a report records](choose-what-a-report-records.md)
 - [What a report holds, and what it never holds](what-a-report-holds.md)

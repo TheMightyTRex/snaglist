@@ -7,7 +7,7 @@ has your report, tagged with the page and the part of it. Each report takes abou
 
 ## Before you begin
 
-- The site has a **Send feedback** button on its pages.
+- The site has a 'Send feedback' button on its pages.
 - To send reports to GitHub, a GitHub account. Other ways need none.
 
 ## The steps at a glance
@@ -19,6 +19,8 @@ has your report, tagged with the page and the part of it. Each report takes abou
 
 ```mermaid
 flowchart TD
+  accTitle: The steps at a glance
+  accDescr: The steps in order: find the problem; choose the part and describe it; check what is sent; send it.
   A[Find the problem] --> B[Choose the part and describe it]
   B --> C[Check what is sent]
   C --> D[Send it]
@@ -48,4 +50,4 @@ If it does not work, read [If a report does not send](../topics/if-a-report-does
 ## What next
 
 - [What a report holds, and what it never holds](../topics/what-a-report-holds.md)
-- [Turn off Send feedback](../topics/turn-send-feedback-off.md) when you have finished testing.
+- [Deactivate Send feedback](../topics/deactivate-send-feedback.md) when you have finished testing.

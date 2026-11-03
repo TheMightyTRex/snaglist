@@ -1,6 +1,8 @@
-[Help centre](../README.md) · Run, update and remove · How-to
+[Help centre](../README.md) · Add and update
 
 # Host Snaglist on your own server
+
+How-to
 
 Serve `snaglist.js` from your own server, so your pages load nothing from anyone else and you choose when to
 update.
@@ -11,10 +13,10 @@ update.
 
 ## Steps
 
-1. Download the version you want into the folder your server serves. This command saves version 0.3.0:
+1. Download the version you want into the folder your server serves. This command saves version 0.3.1:
 
    ```bash
-   curl -fsSL -o snaglist.js https://raw.githubusercontent.com/TheMightyTRex/snaglist/v0.3.0/snaglist.js
+   curl -fsSL -o snaglist.js https://raw.githubusercontent.com/TheMightyTRex/snaglist/v0.3.1/snaglist.js
    ```
 
 2. Check it downloaded in full. The file ends with `})();`:
@@ -36,11 +38,11 @@ update.
 
 ## Things to note
 
-- You can load it from a content delivery network instead, pinned to a version, but that site then sees your
+- You can load it from a content delivery network instead, pinned to a version, but that site then receives your
   visitors' requests:
 
   ```html
-  <script src="https://cdn.jsdelivr.net/gh/TheMightyTRex/snaglist@v0.3.0/snaglist.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/gh/TheMightyTRex/snaglist@v0.3.1/snaglist.js" defer></script>
   ```
 
 - To take reports on your own server too, read

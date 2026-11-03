@@ -108,7 +108,7 @@
         <label class="check"><input type="checkbox" id="c-mail"><span>Email <small>Opens the person's mail app</small></span></label>
         <div class="field"><label for="c-to">Email address</label><input class="input" id="c-to" type="email" value="team@example.com"></div>
         <label class="check"><input type="checkbox" id="c-ep"><span>Your own server <small>Posts the report as JSON; works for anyone</small></span></label>
-        <div class="field"><label for="c-url">Server address</label><input class="input" id="c-url" value="https://reports.example.com/"></div>
+        <div class="field"><label for="c-url">Server address</label><input class="input" id="c-url" value="https://reports.example/"></div>
         <label class="check"><input type="checkbox" id="c-copy" checked><span>Copy and Download <small>Always works, even offline</small></span></label>
       </fieldset>
 
@@ -138,7 +138,7 @@
           </select></div>
         <div class="field"><label for="c-theme">Colours of Snaglist's windows</label>
           <select class="select" id="c-theme"><option value="light">Light</option><option value="dark">Dark</option><option value="auto">The same as the device</option></select></div>
-        <label class="check"><input type="checkbox" id="c-switch" checked><span>Give users a switch to turn it off <small>Adds Show Send feedback to your settings</small></span></label>
+        <label class="check"><input type="checkbox" id="c-switch" checked><span>Give users a switch to deactivate it <small>Adds Show Send feedback to your settings</small></span></label>
         <div class="grid2">
           <div class="field"><label for="c-pos">Button position</label>
             <select class="select" id="c-pos"><option value="bottom-right">Bottom right corner</option><option value="bottom-left">Bottom left corner</option><option value="none">No button: I open it from my own menu</option></select></div>
@@ -161,12 +161,12 @@
         <p id="o-where-file"></p>
         <pre class="code-block" id="o-curl" tabindex="0"></pre>
         <div class="row-actions"><button class="btn" type="button" data-copy="o-curl">Copy the command</button>
-          <a class="btn" href="snaglist.js" download>Download snaglist.js</a></div>
+          <a class="btn" href="snaglist.js" download>Download snaglist.js (JavaScript file)</a></div>
         <h3 style="margin:8px 0 0;font-size:1rem">Step 2: save your settings as snaglist-start.js</h3>
         <p>Save this as <code>snaglist-start.js</code> in the same folder.</p>
         <pre class="code-block" id="o-start" tabindex="0"></pre>
         <div class="row-actions"><button class="btn" type="button" data-copy="o-start">Copy the settings file</button>
-          <button class="btn" type="button" id="o-save">Download snaglist-start.js</button></div>
+          <button class="btn" type="button" id="o-save">Download snaglist-start.js (JavaScript file)</button></div>
         <h3 style="margin:8px 0 0;font-size:1rem">Step 3: load both on every page</h3>
         <p id="o-where-tag"></p>
         <pre class="code-block" id="o-tag" tabindex="0"></pre>
@@ -221,14 +221,14 @@
 
   // Where the two files and the script tags go, for each kind of site.
   const PLATFORMS = {
-    html: { folder: "the folder your pages are served from, next to your other scripts", src: "/", file: "every page, or the shared footer or template, just before </body>" },
-    wordpress: { folder: "your theme's folder, as wp-content/themes/<your theme>/snaglist/ (use a child theme so updates keep it)", src: "", file: "your theme's functions.php (the code below loads both files on every page)" },
-    react: { folder: "public/", src: "/", file: "index.html, just before </body>" },
+    html: { folder: "the folder your pages are served from, next to your other scripts", src: "/", file: "every page, or the shared footer or template, immediately before </body>" },
+    wordpress: { folder: "your theme's folder, as wp-content/themes/<your theme>/snaglist/ (use a child theme so updates keep it)", src: "", file: "your theme's functions.php (this code loads both files on every page)" },
+    react: { folder: "public/", src: "/", file: "index.html, immediately before </body>" },
     next: { folder: "public/", src: "/", file: "app/layout.tsx (or pages/_document.tsx), inside <body>" },
-    vue: { folder: "public/", src: "/", file: "index.html, just before </body>" },
-    svelte: { folder: "static/", src: "/", file: "src/app.html, just before </body>" },
-    astro: { folder: "public/", src: "/", file: "your shared layout (for example src/layouts/Layout.astro), just before </body>" },
-    other: { folder: "the folder your site serves static files from", src: "/", file: "the layout every page shares, just before </body>" },
+    vue: { folder: "public/", src: "/", file: "index.html, immediately before </body>" },
+    svelte: { folder: "static/", src: "/", file: "src/app.html, immediately before </body>" },
+    astro: { folder: "public/", src: "/", file: "your shared layout (for example src/layouts/Layout.astro), immediately before </body>" },
+    other: { folder: "the folder your site serves static files from", src: "/", file: "the layout every page shares, immediately before </body>" },
   };
 
   function read() {
@@ -278,7 +278,7 @@
     if (c.context) extras.push(`context: () => ({ build: String(${c.context}) }),`);
     if (extras.length) body = body.replace(/^\{\n/, `{\n    ${extras.join("\n    ")}\n`);
     return `// Snaglist settings, made with the set-up tool (${location.origin}${location.pathname}).
-// Keep this file next to snaglist.js. To turn Snaglist off for everyone, set enabled: false.
+// Keep this file next to snaglist.js. To deactivate Snaglist for everyone, set enabled: false.
 (function start(tries) {
   if (!window.Snaglist) { if (tries < 100) setTimeout(start, 50, tries + 1); return; }
   Snaglist.start(${body});
@@ -348,10 +348,10 @@ import Script from "next/script";
     ];
     let n = 6;
     if (!/^(auto|en)/.test(c.language)) steps.push(`${n++}. Snaglist's interface is in English. Translate it into ${c.languageName}: open a page with Snaglist, run Snaglist.strings() in the browser console (or read the TEXT, TYPES, GROUPS, SEVERITIES, PARTS and RULES lists in snaglist.js) to get every key and its English text, translate each value into natural, plain ${c.languageName}, and add them to snaglist-start.js as text: { "key": "translation", ... }. Keep every key exactly as it is, keep any word in bold quotes the same as the matching button, and ask me to check the translation with a native speaker.`);
-    if (c.userSwitch) steps.push(`${n++}. Add a user setting next to the app's other display or accessibility settings: a switch labelled "Show Send feedback", on by default, with the hint "A button for sending feedback or reporting a problem on any page. Reports never include your personal details." Turning it off calls Snaglist.setUserEnabled(false); turning it on calls Snaglist.setUserEnabled(true). If the app saves settings per account, save it there too and call Snaglist.setUserEnabled(savedValue) when the app loads. Build it with the app's own switch component if it has one.`);
+    if (c.userSwitch) steps.push(`${n++}. Add a user setting next to the app's other display or accessibility settings: a switch labelled "Show Send feedback", on by default, with the hint "A button for sending feedback or reporting a problem on any page. Reports never include your personal details." Deactivating it calls Snaglist.setUserEnabled(false); activating it calls Snaglist.setUserEnabled(true). If the app saves settings per account, save it there too and call Snaglist.setUserEnabled(savedValue) when the app loads. Build it with the app's own switch component if it has one.`);
     if (c.github) steps.push(`${n++}. If the GitHub command-line tool (gh) is available and signed in, make these labels; if not, list the commands for me to run:`, ``, labelCommands(c).split("\n").map((l) => `   ${l}`).join("\n"), ``);
     steps.push(`${n++}. Do not put any password, token or API key in the page. Snaglist does not need one.`,
-      `${n++}. When you have finished, tell me how to try it: open a page, select "${c.label || "Send feedback"}", choose what to send, fill in the form and select "Review what is sent". Also tell me how to turn it off for everyone (enabled: false in snaglist-start.js) and how to remove it (delete both files, the two script lines${c.userSwitch ? ", the user setting" : ""} and the data-snag-private attributes).`);
+      `${n++}. When you have finished, tell me how to try it: open a page, select "${c.label || "Send feedback"}", choose what to send, fill in the form and select "Review what is sent". Also tell me how to deactivate it for everyone (enabled: false in snaglist-start.js) and how to remove it (delete both files, the two script lines${c.userSwitch ? ", the user setting" : ""} and the data-snag-private attributes).`);
     return steps.join("\n");
   }
 

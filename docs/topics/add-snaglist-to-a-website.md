@@ -1,8 +1,10 @@
-[Help centre](../README.md) · Add and set up · How-to
+[Help centre](../README.md) · Add and update
 
 # Add Snaglist to a website
 
-Add the **Send feedback** button to every page of a website with one file and one line. The
+How-to
+
+Add the 'Send feedback' button to every page of a website with one file and one line. The
 [set-up tool](use-the-set-up-tool.md) writes this code for you, with your choices. This suits plain
 HTML sites, WordPress themes, server-rendered apps and anything else that has HTML pages.
 
@@ -22,7 +24,7 @@ HTML sites, WordPress themes, server-rendered apps and anything else that has HT
    ```
 
 2. Put `snaglist.js` in the folder your site serves files from, next to your other scripts.
-3. Add this line to the shared HTML, just before `</body>`. Put your GitHub repository in place of
+3. Add this line to the shared HTML, immediately before `</body>`. Put your GitHub repository in place of
    `owner/repo`:
 
    ```html
@@ -43,7 +45,7 @@ HTML sites, WordPress themes, server-rendered apps and anything else that has HT
   </script>
   ```
 
-- Snaglist reads nothing until someone selects **Send feedback**, and sends nothing until they choose to.
+- Snaglist reads nothing until someone selects 'Send feedback', and sends nothing until they choose to.
 - To serve the file from your own server with the right headers, read
   [Host Snaglist on your own server](host-snaglist-on-your-own-server.md).
 

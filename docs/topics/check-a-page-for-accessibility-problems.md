@@ -1,14 +1,16 @@
-[Help centre](../README.md) · Accessibility · How-to
+[Help centre](../README.md) · Accessibility
 
 # Check a page for accessibility problems
+
+How-to
 
 Run an automatic check of the page you are on. Snaglist lists each problem it finds, shows you where it is,
 explains how to fix it, and lets you report one problem or all of them.
 
 ## Before you begin
 
-- The site must offer **Check this page for accessibility problems** under **Send feedback**. Site owners turn
-  it on with [Turn on the accessibility check](turn-on-the-accessibility-check.md).
+- The site must offer 'Check this page for accessibility problems' under 'Send feedback'. Site owners activate
+  it with [Activate the accessibility check](activate-the-accessibility-check.md).
 
 ## Steps
 
@@ -17,7 +19,7 @@ explains how to fix it, and lets you report one problem or all of them.
    Snaglist checks the page; it takes a moment.
 3. Read the list. Each line names a problem, how many times it was found, and the WCAG criterion it breaks.
 
-   ![The Accessibility check window says 7 problems found, 7 rules, and lists them: Pictures with no text alternative, Buttons and links with no name, Fields with no label, Text with too little contrast, Controls too small to select easily, Headings out of order, and Links that do not say where they go. The first is open, showing why it matters, how to fix it with code before and after, and the buttons Show on the page and Report this.](../images/check-results.png)
+   ![The Accessibility check window says 7 problems found, 7 rules, and lists them: Pictures with no text alternative, Buttons and links with no name, Fields with no label, Text with too little contrast, Controls smaller than 24 by 24 pixels, Headings out of order, and Links that do not say where they go. The first is open, showing why it matters, how to fix it with code before and after, and the buttons Show on the page and Report this.](../images/check-results.png)
 
 4. Select a problem to open it. You will find why it matters, how to fix it with example code, and where it is.
 5. Select **Show on the page** to close the window and outline the first place it was found.

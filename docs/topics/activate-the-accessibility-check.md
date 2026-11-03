@@ -1,9 +1,11 @@
-[Help centre](../README.md) · Accessibility · How-to
+[Help centre](../README.md) · Accessibility
 
-# Turn on the accessibility check
+# Activate the accessibility check
 
-Offer **Check this page for accessibility problems** under **Send feedback**, so testers and users can run an
-automatic check and report what it finds. It is on by default; this topic says how to choose the engine or turn
+How-to
+
+Offer 'Check this page for accessibility problems' under 'Send feedback', so testers and users can run an
+automatic check and report what it finds. It is active by default; this topic says how to choose the engine or turn
 it off.
 
 ## Steps

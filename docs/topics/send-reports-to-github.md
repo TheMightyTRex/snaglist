@@ -1,13 +1,15 @@
-[Help centre](../README.md) · Send reports · How-to
+[Help centre](../README.md) · Reports
 
 # Send reports to GitHub
+
+How-to
 
 Reports open as a new GitHub issue with the title, report and labels filled in. The person reporting posts it
 from their own GitHub account, so no key is ever put in your page.
 
 ## Before you begin
 
-- A GitHub repository for the reports. It can be your app's own repository or one just for reports.
+- A GitHub repository for the reports. It can be your app's own repository or one only for reports.
 
 ## Steps
 

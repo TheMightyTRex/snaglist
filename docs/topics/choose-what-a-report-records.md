@@ -1,6 +1,8 @@
-[Help centre](../README.md) · Add and set up · How-to
+[Help centre](../README.md) · Settings
 
 # Choose what a report records
+
+How-to
 
 Every report holds the person's answers, what they are sending and how much it matters. You choose what else it records,
 and when: always, never, or only for the report types that need it.
@@ -51,7 +53,7 @@ and when: always, never, or only for the report types that need it.
 - Each is redacted: no query strings, ids in paths become `:id`, and emails, numbers and keys are replaced.
 - Change how many of each a report keeps, and what counts as a slow request, with `limits`:
   `limits: { console: 20, slowRequest: 1000 }`.
-- People can still untick any part in **What is sent** before they send it.
+- People can still untick any part in 'What is sent' before they send it.
 
 ## Find out more
 

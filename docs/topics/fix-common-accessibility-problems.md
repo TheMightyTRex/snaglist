@@ -1,6 +1,8 @@
-[Help centre](../README.md) · Accessibility · Reference
+[Help centre](../README.md) · Accessibility
 
 # Fix common accessibility problems
+
+Reference
 
 How to fix each problem Snaglist's accessibility check finds, with code before and after. Seven of them are
 broken on purpose on the [demo page](https://themightytrex.github.io/snaglist/), under **Accessibility problems
@@ -93,7 +95,7 @@ After:
 .summary { color: #424b5b; }  /* 8.9:1 on white */
 ```
 
-## Controls too small to select easily
+## Controls smaller than 24 by 24 pixels
 
 WCAG 2.5.8 Target size (minimum), level AA. Impact: moderate. Rule `target-size`.
 
@@ -246,7 +248,7 @@ WCAG 2.4.4 Link purpose (in context), level A. Impact: moderate. Rule `link-text
 Before:
 
 ```html
-To change your plan, <a href="/plan">click here</a>.
+To change your plan, <a href="/plan">click here</a> help.
 ```
 
 After:
@@ -287,6 +289,6 @@ Automatic checks find only some problems. Before a release, also:
 ## Find out more
 
 - [Check a page for accessibility problems](check-a-page-for-accessibility-problems.md)
-- [Turn on the accessibility check](turn-on-the-accessibility-check.md)
+- [Turn on the accessibility check](activate-the-accessibility-check.md)
 - [Find and fix accessibility problems](../guides/find-and-fix-accessibility-problems.md)
 - [WCAG 2.2 quick reference](https://www.w3.org/WAI/WCAG22/quickref/) (opens in a new tab)

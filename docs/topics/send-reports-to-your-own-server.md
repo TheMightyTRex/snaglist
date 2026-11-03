@@ -1,6 +1,8 @@
-[Help centre](../README.md) · Send reports · How-to
+[Help centre](../README.md) · Reports
 
 # Send reports to your own server
+
+How-to
 
 Send reports straight to a server you run, so people can report without a GitHub account or a mail app. Your
 server can store them, or file GitHub issues with a key that never reaches the browser.
@@ -10,7 +12,7 @@ server can store them, or file GitHub issues with a key that never reaches the b
 1. Set the address that takes reports:
 
 ```js
-Snaglist.start({ send: { endpoint: { url: "https://reports.example.com/" } } });
+Snaglist.start({ send: { endpoint: { url: "https://reports.example/" } } });
 ```
 
 2. Snaglist posts this JSON to it, without cookies or the page's address:
@@ -19,7 +21,7 @@ Snaglist.start({ send: { endpoint: { url: "https://reports.example.com/" } } });
 {
   "title": "book-list: The list does not load",
   "markdown": "**What happened**\nThe list does not load\n\n| | |\n|---|---|\n| Report | Something is broken |\n...",
-  "report": { "tool": "snaglist 0.3.0", "type": "bug", "severity": "in-the-way", "answers": { "actual": "..." }, "page": {}, "element": {}, "network": [] }
+  "report": { "tool": "snaglist 0.3.1", "type": "bug", "severity": "in-the-way", "answers": { "actual": "..." }, "page": {}, "element": {}, "network": [] }
 }
 ```
 
@@ -32,11 +34,11 @@ Snaglist.start({ send: { endpoint: { url: "https://reports.example.com/" } } });
 `examples/github-worker.js` is a complete worker. It checks the request came from your site, limits its size,
 and files the issue with labels.
 
-1. Make a fine-grained GitHub token with **Issues: read and write** on the one repository only.
+1. Make a fine-grained GitHub token with 'Issues: read and write' on the one repository only.
 2. Create the worker, paste in the file, and add three settings:
    - `GITHUB_TOKEN`: the token, as a secret.
    - `GITHUB_REPO`: `owner/repo`.
-   - `ALLOWED_ORIGIN`: your site, such as `https://example.com`.
+   - `ALLOWED_ORIGIN`: your site, such as `https://www.example`.
 3. Point `send.endpoint.url` at the worker's address.
 
 The same steps work on any server: check the origin, limit the size, rebuild the title and labels from the

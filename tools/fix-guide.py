@@ -43,7 +43,7 @@ out += ["## What the automatic check cannot find", "",
         "- check that error messages say how to fix the problem, and that nothing depends on colour alone.", "",
         "## Find out more", "",
         "- [Check a page for accessibility problems](check-a-page-for-accessibility-problems.md)",
-        "- [Turn on the accessibility check](turn-on-the-accessibility-check.md)",
+        "- [Turn on the accessibility check](activate-the-accessibility-check.md)",
         "- [Find and fix accessibility problems](../guides/find-and-fix-accessibility-problems.md)",
         "- [WCAG 2.2 quick reference](https://www.w3.org/WAI/WCAG22/quickref/) (opens in a new tab)", ""]
 (root / "docs/topics/fix-common-accessibility-problems.md").write_text("\n".join(out))

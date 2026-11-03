@@ -1,6 +1,8 @@
-[Help centre](../README.md) · Add and set up · How-to
+[Help centre](../README.md) · Settings
 
 # Choose what people can send
+
+How-to
 
 The first question people answer is "What would you like to send". Each choice is a problem or a suggestion,
 asks its own questions and records the technical details needed to act on it. Offer the ones that suit your site.
@@ -33,10 +35,10 @@ asks its own questions and records the technical details needed to act on it. Of
 
 ## Things to note
 
-- Problems ask **How bad is it**; suggestions ask **How much would it help you**. **Something else** asks neither.
-- With every type, people can show one thing on the page, record a series of steps, or just describe it.
+- Problems ask 'How bad is it'; suggestions ask 'How much would it help you'. 'Something else' asks neither.
+- With every type, people can show one thing on the page, record a series of steps, or describe it in words.
 - A type of your own can ask its own questions and record any of the parts. Set `group: "suggestion"` to list it
-  under **Make a suggestion**. The [settings reference](settings-reference.md) has an example.
+  under 'Make a suggestion'. The [settings reference](settings-reference.md) has an example.
 - For the public, `bug`, `ux`, `feature` and `other` are often enough. For a test team, offer them all.
 
 ## Find out more

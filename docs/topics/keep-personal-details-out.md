@@ -1,8 +1,10 @@
-[Help centre](../README.md) · Add and set up · How-to
+[Help centre](../README.md) · Settings
 
 # Keep personal details out of reports
 
-Snaglist never reads what people type, and hides anything that looks like an email, number or key. It copies the
+How-to
+
+Snaglist never reads what people enter, and hides anything in the form of an email, number or key. It copies the
 text of the part someone chooses, so mark the parts of your pages that show personal details, and their text is
 never read.
 
@@ -13,7 +15,7 @@ never read.
 2. Add `data-snag-private` to each one:
 
    ```html
-   <span data-snag-private>Signed in as Alex Example</span>
+   <span data-snag-private>Signed in as Alex</span>
    ```
 
 3. Send feedback about one of those parts and check that **Where** shows `[private]`.
@@ -25,7 +27,7 @@ never read.
 
 ## Things to note
 
-- Check your script errors and console messages cannot contain personal details, as **Something is broken**
+- Check your script errors and console messages cannot contain personal details, as 'Something is broken'
   reports include them. If they can, set `collect: { errors: false, console: false }`, or hide them with
   `redact`.
 - If you use `beforeSend` to change reports, do not add personal details back in.

@@ -1,20 +1,22 @@
-[Help centre](../README.md) · Run, update and remove · How-to
+[Help centre](../README.md) · Add and update
 
 # Update Snaglist
+
+How-to
 
 Snaglist is one file, so updating means replacing it. Your settings stay in your own code and are kept.
 
 ## Steps
 
 1. Read what changed in the [releases](https://github.com/TheMightyTRex/snaglist/releases) (opens in a new tab).
-2. Download the new version over the old file. Put the version you want in place of `v0.3.0`:
+2. Download the new version over the old file. Put the version you want in place of `v0.3.1`:
 
    ```bash
-   curl -fsSL -o snaglist.js https://raw.githubusercontent.com/TheMightyTRex/snaglist/v0.3.0/snaglist.js
+   curl -fsSL -o snaglist.js https://raw.githubusercontent.com/TheMightyTRex/snaglist/v0.3.1/snaglist.js
    ```
 
 3. Publish your site, then open a page and make a test report.
-4. To check which version a page runs, type `Snaglist.version` in the browser's developer console.
+4. To check which version a page runs, enter `Snaglist.version` in the browser's developer console.
 
 ## Things to note
 

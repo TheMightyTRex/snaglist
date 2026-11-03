@@ -8,7 +8,7 @@ your users' browsers, and your past reports are kept. It takes about 15 minutes.
 ## Before you begin
 
 - Decide whether to stop it for a while or remove it. To stop it, you only need
-  [Turn Snaglist on or off for everyone](../topics/turn-snaglist-on-or-off-for-everyone.md).
+  [Activate or deactivate Snaglist for everyone](../topics/activate-or-deactivate-snaglist.md).
 
 ## The steps at a glance
 
@@ -19,6 +19,8 @@ your users' browsers, and your past reports are kept. It takes about 15 minutes.
 
 ```mermaid
 flowchart TD
+  accTitle: The steps at a glance
+  accDescr: The steps in order: clear people's saved choice (optional); remove Snaglist from your code; remove the report server (if you set one up); tidy up GitHub.
   A[Clear saved choices] --> B[Remove from your code]
   B --> C[Remove the report server]
   C --> D[Tidy up GitHub]
@@ -26,7 +28,7 @@ flowchart TD
 
 ## Step 1: clear people's saved choice (optional)
 
-Only people who turned the button off have anything saved: one small setting. To clear it, release one version
+Only people who deactivated the button have anything saved: one small setting. To clear it, release one version
 that calls `Snaglist.destroy({ forget: true })` on page load before you remove Snaglist.
 
 ## Step 2: remove Snaglist from your code
