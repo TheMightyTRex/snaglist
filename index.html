@@ -212,7 +212,7 @@
   } catch { /* first visit */ }
   applyDisplay();
   $("pg-display").addEventListener("change", (e) => { e.stopPropagation(); applyDisplay(); });
-  $("broken").addEventListener("click", () => { null.read(); });
+  $("broken").addEventListener("click", () => { document.querySelector(".no-such-list").read(); }); // breaks on purpose
   $("fails").addEventListener("click", async () => {
     try { const res = await fetch("api/books/12345?token=abc"); say(`The list did not load (${res.status}).`); }
     catch { say("The list did not load."); }

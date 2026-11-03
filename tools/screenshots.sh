@@ -8,7 +8,10 @@ cd "$(dirname "$0")/.."
 PORT="${SHOTS_PORT:-18793}"
 PLAYWRIGHT="1.63.0"
 work="$(mktemp -d)"
-python3 -m http.server "$PORT" --bind 127.0.0.1 > "$work/server.log" 2>&1 &
+# Serve a copy of the files git would publish, so .git and .private-words are never on offer, even locally.
+mkdir -p "$work/site"
+git ls-files -co --exclude-standard -z | xargs -0 cp --parents -t "$work/site"
+python3 -m http.server "$PORT" --bind 127.0.0.1 --directory "$work/site" > "$work/server.log" 2>&1 &
 server=$!
 trap 'kill "$server" 2>/dev/null || true; rm -rf "$work"' EXIT
 sleep 1

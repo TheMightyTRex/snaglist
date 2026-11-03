@@ -120,7 +120,10 @@
     ["errors", "Script errors"], ["console", "Console messages"], ["network", "Failed and slow requests"],
     ["trail", "What was selected before"], ["context", "App details"],
   ];
-  const BACKGROUND = ["errors", "console", "network", "trail", "performance"]; // these record from the start
+
+  // axe-core for check.engine "axe", pinned, with the hash of that exact file (the same on jsDelivr and npm).
+  const AXE = { url: "https://cdn.jsdelivr.net/npm/axe-core@4.10.2/axe.min.js",
+    integrity: "sha384-3NYxCdpLKVHfNs2FHPtg3qqaYuhq85m4mMnlHBlN0JzSpKYKct2PMGYfsKGaKIj4" };
 
   const DEFAULTS = {
     app: "",
@@ -132,7 +135,7 @@
     launcher: "bottom-right",
     shortcut: "",
     types: ["bug", "ux", "visual", "accessibility", "performance", "content", "feature", "idea", "other", "check"],
-    check: { engine: "built-in", axe: "https://cdn.jsdelivr.net/npm/axe-core@4.10.2/axe.min.js", contrastLimit: 300 },
+    check: { engine: "built-in", axe: AXE.url, integrity: "", contrastLimit: 300 },
     categories: null,
     severities: "three",
     importance: "importance",
@@ -206,7 +209,7 @@
     cancel: "Cancel",
     reviewTitle: "What is sent",
     include: "Include",
-    privacy: "No personal information is kept in this report: no account, cookies or anything entered in the page's fields, and anything in the form of an email, a long number or a key is replaced. Text on screen is copied from the part you chose, so check it shows nothing personal. Untick anything you would rather not send.",
+    privacy: "This report keeps no account, cookies or anything entered in the page's fields, and anything in the form of an email, a long number or a key is replaced. The page title and the text on screen are copied as they are, so check they show nothing personal. Untick anything you would rather not send.",
     githubNote: "GitHub opens with the report filled in. You post it from your own GitHub account, so GitHub shows your user name on the issue.",
     emailNote: "Your mail app opens with the report filled in. The reply address is your own.",
     endpointNote: "The report is sent to the site's own server, without cookies.",
@@ -290,25 +293,31 @@
   // Anonymity --------------------------------------------------------------------------------------------
 
   const PATTERNS = [
-    [/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g, "[email]"],
+    [/[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{1,253}\.[A-Za-z]{2,24}/g, "[email]"],
     [/\b(?:ghp|gho|github_pat|sk|pk|xox[bap])[-_][A-Za-z0-9_-]{8,}/g, "[key]"],
     [/\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]+/g, "[key]"],
-    [/\b(?:bearer|token|api[_-]?key|password|secret)\s*[:=]\s*\S+/gi, "[key]"],
+    [/\bAKIA[0-9A-Z]{16}\b/g, "[key]"],
+    [/\bbearer\s+[A-Za-z0-9._~+/=-]{6,}/gi, "[key]"],
+    // eslint-disable-next-line security/detect-unsafe-regex -- fixed words, then one run of each kind, so no backtracking
+    [/(?:\b|_)(?:bearer|token|api[_-]?key|password|passwd|pwd|secret|session(?:[_-]?id)?|auth(?:orization)?)\s*[:=]\s*\S+/gi, "[key]"],
+    // eslint-disable-next-line security/detect-unsafe-regex -- bounded repeats, so it runs in linear time
     [/\b(?:\d{1,3}\.){3}\d{1,3}\b/g, "[address]"],
     [/\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/gi, "[id]"],
     [/\b[A-Za-z0-9_-]*\d[A-Za-z0-9_-]*[A-Za-z][A-Za-z0-9_-]{22,}\b/g, "[key]"],
     [/\+?\d[\d ()-]{5,}\d/g, "[number]"],
+    [/\b\d{3,5}\.\d{3}\.\d{3,4}\b/g, "[number]"],
   ];
   function redact(text) {
-    let out = String(text ?? "");
+    let out = String(text ?? "").slice(0, 20000);
     for (const [pattern, label] of [...PATTERNS, ...(config ? config.redact : [])]) out = out.replace(pattern, label);
     return out;
   }
-  const clip = (text, n) => (text.length > n ? `${text.slice(0, n - 1)}…` : text);
+  // Cut to n characters, never through the middle of an emoji (half of one cannot be put in a link).
+  const clip = (text, n) => (text.length > n ? `${text.slice(0, n - 1).replace(/[\uD800-\uDBFF]$/, "")}…` : text);
 
   const idLike = (s) => /^\d+$/.test(s) || /^[0-9a-f-]{8,}$/i.test(s) || /@/.test(s) || (/\d/.test(s) && s.length >= 16);
   function cleanPath(pathname) {
-    return pathname.split("/").map((s) => { let raw = s; try { raw = decodeURIComponent(s); } catch { /* keep */ } return idLike(raw) ? ":id" : raw; }).join("/");
+    return pathname.split("/").map((s) => { let raw = s; try { raw = decodeURIComponent(s); } catch { /* keep */ } return idLike(raw) ? ":id" : raw.replace(/[\s\u0000-\u001f]+/g, " "); }).join("/");
   }
   function pathPattern() {
     const params = new URLSearchParams(location.search);
@@ -319,6 +328,7 @@
   function cleanUrl(url) {
     try {
       const u = new URL(url, location.href);
+      if (!/^https?:$/.test(u.protocol)) return u.protocol; // tel:, mailto:, skype: and the like hold the person
       return (u.origin === location.origin ? "" : u.host) + cleanPath(u.pathname);
     } catch { return "[address]"; }
   }
@@ -337,6 +347,10 @@
   function on(target, type, fn, opts = true) { target.addEventListener(type, fn, opts); undo.push(() => target.removeEventListener(type, fn, opts)); }
   const wanted = (part) => config.collect[part] !== false;
 
+  // Messages from scripts can hold addresses: keep each address, but take out its query and fragment.
+  const noQueries = (text) => String(text).split(/(\s+)/).map((w) => (/[/.]/.test(w) ? w.replace(/[?#][^?#].*$/, "") : w)).join("");
+  const scrub = (text, n) => clip(redact(noQueries(String(text).slice(0, n * 4)).replace(/\s+/g, " ")), n);
+
   function stackLines(stack) {
     return String(stack || "").split("\n").slice(1, 4).map((l) => redact(l.trim().replace(/\?[^:)\s]*/g, "").replace(/https?:\/\/[^/]+/g, ""))).filter(Boolean);
   }
@@ -350,25 +364,25 @@
           push(buffers.resources, `${target.tagName.toLowerCase()} did not load: ${cleanUrl(target.src || target.href || "")}`, 10);
           return;
         }
-        recNote(`Error on the page: ${clip(redact(e.message || "Error"), 160)}`);
-        push(buffers.errors, { message: clip(redact(e.message || "Error"), 300),
+        recNote(`Error on the page: ${scrub(e.message || "Error", 160)}`);
+        push(buffers.errors, { message: scrub(e.message || "Error", 300),
           where: e.filename ? `${cleanUrl(e.filename)}:${e.lineno}:${e.colno}` : undefined, stack: stackLines(e.error?.stack) }, lim.errors * 2);
       });
-      on(window, "unhandledrejection", (e) => push(buffers.errors, { message: clip(redact(`Unhandled promise: ${e.reason?.message || e.reason}`), 300),
+      on(window, "unhandledrejection", (e) => push(buffers.errors, { message: scrub(`Unhandled promise: ${e.reason?.message || e.reason}`, 300),
         stack: stackLines(e.reason?.stack) }, lim.errors * 2));
       on(document, "securitypolicyviolation", (e) => push(buffers.errors, { message: `Content Security Policy blocked ${e.effectiveDirective}: ${cleanUrl(e.blockedURI || "")}` }, lim.errors * 2));
     }
     if (wanted("console")) {
       for (const level of ["error", "warn"]) {
         const original = console[level];
-        console[level] = function (...args) {
+        const wrapper = console[level] = function (...args) {
           try {
-            const text = args.map((a) => (a instanceof Error ? `${a.name}: ${a.message}` : typeof a === "object" ? (() => { try { return JSON.stringify(a); } catch { return String(a); } })() : String(a))).join(" ");
-            push(buffers.console, `${level}: ${clip(redact(text), 300)}`, lim.console * 2);
+            const text = args.map((a) => (a instanceof Error ? `${a.name}: ${a.message}` : a && typeof a === "object" ? (Array.isArray(a) ? `[a list of ${a.length}]` : `{${Object.keys(a).slice(0, 10).join(", ")}}`) : String(a))).join(" ");
+            push(buffers.console, `${level}: ${scrub(text, 300)}`, lim.console * 2);
           } catch { /* never break the page's own logging */ }
           return original.apply(this, args);
         };
-        undo.push(() => { console[level] = original; });
+        undo.push(() => { if (console[level] === wrapper) console[level] = original; }); // never undo another tool's wrapper
       }
     }
     if (wanted("network")) {
@@ -382,7 +396,7 @@
       };
       if (window.fetch) {
         const original = window.fetch;
-        window.fetch = function (input, init) {
+        const wrapper = window.fetch = function (input, init) {
           const started = performance.now();
           const url = typeof input === "string" ? input : input?.url || String(input);
           const method = init?.method || input?.method || "GET";
@@ -390,27 +404,32 @@
             (res) => { note(method, url, res.status, started); return res; },
             (err) => { note(method, url, 0, started); throw err; });
         };
-        undo.push(() => { window.fetch = original; });
+        undo.push(() => { if (window.fetch === wrapper) window.fetch = original; });
       }
       const open = XMLHttpRequest.prototype.open;
       const send = XMLHttpRequest.prototype.send;
-      XMLHttpRequest.prototype.open = function (method, url) { this.__snag = { method, url }; return open.apply(this, arguments); };
-      XMLHttpRequest.prototype.send = function () {
+      const xo = XMLHttpRequest.prototype.open = function (method, url) { this.__snag = { method, url }; return open.apply(this, arguments); };
+      const xs = XMLHttpRequest.prototype.send = function () {
         const info = this.__snag;
         if (info) { const started = performance.now(); this.addEventListener("loadend", () => note(info.method, info.url, this.status, started), { once: true }); }
         return send.apply(this, arguments);
       };
-      undo.push(() => { XMLHttpRequest.prototype.open = open; XMLHttpRequest.prototype.send = send; });
+      undo.push(() => {
+        if (XMLHttpRequest.prototype.open === xo) XMLHttpRequest.prototype.open = open;
+        if (XMLHttpRequest.prototype.send === xs) XMLHttpRequest.prototype.send = send;
+      });
     }
     if (wanted("trail")) {
       on(window, "click", (e) => {
         if (picking || ours(e) || !(e.target instanceof Element)) return;
         const el = e.target.closest("a, button, [role], input, select, textarea, summary, label") || e.target;
+        if (el.tagName === "LABEL" && el.control) return; // the control's own click follows
         const d = describe(el);
+        if (isChoice(el)) { push(buffers.trail, choiceStep(el, d.component ? ` in ${d.component}` : ""), lim.trail * 2); return; }
         push(buffers.trail, `Selected ${[d.component, d.role, d.name && `"${d.name}"`].filter(Boolean).join(", ")}`, lim.trail * 2);
       });
       on(window, "change", (e) => {
-        if (ours(e) || !(e.target instanceof Element)) return;
+        if (ours(e) || !(e.target instanceof Element) || isChoice(e.target)) return;
         const d = describe(e.target);
         push(buffers.trail, `Changed ${[d.component, d.role, d.name && `"${d.name}"`].filter(Boolean).join(", ")}`, lim.trail * 2);
       });
@@ -450,6 +469,7 @@
   // text of a whole area, which could hold someone's name or messages. Fields give their label, never their value.
   function nameOf(el) {
     if (el.closest("[data-snag-private]")) return "[private]";
+    if (el.isContentEditable) return ""; // a heading or link typed into an editor is what someone wrote
     const tag = el.tagName.toLowerCase();
     let name = el.getAttribute("aria-label") || "";
     const labelledby = el.getAttribute("aria-labelledby");
@@ -491,6 +511,7 @@
   }
 
   function parseColour(value) {
+    // eslint-disable-next-line security/detect-unsafe-regex -- the repeated classes never overlap, so no backtracking
     const m = value.match(/rgba?\(([\d.]+)[ ,]+([\d.]+)[ ,]+([\d.]+)(?:[ ,/]+([\d.]+%?))?/);
     if (!m) return null;
     const a = m[4] == null ? 1 : m[4].endsWith("%") ? parseFloat(m[4]) / 100 : parseFloat(m[4]);
@@ -585,7 +606,8 @@
       for (const a of [...node.attributes]) {
         if (!SAFE_ATTRS.test(a.name)) node.removeAttribute(a.name);
         else if (a.name === "href" || a.name === "src") node.setAttribute(a.name, cleanUrl(a.value));
-        else if (/^(aria-label|alt|title)$/.test(a.name)) node.setAttribute(a.name, clip(redact(a.value), 60));
+        else if (/^aria-(valuetext|valuenow|description|placeholder|roledescription)$/.test(a.name)) node.setAttribute(a.name, "…");
+        else node.setAttribute(a.name, clip(redact(a.value), 60));
       }
       if (/^(INPUT|TEXTAREA)$/.test(node.tagName)) node.removeAttribute("value");
     };
@@ -593,12 +615,17 @@
     return clip(copy.outerHTML.replace(/\s+/g, " "), 1500);
   }
 
-  // The visible text of the chosen part, cleaned; never a field's value.
+  // The visible text of the chosen part, cleaned; never a field's value, never what was typed into an editable
+  // area, and never the text of a private part inside it.
   function textOf(el) {
     if (el.closest("[data-snag-private]")) return "[private]";
-    if (/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)) return "";
-    const text = (el.innerText || "").replace(/\s+/g, " ").trim();
-    return clip(redact(text), 300);
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName) || el.isContentEditable) return "";
+    let text = (el.innerText || "").replace(/\s+/g, " ");
+    for (const inner of el.querySelectorAll("[contenteditable]:not([contenteditable=false]), [data-snag-private]")) {
+      const hidden = (inner.innerText || "").replace(/\s+/g, " ").trim();
+      if (hidden) text = text.split(hidden).join("…");
+    }
+    return clip(redact(text.trim()), 300);
   }
 
   // Messages the page is showing now: alerts, status messages and field errors.
@@ -738,9 +765,11 @@
     return clip(`${where}${first}`, 90);
   }
 
+  // Text for a table cell: a backslash or | from the page cannot add a column.
+  const cell = (v) => String(v).replace(/\\/g, "\\\\").replace(/\|/g, "\\|");
   function markdown(report, short) {
     const type = types().find(([k]) => k === report.type)?.[1] || { fields: [] };
-    const row = (k, v) => (v === undefined || v === "" || v === false ? null : `| ${k} | ${String(v).replace(/\|/g, "\\|").replace(/\n/g, " ")} |`);
+    const row = (k, v) => (v === undefined || v === "" || v === false ? null : `| ${k} | ${cell(v).replace(/\n/g, " ")} |`);
     const table = (obj, names = {}) => ["| | |", "|---|---|", ...Object.entries(obj).map(([k, v]) => row(names[k] || k.replace(/([A-Z])/g, " $1").toLowerCase().replace(/^./, (c) => c.toUpperCase()), v === true ? "yes" : v))].filter(Boolean);
     const out = [];
     for (const f of type.fields) {
@@ -775,7 +804,7 @@
           `WCAG ${c.wcag}${c.level ? `, level ${c.level}` : ""}${c.impact ? `, impact ${c.impact}` : ""}. Found ${c.count} ${c.count === 1 ? "time" : "times"}.`, "",
           `${c.why}`, "", `**How to fix it:** ${c.fix}`,
           ...(c.example ? ["", "```html", "<!-- Before -->", c.example.before, "", "<!-- After -->", c.example.after, "```"] : []),
-          "", "| Where | Part |", "|---|---|", ...c.where.map((w) => `| \`${w.selector}\` | ${w.part.replace(/\|/g, "\\|")} |`),
+          "", "| Where | Part |", "|---|---|", ...c.where.map((w) => `| \`${w.selector}\` | ${cell(w.part)} |`),
           ...(c.count > c.where.length ? [`| and ${c.count - c.where.length} more | |`] : [])]);
       }
       if (report.steps) section("Recorded steps", report.steps.map((s, i) => `${i + 1}. ${s.text} (${s.at} s)`));
@@ -791,8 +820,9 @@
       if (report.trail) section("Before this", report.trail.map((s, i) => `${i + 1}. ${s}`));
       if (report.context) section("App details", table(report.context));
     }
-    lines.push("", `<sub>Sent with ${report.tool}. No personal information is kept in this report.</sub>`);
-    return lines.join("\n");
+    // Text from the page must never notify anyone on GitHub: an invisible space after @ stops a mention.
+    lines.push("", `<sub>Sent with ${report.tool}, which leaves out accounts, cookies and what was typed into the page.</sub>`);
+    return lines.join("\n").replace(/@(?=[A-Za-z0-9-])/g, "@\u200b");
   }
 
   const plain = (md) => md.replace(/^\|---\|---\|(---\|)?$/gm, "").replace(/^\| \| \|$/gm, "").replace(/^\| (.+?) \| (.*) \|$/gm, "$1: $2")
@@ -816,17 +846,18 @@
     else location.href = url;
   }
 
+  const enc = (text) => encodeURIComponent(text.toWellFormed ? text.toWellFormed() : text);
   async function sendGithub(report) {
     const g = config.send.github;
     const group = typeOf(report.type)?.group;
     const labels = [...config.labels, ...(g.labels || []), group === "suggestion" ? "suggestion" : group === "problem" ? "problem" : null, report.check ? "accessibility" : null, `type: ${report.type}`,
       report.category && `kind: ${report.category}`, report.severity && `${report.scale}: ${report.severity}`].filter(Boolean).join(",");
-    const base = `https://github.com/${g.repo}/issues/new?labels=${encodeURIComponent(labels)}&title=${encodeURIComponent(titleOf(report))}`;
-    let url = `${base}&body=${encodeURIComponent(markdown(report))}`;
+    const base = `https://github.com/${g.repo}/issues/new?labels=${enc(labels)}&title=${enc(titleOf(report))}`;
+    let url = `${base}&body=${enc(markdown(report))}`;
     if (url.length > 7500) {
       await copyText(markdown(report));
-      url = `${base}&body=${encodeURIComponent(markdown(report, true))}`;
-      if (url.length > 7500) url = `${base}&body=${encodeURIComponent("Paste the report here: it is on your clipboard.")}`;
+      url = `${base}&body=${enc(markdown(report, true))}`;
+      if (url.length > 7500) url = `${base}&body=${enc("Paste the report here: it is on your clipboard.")}`;
       say(t("copiedForGithub"));
     }
     openUrl(url);
@@ -837,7 +868,7 @@
     const m = config.send.email;
     let body = plain(markdown(report));
     if (body.length > 1800) { await copyText(body); body = `${clip(plain(markdown(report, true)), 1600)}\n\n(The full report is on your clipboard.)`; }
-    openUrl(`mailto:${encodeURIComponent(m.to)}?subject=${encodeURIComponent(`${m.subject || "Feedback"}: ${titleOf(report)}`)}&body=${encodeURIComponent(body)}`);
+    openUrl(`mailto:${enc(m.to)}?subject=${enc(`${m.subject || "Feedback"}: ${titleOf(report)}`)}&body=${enc(body)}`);
     return t("opened");
   }
 
@@ -1206,7 +1237,12 @@
     if (config.check.engine === "axe") {
       if (!window.axe) {
         await new Promise((resolve, reject) => {
-          const s = Object.assign(document.createElement("script"), { src: config.check.axe, onload: resolve, onerror: () => reject(new Error("axe-core did not load")) });
+          // The default copy is checked against its hash, so a changed file on the CDN never runs.
+          const integrity = config.check.integrity || (config.check.axe === AXE.url ? AXE.integrity : "");
+          const s = Object.assign(document.createElement("script"), { src: config.check.axe, crossOrigin: "anonymous", onload: resolve,
+            onerror: () => reject(new Error("axe-core did not load")) });
+          if (integrity) s.integrity = integrity;
+          undo.push(() => { delete window.axe; }); // destroy() takes away the axe-core it loaded
           document.head.append(s);
           undo.push(() => s.remove());
         });
@@ -1282,6 +1318,18 @@
 
   const REC_KEY = `${KEY}recording`;
   const MAX_STEPS = 60;
+  // A choice's own label is the answer given (a condition, a title, an address), so it is never kept: only
+  // that a choice was made, and the name of the group or field it was made in.
+  const isChoice = (el) => (el.tagName === "INPUT" && /^(checkbox|radio)$/.test(el.type)) || el.tagName === "OPTION" ||
+    /^(option|radio|checkbox|switch|menuitemradio|menuitemcheckbox)$/.test(el.getAttribute("role") || "");
+  function groupOf(el) {
+    const g = el.closest("fieldset, [role=radiogroup], [role=listbox], [role=group], [role=menu]");
+    if (!g) return "";
+    const name = (g.tagName === "FIELDSET" && g.querySelector("legend")?.textContent) || g.getAttribute("aria-label") || "";
+    return clip(redact(name.replace(/\s+/g, " ").trim()), 60);
+  }
+  const choiceStep = (el, where) => { const g = groupOf(el); return `Made a choice${g ? ` in "${g}"` : ""}${where}`; };
+
   function saveRec() {
     try { rec ? sessionStorage.setItem(REC_KEY, JSON.stringify({ status: rec.status, steps: rec.steps, values: rec.values, started: rec.started, path: location.pathname })) : sessionStorage.removeItem(REC_KEY); } catch { /* private window */ }
   }
@@ -1304,12 +1352,12 @@
     if (e.type === "click") {
       if (/^(INPUT|SELECT|TEXTAREA)$/.test(el.tagName) && !/^(radio|button|submit|reset)$/.test(el.type)) return null; // noted on change
       if (el.tagName === "LABEL" && el.control) return null; // the control's own click follows
+      if (isChoice(el)) return el.type === "checkbox" ? null : choiceStep(el, where); // tick boxes are noted on change
       return `Selected ${what || "the page"}${where}`;
     }
-    if (el.tagName === "SELECT") return `Chose "${clip(redact(el.selectedOptions[0]?.textContent?.trim() || ""), 60)}" in ${what}${where}`;
-    if (el.getAttribute("role") === "switch") return `${el.getAttribute("aria-checked") === "true" ? "Activated" : "Deactivated"} ${what}${where}`;
-    if (el.type === "checkbox") return `${el.checked ? "Ticked" : "Unticked"} ${what}${where}`;
-    if (el.type === "radio") return null; // the click already says which was chosen
+    if (el.tagName === "SELECT") return `Made a choice in ${what}${where}`;
+    if (el.type === "checkbox") return choiceStep(el, where);
+    if (el.type === "radio" || isChoice(el)) return null; // the click already noted it
     if (/^(INPUT|TEXTAREA)$/.test(el.tagName) || el.isContentEditable) return `Entered text in ${what}${where} (the text is not kept)`;
     return null;
   }

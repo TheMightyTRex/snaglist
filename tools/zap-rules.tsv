@@ -1,0 +1,8 @@
+# ZAP rules for tools/security-scan.sh: id, action, reason. The reasons are explained in docs/SECURITY-AND-TESTS.md.
+10020	IGNORE	(Anti-clickjacking header: GitHub Pages cannot set headers, and the pages have no action worth tricking anyone into; see docs/SECURITY-AND-TESTS.md)
+10021	IGNORE	(X-Content-Type-Options: GitHub Pages does not send it and a site cannot add it; it serves each file with its right type)
+10024	IGNORE	(Sensitive information in URL: the demo's Load the list button calls api/books/12345?token=abc on purpose, to show that reports leave the query out)
+10027	IGNORE	(Suspicious comments: ordinary words such as "select", "user" and "from" in code comments)
+10036	IGNORE	(Server version: the scan's plain Python server; GitHub Pages serves the real pages)
+10038	IGNORE	(No content security policy: GitHub Pages cannot set headers; nothing from a visitor is written into the pages as HTML; see docs/SECURITY-AND-TESTS.md)
+90003	IGNORE	(Subresource integrity: the demo and set-up tool load the design system's own style sheets, which change with each design system update; see docs/SECURITY-AND-TESTS.md)

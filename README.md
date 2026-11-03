@@ -121,6 +121,9 @@ The [help centre](docs/README.md) has guides from start to finish and a topic fo
 - [Send feedback on a site that uses Snaglist](docs/guides/send-feedback-on-a-site.md), for the people using it
 - [Take Snaglist out of your site](docs/guides/take-snaglist-out-of-your-site.md)
 
+[Security](docs/SECURITY-AND-TESTS.md) says how Snaglist protects people, what its security check found and
+fixed, and which tests pass.
+
 Building with an AI assistant? The [set-up tool](https://themightytrex.github.io/snaglist/configure.html) writes one
 prompt with your choices, [Prompts for AI assistants](docs/AI-PROMPTS.md) has more, and [llms.txt](llms.txt) is a
 short summary written for AI tools.

@@ -20,7 +20,8 @@ it off.
    - **Built in** (the default): 13 checks for the most common problems, each with how to fix it and example
      code. Nothing else is loaded.
    - **axe-core**: about 90 rules from Deque's open-source checker, with a link to the fix for each. Snaglist
-     loads it from jsDelivr only when someone runs the check.
+     loads it from jsDelivr only when someone runs the check, and checks it against its known hash, so a changed
+     file never runs.
 
    ```js
    Snaglist.start({ check: { engine: "axe" } });
@@ -32,6 +33,9 @@ it off.
    ```js
    Snaglist.start({ check: { engine: "axe", axe: "/js/axe.min.js" } });
    ```
+
+   On another site's server, add the file's hash too, so a changed file never runs:
+   `check: { engine: "axe", axe: "https://…/axe.min.js", integrity: "sha384-…" }`.
 
 4. Run the check on your own pages: [Check a page for accessibility problems](check-a-page-for-accessibility-problems.md).
 

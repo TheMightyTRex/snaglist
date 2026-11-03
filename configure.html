@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="https://themightytrex.github.io/design-system/tokens.css">
 <link rel="stylesheet" href="https://themightytrex.github.io/design-system/components.css">
 <style>
+  .field-error[hidden] { display: none; }
   /* Scroll bars as in the design system: thin, square, visible whenever there is more to scroll. */
   :root { scrollbar-color: var(--color-scrollbar, var(--color-border, #7d879a)) transparent; }
   :where(*) { scrollbar-width: thin; }
@@ -92,7 +93,7 @@
             <option value="zh">Chinese</option>
             <option value="other">Another language</option>
           </select></div>
-        <div class="field" id="c-lang-other-field" hidden><label for="c-lang-other">Language code, for example "cy" for Welsh</label><input class="input" id="c-lang-other"></div>
+        <div class="field" id="c-lang-other-field" hidden><label for="c-lang-other">Language code, for example "cy" for Welsh</label><input class="input" id="c-lang-other" aria-describedby="c-lang-other-error"><span class="field-error" id="c-lang-other-error" hidden>Not a language code: use letters and hyphens only, such as cy or pt-BR. It is left out until it is right.</span></div>
       </fieldset>
 
       <fieldset id="c-types">
@@ -117,7 +118,7 @@
       <fieldset>
         <legend>Where it goes</legend>
         <label class="check"><input type="checkbox" id="c-gh" checked><span>GitHub issues <small>Opens a filled-in issue; people need a GitHub account</small></span></label>
-        <div class="field"><label for="c-repo">GitHub repository (owner/name)</label><input class="input" id="c-repo" value="owner/repo"></div>
+        <div class="field"><label for="c-repo">GitHub repository (owner/name)</label><input class="input" id="c-repo" value="owner/repo" aria-describedby="c-repo-error"><span class="field-error" id="c-repo-error" hidden>Not a repository name: use owner/name, with letters, numbers, dots, hyphens and underscores only. It is left out until it is right.</span></div>
         <label class="check"><input type="checkbox" id="c-mail"><span>Email <small>Opens the person's mail app</small></span></label>
         <div class="field"><label for="c-to">Email address</label><input class="input" id="c-to" type="email" value="team@example.com"></div>
         <label class="check"><input type="checkbox" id="c-ep"><span>Your own server <small>Posts the report as JSON; works for anyone</small></span></label>
@@ -130,7 +131,7 @@
         <p class="muted small" style="margin:0">"When needed" records it only for the types that use it.</p>
         <div class="grid2" id="c-collect-grid"></div>
         <div class="field"><label for="c-context">Your build or version variable (optional)</label>
-          <input class="input" id="c-context" placeholder="window.APP_BUILD"><span class="hint">Added to every report as App details.</span></div>
+          <input class="input" id="c-context" placeholder="window.APP_BUILD" aria-describedby="c-context-hint c-context-error"><span class="hint" id="c-context-hint">Added to every report as App details.</span><span class="field-error" id="c-context-error" hidden>Use the name of a value only, such as window.APP_BUILD: letters, numbers and dots. It is left out until it is right.</span></div>
       </fieldset>
 
       <fieldset>
@@ -244,19 +245,30 @@
     other: { folder: "the folder your site serves static files from", src: "/", file: "the layout every page shares, immediately before </body>" },
   };
 
+  // A shared link fills these fields, so each value is checked before it goes into code, commands or the prompt.
+  const VALID = {
+    "c-repo": /^[A-Za-z0-9_.-]{1,100}\/[A-Za-z0-9_.-]{1,100}$/,
+    // eslint-disable-next-line security/detect-unsafe-regex -- each repeat starts with a dot, so no backtracking
+    "c-context": /^[A-Za-z_$][\w$]{0,60}(\.[A-Za-z_$][\w$]{0,60}){0,5}$/,
+    // eslint-disable-next-line security/detect-unsafe-regex -- each repeat starts with a hyphen, so no backtracking
+    "c-lang-other": /^[A-Za-z]{2,3}(-[A-Za-z0-9]{2,8}){0,3}$/,
+  };
+  const valid = (id) => { const v = $(id).value.trim(); return !v || VALID[id].test(v); };
+  const checked = (id) => (valid(id) ? $(id).value.trim() : "");
+
   function read() {
     const collect = {};
     for (const s of document.querySelectorAll("[data-part]")) if (s.value !== PARTS.find(([k]) => k === s.dataset.part)[2]) collect[s.dataset.part] = s.value === "auto" ? "auto" : s.value === "true";
     return {
       app: $("c-app").value.trim() || "My app", version: $("c-version").value.trim(), platform: $("c-platform").value,
       types: [...document.querySelectorAll("#c-types input:checked")].map((b) => b.value),
-      github: $("c-gh").checked ? $("c-repo").value.trim() : "", email: $("c-mail").checked ? $("c-to").value.trim() : "",
+      github: $("c-gh").checked ? checked("c-repo") : "", email: $("c-mail").checked ? $("c-to").value.trim() : "",
       endpoint: $("c-ep").checked ? $("c-url").value.trim() : "", copy: $("c-copy").checked,
-      collect, context: $("c-context").value.trim(), severities: $("c-sev").value, categories: $("c-cat").value,
-      language: $("c-lang").value === "other" ? ($("c-lang-other").value.trim() || "auto") : $("c-lang").value,
-      languageName: $("c-lang").value === "other" ? `the language with the code "${$("c-lang-other").value.trim()}"` : $("c-lang").selectedOptions[0].text,
+      collect, context: checked("c-context"), severities: $("c-sev").value, categories: $("c-cat").value,
+      language: $("c-lang").value === "other" ? (checked("c-lang-other") || "auto") : $("c-lang").value,
+      languageName: $("c-lang").value === "other" ? `the language with the code "${checked("c-lang-other")}"` : $("c-lang").selectedOptions[0].text,
       engine: $("c-engine").value, theme: $("c-theme").value,
-      when: $("c-when").value, userSwitch: $("c-switch").checked, launcher: $("c-pos").value, label: $("c-label").value.trim(), shortcut: $("c-key").value.trim(),
+      when: $("c-when").value, userSwitch: $("c-switch").checked, launcher: $("c-pos").value, label: $("c-label").value.replace(/\s+/g, " ").trim().slice(0, 40), shortcut: $("c-key").value.trim(),
     };
   }
 
@@ -336,14 +348,14 @@ import Script from "next/script";
     const names = ["feedback", "problem", "suggestion", ...(c.types.includes("check") ? ["accessibility"] : []), ...c.types.map((x) => `type: ${x}`),
       ...(c.types.some((x) => !["feature", "idea", "other"].includes(x)) ? (c.severities === "nielsen" ? ["1", "2", "3", "4"] : ["minor", "in-the-way", "stops-me"]).map((x) => `severity: ${x}`) : []),
       ...(c.types.some((x) => ["feature", "idea"].includes(x)) ? ["nice", "often", "need"].map((x) => `importance: ${x}`) : [])];
-    return names.map((n) => `gh label create "${n}" --repo ${repo} --force`).join("\n");
+    return names.map((n) => `gh label create "${n}" --repo "${repo}" --force`).join("\n");
   }
 
   function prompt(c) {
     const p = PLATFORMS[c.platform];
     const platformName = $("c-platform").selectedOptions[0].text;
     const steps = [
-      `I want to add Snaglist to this project. Snaglist is a small, free script (MIT licence) that adds a "${c.label || "Send feedback"}" button to every page. People use it to report bugs and UX problems, or suggest features and improvements. Each report is tagged with the page and the part of it, records the technical details needed to act on it, collects no personal information, and is shown in full before it is sent.`,
+      `I want to add Snaglist to this project. Snaglist is a small, free script (MIT licence) that adds a ${JSON.stringify(c.label || "Send feedback")} button to every page. People use it to report bugs and UX problems, or suggest features and improvements. Each report is tagged with the page and the part of it, records the technical details needed to act on it, collects no personal information, and is shown in full before it is sent.`,
       `Home page: https://github.com/TheMightyTRex/snaglist. Short instructions for AI tools: https://raw.githubusercontent.com/TheMightyTRex/snaglist/main/llms.txt`,
       ``,
       `This project is built with: ${platformName}. Check that is right before you start, and tell me if it is not.`,
@@ -364,7 +376,7 @@ import Script from "next/script";
     if (c.userSwitch) steps.push(`${n++}. Add a user setting next to the app's other display or accessibility settings: a switch labelled "Show Send feedback", on by default, with the hint "A button for sending feedback or reporting a problem on any page. Reports never include your personal details." Deactivating it calls Snaglist.setUserEnabled(false); activating it calls Snaglist.setUserEnabled(true). If the app saves settings per account, save it there too and call Snaglist.setUserEnabled(savedValue) when the app loads. Build it with the app's own switch component if it has one.`);
     if (c.github) steps.push(`${n++}. If the GitHub command-line tool (gh) is available and signed in, make these labels; if not, list the commands for me to run:`, ``, labelCommands(c).split("\n").map((l) => `   ${l}`).join("\n"), ``);
     steps.push(`${n++}. Do not put any password, token or API key in the page. Snaglist does not need one.`,
-      `${n++}. When you have finished, tell me how to try it: open a page, select "${c.label || "Send feedback"}", choose what to send, fill in the form and select "Review what is sent". Also tell me how to deactivate it for everyone (enabled: false in snaglist-start.js) and how to remove it (delete both files, the two script lines${c.userSwitch ? ", the user setting" : ""} and the data-snag-private attributes).`);
+      `${n++}. When you have finished, tell me how to try it: open a page, select ${JSON.stringify(c.label || "Send feedback")}, choose what to send, fill in the form and select "Review what is sent". Also tell me how to deactivate it for everyone (enabled: false in snaglist-start.js) and how to remove it (delete both files, the two script lines${c.userSwitch ? ", the user setting" : ""} and the data-snag-private attributes).`);
     return steps.join("\n");
   }
 
@@ -383,6 +395,11 @@ import Script from "next/script";
     $("o-labels-h").textContent = `Step ${c.userSwitch ? 5 : 4}: make the GitHub labels`;
     $("o-labels").textContent = labelCommands(c);
     $("o-lang-note").hidden = /^(auto|en)/.test(c.language);
+    for (const id of Object.keys(VALID)) {
+      const ok = valid(id);
+      $(id).toggleAttribute("aria-invalid", !ok);
+      $(`${id}-error`).hidden = ok;
+    }
     return c;
   }
 
@@ -417,9 +434,14 @@ import Script from "next/script";
   function load() {
     try {
       const state = JSON.parse(decodeURIComponent(location.hash.slice(1)));
-      for (const id of FIELDS) if (id in state) { const el = $(id); el.type === "checkbox" ? (el.checked = !!state[id]) : (el.value = state[id]); }
+      for (const id of FIELDS) {
+        if (!(id in state)) continue;
+        const el = $(id);
+        if (el.type === "checkbox") el.checked = !!state[id];
+        else if (el.tagName !== "SELECT" || [...el.options].some((o) => o.value === state[id])) el.value = String(state[id]).slice(0, 200);
+      }
       if (state.types) for (const b of document.querySelectorAll("#c-types input")) b.checked = state.types.includes(b.value);
-      if (state.parts) for (const s of document.querySelectorAll("[data-part]")) if (state.parts[s.dataset.part]) s.value = state.parts[s.dataset.part];
+      if (state.parts) for (const s of document.querySelectorAll("[data-part]")) if ([...s.options].some((o) => o.value === state.parts[s.dataset.part])) s.value = state.parts[s.dataset.part];
     } catch { /* no saved settings */ }
   }
   $("o-share").addEventListener("click", async () => {

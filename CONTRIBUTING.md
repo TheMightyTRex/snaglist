@@ -12,5 +12,7 @@ Thank you for helping. Snaglist stays one file with no libraries, so it takes on
 - Words follow the [content design guide](https://github.com/TheMightyTRex/design-system/blob/main/docs/CONTENT-DESIGN.md):
   British English, sentence case, no em dashes, no contractions.
 - Run `tools/install-hooks.sh` once, so the privacy check runs before each commit.
+- Run `tools/test.sh` before each push, and `tools/security-scan.sh --full` before each release. Add a test to
+  `tools/tests` for every security fix, and record the results in [Security](docs/SECURITY-AND-TESTS.md).
 
 By contributing, you agree that your work is under the [MIT licence](LICENSE).

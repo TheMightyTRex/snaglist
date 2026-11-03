@@ -18,7 +18,7 @@ Snaglist.start({
   launcher: "bottom-right",// "bottom-right", "bottom-left", or false to open it from your own menu
   shortcut: "",            // a keyboard shortcut, for example "Alt+Shift+R"
   types: ["bug", "ux", "visual", "accessibility", "performance", "content", "feature", "idea", "other", "check"], // what people can send, in order
-  check: { engine: "built-in", axe: "https://cdn.jsdelivr.net/npm/axe-core@4.10.2/axe.min.js", contrastLimit: 300 }, // the accessibility check
+  check: { engine: "built-in", axe: "https://cdn.jsdelivr.net/npm/axe-core@4.10.2/axe.min.js", integrity: "", contrastLimit: 300 }, // the accessibility check; integrity: the hash of your own copy of axe-core (the default copy is always checked)
   categories: null,        // an extra "Kind of issue" question for problems: "ux", "heuristics", "wcag" or your own list
   severities: "three",     // how bad a problem is: "three", "nielsen", or your own list
   importance: "importance",// how much a suggestion would help: the preset, or your own list
