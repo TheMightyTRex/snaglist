@@ -130,9 +130,9 @@ signed-in scan, image scan or Hadolint.
 | OWASP ZAP | The demo and set-up pages, baseline and active | No failures. 7 warnings, all about the host's headers, the design system's style sheets and the demo's deliberate `?token=abc` request | Each explained in "Left as they are, on purpose" and marked in `tools/zap-rules.tsv` |
 | CodeQL | GitHub's JavaScript security and quality queries, run here | 4: the table escaping (real, fixed, SEC-19, counted as one finding for its two lines), an unused list (removed), and the demo's Break something button, which fails on purpose | 0 real |
 
-**CodeQL on GitHub** is not switched on for this repository yet, so it was run here with the same engine and
-queries. Switching on code scanning, secret scanning and push protection on GitHub is free for public
-repositories and is waiting for an OK.
+**On GitHub**, from 3 November 2026: CodeQL code scanning (JavaScript and Python, extended queries) runs on
+every push, and secret scanning and push protection are on. The first CodeQL scan on GitHub, after the fixes,
+raised 0 alerts, and secret scanning found nothing. Before that, CodeQL was run here with the same engine.
 
 ## Not tested yet
 
@@ -149,4 +149,4 @@ security fixes under Security.
 
 | Release | Tests | Journeys | Security scans | CodeQL | Notes |
 |---|---|---|---|---|---|
-| 0.3.2 (not released yet; checked 3 November 2026) | 21 of 21 passed (19 IDs) | Passed, pictures retaken | Gitleaks 0, Trivy 0, ESLint 0, Semgrep 0, Bandit 0, ShellCheck 0, ZAP no failures (baseline and active) | Run here: 0 real alerts left | First full check; see [the 0.3.2 notes](releases/v0.3.2.md) |
+| 0.3.2 (not released yet; checked 3 November 2026) | 21 of 21 passed (19 IDs) | Passed, pictures retaken | Gitleaks 0, Trivy 0, ESLint 0, Semgrep 0, Bandit 0, ShellCheck 0, ZAP no failures (baseline and active) | Run here: 0 real alerts left. On GitHub: 0 alerts | First full check; see [the 0.3.2 notes](releases/v0.3.2.md) |
