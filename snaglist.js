@@ -873,7 +873,7 @@
     const d = h("dialog", { class: "sl-dialog", "aria-labelledby": id },
       h("div", { class: "sl-head" }, h("h2", { id, text: title }),
         h("button", { type: "button", class: "sl-icon", "aria-label": `${t("close")}: ${title}`, onclick: () => d.close() }, icon("x"))),
-      h("div", { class: "sl-body" }, body),
+      h("div", { class: "sl-body sl-scroll" }, body),
       h("div", { class: "sl-foot" }, foot));
     d.addEventListener("close", () => { d.remove(); if (!wrap.querySelector("dialog[open]")) restoreFocus(); });
     wrap.append(d);
@@ -1054,7 +1054,7 @@
     const full = buildReport(part, values, values.type);
     let report = full;
     const removed = new Set();
-    const preview = h("pre", { class: "sl-preview", tabindex: "0", "aria-label": t("reviewTitle") });
+    const preview = h("pre", { class: "sl-preview sl-scroll", tabindex: "0", "aria-label": t("reviewTitle") });
     const draw = () => { preview.textContent = markdown(report); };
     const optional = PARTS.filter(([key]) => full[key] !== undefined).map(([key, text]) => [key, tr(`parts.${key}`, text)]);
     const toggles = optional.map(([key, text]) =>
@@ -1398,12 +1398,29 @@
 .sl { --a: var(--color-accent, #0b5f5a); --at: var(--color-accent-text, #fff); --bg: var(--color-surface-raised, #fff);
   --tx: var(--color-text, #141416); --mu: var(--color-text-muted, #424b5b); --bd: var(--color-border, #7d879a);
   --sk: var(--color-surface-sunken, #eef1f6); --fo: var(--color-focus, var(--a)); --er: var(--status-danger-fg, #a1262a); --rec: #c4161c;
+  --sb: var(--color-scrollbar, #8a94a6); --sbh: var(--color-scrollbar-hover, #5d6778);
   font: 1rem/1.5 var(--font, system-ui, -apple-system, "Segoe UI", sans-serif); color: var(--tx); }
-.sl--dark { --a: #5ed3c6; --at: #101827; --bg: #232f42; --tx: #f3f4f6; --mu: #a4aec1; --bd: #6f7b91; --sk: #0c1220; --er: #ff9b9b; --rec: #ff6b6b; }
+.sl--dark { --sb: #6f7b91; --sbh: #a4aec1; --a: #5ed3c6; --at: #101827; --bg: #232f42; --tx: #f3f4f6; --mu: #a4aec1; --bd: #6f7b91; --sk: #0c1220; --er: #ff9b9b; --rec: #ff6b6b; }
 @media (prefers-color-scheme: dark) { .sl--auto { --a: var(--color-accent, #5ed3c6); --at: var(--color-accent-text, #101827);
   --bg: var(--color-surface-raised, #232f42); --tx: var(--color-text, #f3f4f6); --mu: var(--color-text-muted, #a4aec1);
   --bd: var(--color-border, #6f7b91); --sk: var(--color-surface-sunken, #0c1220); --er: var(--status-danger-fg, #ff9b9b); --rec: #ff6b6b; } }
 button, input, select, textarea { font: inherit; color: inherit; }
+/* Scroll bars, as in the design system: thin, square, in the scroll bar colour on a clear track, and visible
+   whenever there is more to scroll. A shadow at the edge says there is more, for systems that hide scroll bars. */
+.sl, .sl * { scrollbar-width: thin; scrollbar-color: var(--sb) transparent; }
+@supports not (scrollbar-color: auto) {
+  .sl ::-webkit-scrollbar { width: 10px; height: 10px; }
+  .sl ::-webkit-scrollbar-track { background: transparent; }
+  .sl ::-webkit-scrollbar-thumb { border: 2px solid transparent; border-radius: 0; background: var(--sb) padding-box; }
+  .sl ::-webkit-scrollbar-thumb:hover { background: var(--sbh) padding-box; }
+}
+.sl-scroll { scrollbar-gutter: stable;
+  background: linear-gradient(var(--sbg, var(--bg)) 30%, transparent) center top / 100% 24px no-repeat local,
+    linear-gradient(transparent, var(--sbg, var(--bg)) 70%) center bottom / 100% 24px no-repeat local,
+    linear-gradient(rgb(0 0 0 / .2), transparent) center top / 100% 10px no-repeat scroll,
+    linear-gradient(transparent, rgb(0 0 0 / .2)) center bottom / 100% 10px no-repeat scroll,
+    var(--sbg, var(--bg)); }
+@media (forced-colors: active) { .sl-scroll { background: Canvas; } }
 :focus-visible { outline: 3px solid var(--fo); outline-offset: 2px; }
 [hidden] { display: none !important; }
 .sl-btn { min-height: 44px; padding: 0 16px; border: 1px solid var(--bd); background: var(--bg); color: var(--tx); cursor: pointer;
@@ -1429,7 +1446,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .sl-dialog::backdrop { background: rgb(0 0 0 / .45); }
 .sl-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 4px 4px 20px; border-bottom: 1px solid var(--bd); }
 .sl-head h2 { font-size: 1.125rem; margin: 0; }
-.sl-body { padding: 16px 20px; overflow: auto; display: grid; gap: 16px; }
+.sl-body { padding: 16px 20px; overflow: auto; display: grid; gap: 16px; overscroll-behavior: contain; }
 .sl-foot { padding: 12px 20px; border-top: 1px solid var(--bd); }
 .sl-form { display: grid; gap: 16px; }
 .sl-field { display: grid; gap: 4px; }
@@ -1454,7 +1471,8 @@ fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 4px; min-inline
 .sl-check { padding: 4px 0; }
 .sl-privacy { margin: 0; padding: 12px 16px; border-left: 4px solid var(--a); background: var(--sk); }
 .sl-preview { margin: 0; padding: 12px; background: var(--sk); border: 1px solid var(--bd); white-space: pre-wrap; overflow-wrap: anywhere;
-  font: .8125rem/1.5 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; min-height: 12rem; max-height: 40vh; overflow: auto; }
+  font: .8125rem/1.5 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; min-height: 12rem; max-height: 40vh; overflow: auto;
+  --sbg: var(--sk); overscroll-behavior: contain; }
 .sl-summary { display: grid; gap: 4px; padding: 12px 16px; background: var(--sk); }
 .sl-summary p { margin: 0; overflow-wrap: anywhere; }
 .sl-summary .sl-actions { gap: 16px; }

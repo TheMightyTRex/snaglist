@@ -9,6 +9,19 @@
 <link rel="stylesheet" href="https://themightytrex.github.io/design-system/tokens.css">
 <link rel="stylesheet" href="https://themightytrex.github.io/design-system/components.css">
 <style>
+  /* Scroll bars as in the design system: thin, square, visible whenever there is more to scroll. */
+  :root { scrollbar-color: var(--color-scrollbar, var(--color-border, #7d879a)) transparent; }
+  :where(*) { scrollbar-width: thin; }
+  @supports not (scrollbar-color: auto) {
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { border: 2px solid transparent; border-radius: 0; background: var(--color-border, #7d879a) padding-box; }
+  }
+  .scroll-hint { scrollbar-gutter: stable;
+    background: linear-gradient(var(--color-bg, #f0f5ff) 30%, transparent) center top / 100% 24px no-repeat local,
+      linear-gradient(transparent, var(--color-bg, #f0f5ff) 70%) center bottom / 100% 24px no-repeat local,
+      linear-gradient(rgb(0 0 0 / .2), transparent) center top / 100% 10px no-repeat scroll,
+      linear-gradient(transparent, rgb(0 0 0 / .2)) center bottom / 100% 10px no-repeat scroll; }
   body { margin: 0; background: var(--color-bg, #f0f5ff); color: var(--color-text, #141416); font-family: var(--font, system-ui, sans-serif); }
   .demo { max-width: 1200px; margin: 0 auto; padding: 0 16px 96px; display: grid; gap: 24px; grid-template-columns: minmax(0, 1fr) minmax(280px, 380px); align-items: start; }
   @media (max-width: 900px) { .demo { grid-template-columns: minmax(0, 1fr); } }
