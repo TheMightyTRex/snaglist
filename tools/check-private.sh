@@ -35,10 +35,11 @@ check "Possible API key (32 hex characters)" '(^|[^0-9a-fA-F])[0-9a-f]{32}([^0-9
 check "Possible token" '(ghp_|github_pat_|xox[bap]-|sk-[A-Za-z0-9]{20})'
 check "Private key" 'BEGIN [A-Z ]*PRIVATE KEY'
 
-# Public names that may appear even though they contain a private word: the project's GitHub account and the
-# author name (in links, image addresses and the licence). They are taken out of a line before the check, so
-# anything else on that line is still caught.
-PUBLIC_NAMES='[Tt][Hh][Ee][Mm][Ii][Gg][Hh][Tt][Yy][Tt][Rr][Ee][Xx]([Uu][Kk])?'
+# Public names that may appear even though they contain a private word: the project's GitHub account, the
+# author name (in links, image addresses and the licence) and "TRex", as in TRex Design System (David's OK,
+# 3 November 2026). "TRex" is allowed only with that capitalisation. They are taken out of a line before the
+# check, so anything else on that line is still caught.
+PUBLIC_NAMES='[Tt][Hh][Ee][Mm][Ii][Gg][Hh][Tt][Yy][Tt][Rr][Ee][Xx]([Uu][Kk])?|TRex'
 
 if [ -f .private-words ]; then
   while IFS= read -r word; do
