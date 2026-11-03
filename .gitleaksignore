@@ -1,0 +1,2 @@
+# Made-up keys in the test that checks Snaglist replaces key formats (tools/tests/security.test.mjs, SEC-07), not real ones.
+5f6512cdd889e82a8e8bb7e76a2dbdca092fc9c7:tools/tests/security.test.mjs:generic-api-key:90

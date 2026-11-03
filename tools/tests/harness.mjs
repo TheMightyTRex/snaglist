@@ -1,9 +1,10 @@
 // Shared helpers for the tests in this folder. Each test file runs on its own: node security.test.mjs
-import { chromium } from "playwright";
+import * as playwright from "playwright";
 
 const BASE = process.env.BASE || "http://127.0.0.1:18794";
 let failures = 0;
-const browser = await chromium.launch();
+const NAME = process.env.BROWSER || "chromium"; // chromium, firefox or webkit (Safari's engine)
+const browser = await playwright[NAME].launch();
 
 // A fresh test page with the given HTML in <main> and Snaglist started with the given settings.
 export async function open(html = "", options = {}, url = "/tools/tests/page.html") {
@@ -28,8 +29,9 @@ export async function reviewFor(page, selector, type = "visual", answer = "It lo
 }
 
 export async function test(id, name, fn) {
-  try { await fn(); console.log(`PASS ${id} ${name}`); }
-  catch (err) { failures++; console.log(`FAIL ${id} ${name}\n  ${String(err.message || err).split("\n").join("\n  ")}`); }
+  const label = NAME === "chromium" ? name : `${name} (${NAME})`;
+  try { await fn(); console.log(`PASS ${id} ${label}`); }
+  catch (err) { failures++; console.log(`FAIL ${id} ${label}\n  ${String(err.message || err).split("\n").join("\n  ")}`); }
 }
 
 export function expect(ok, message) { if (!ok) throw new Error(message); }

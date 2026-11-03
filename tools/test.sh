@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Runs Snaglist's tests: tools/test.sh   (ONLY=security.test.mjs tools/test.sh runs one file)
+# Runs Snaglist's tests: tools/test.sh   (ONLY=security.test.mjs tools/test.sh runs one file;
+# BROWSERS="chromium" tools/test.sh runs one browser)
 # Runs every tools/tests/*.test.sh here, then serves this folder on your own computer and runs every
 # tools/tests/*.test.mjs in the Playwright image. Each test prints PASS or FAIL with its ID, listed in
 # docs/SECURITY-AND-TESTS.md. Needs Docker; the first run downloads the Playwright image. Nothing leaves this
@@ -22,5 +23,6 @@ sleep 1
 docker run --rm --network host -u "$(id -u):$(id -g)" -e HOME=/tmp -e BASE="http://127.0.0.1:$PORT" \
   -v "$PWD/tools/tests:/tests:ro" -v "$PWD:/repo:ro" "mcr.microsoft.com/playwright:v$PLAYWRIGHT-noble" \
   sh -c "mkdir -p /tmp/t && cp /tests/* /tmp/t/ && cd /tmp/t && npm init -y >/dev/null && npm i --silent playwright@$PLAYWRIGHT >/dev/null &&
-    status=0; for f in ${ONLY:-*.test.mjs}; do node \"\$f\" || status=1; done; exit \$status" || status=1
+    status=0; for f in ${ONLY:-*.test.mjs}; do for b in ${BROWSERS:-chromium firefox webkit}; do
+      BROWSER=\$b node \"\$f\" || status=1; done; done; exit \$status" || status=1
 exit "$status"

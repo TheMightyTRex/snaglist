@@ -5,8 +5,8 @@ server. So it must never carry away what someone typed or who they are, never le
 what it sends, and never put the site at risk. This page says how it does that, what the security check in
 November 2026 found and fixed, and which tests pass today.
 
-To report a problem, open an issue at github.com/TheMightyTRex/snaglist. For anything that could be misused,
-leave the details out of the issue and ask how to send them. For what a report holds, see
+To report a problem privately, use **Report a vulnerability** on the repository's **Security** tab; see
+[SECURITY.md](../SECURITY.md). For what a report holds, see
 [What a report holds, and what it never holds](topics/what-a-report-holds.md).
 
 Latest results: 3 November 2026.
@@ -35,7 +35,7 @@ Latest results: 3 November 2026.
 
 Snaglist 0.3.1 was checked in three ways: the free scanners below, an independent code review by a reviewer who
 had not seen the scan results, and new tests in a real browser for every real finding. No high or critical
-problems were found. Thirteen medium or low problems were real; all are fixed, and each fix has a test that
+problems were found. Fourteen medium or low problems were real; all are fixed, and each fix has a test that
 failed before it and passes now.
 
 | Severity | What was found | How it was fixed | Test |
@@ -49,15 +49,13 @@ failed before it and passes now.
 | Medium | The example worker for your own server could be used by anyone to make issues, because the origin check stops other websites but not people. | The example uses a rate limit when one is set up, refuses an oversized request before reading it, and stops mentions. The help says to add a rate limit before it is public. | SEC-13 to SEC-16 |
 | Low | A console message or an address could break out of a report's code block, and mention people on GitHub. | Messages and steps stay on one line, and an invisible space follows every `@`. | SEC-09 |
 | Low | A backslash or `\|` in page text could add a column to a report's tables (found by CodeQL). | Backslashes are escaped too. | SEC-19 |
+| Low | In WebKit (Safari's engine), cleaning a very long console message took 1.5 seconds, holding up the page. | Messages are cut before they are cleaned, and the email pattern is bounded. | SEC-10 |
 | Low | Cutting text in the middle of an emoji stopped GitHub and email sending. | Text is never cut through an emoji. | SEC-11 |
 | Low | axe-core was loaded without a hash. | The default copy is checked against its hash; `check.integrity` gives one for your own copy. destroy() takes it away again. | SEC-03 |
 | Low | destroy() could remove a wrapper another tool added after Snaglist. | It puts back only its own. | SEC-12 |
 | Low | The privacy check let a private word through when written with "TRex", and ignored a word starting with a hyphen. | A private word is let through only inside an allowed public name. | SEC-17, SEC-18 |
 
 **Also changed**
-- Long messages are cut before they are cleaned, and the email pattern is bounded. The reviewer found the email
-  pattern slow on a very long message in Node; it was not slow in Chrome, so SEC-10 guards it rather than proving
-  the fix.
 - The review window's privacy statement no longer says no personal information is kept, because the page title
   and the text on screen are copied as they are. It says what is left out, and asks people to check the rest.
 - The test and screenshot tools serve only the files git would publish, so `.git` and `.private-words` are never
@@ -83,8 +81,8 @@ failed before it and passes now.
 
 ## Security tests and results
 
-`tools/test.sh` runs every test: the shell tests here, then the browser tests in the Playwright image. Each
-prints its ID.
+`tools/test.sh` runs every test: the shell tests here, then the browser tests in the Playwright image, in
+Chromium, Firefox and WebKit (Safari's engine). Each prints its ID, and the browser when it is not Chromium.
 
 | ID | What is tested | Result |
 |---|---|---|
@@ -121,7 +119,7 @@ signed-in scan, image scan or Hadolint.
 
 | Scanner | What it checks | Found on 3 November 2026 | Now |
 |---|---|---|---|
-| Gitleaks | Keys and passwords anywhere in the git history | Nothing | Nothing |
+| Gitleaks | Keys and passwords anywhere in the git history | Nothing before the fixes. After them, 2: the made-up keys in the SEC-07 test that checks key formats are replaced | Nothing real. The made-up keys are listed in `.gitleaksignore` |
 | Trivy | Keys, known problems and risky set-up in the files | Nothing (there are no packages to check) | Nothing |
 | ESLint, with the no-unsanitized and security rules | HTML built from text, eval, and risky patterns in snaglist.js, the pages, the worker and the tools | No HTML built from text and no eval. 24 general "object injection" warnings and 2 pattern warnings. | Each was read: every key is a fixed name or the site's own setting, so that rule is off; the patterns cannot backtrack and are marked with the reason |
 | Semgrep | Semgrep's JavaScript, cross-site scripting and secrets rules, on the same files | Nothing | Nothing |
@@ -132,12 +130,11 @@ signed-in scan, image scan or Hadolint.
 
 **On GitHub**, from 3 November 2026: CodeQL code scanning (JavaScript and Python, extended queries) runs on
 every push, and secret scanning and push protection are on. The first CodeQL scan on GitHub, after the fixes,
-raised 0 alerts, and secret scanning found nothing. Before that, CodeQL was run here with the same engine.
+raised 0 alerts, and secret scanning found nothing. Private vulnerability reporting is on too. Before that, CodeQL was run here with the same engine.
 
 ## Not tested yet
 
-- Firefox and Safari: the tests run in Chrome only. The slow email pattern the reviewer found in Node may still
-  matter there; it is bounded now, but there is no test in those browsers yet.
+- Real Safari on a Mac or iPhone, and Edge: the tests use WebKit and Chromium, the engines underneath them.
 - The example worker on Cloudflare itself: its tests replace Cloudflare and GitHub with stand-ins.
 - `beforeSend`, `context` and `component.from`: these run the site's own code, so what they add is the site's
   responsibility, and nothing checks it.
@@ -149,4 +146,4 @@ security fixes under Security.
 
 | Release | Tests | Journeys | Security scans | CodeQL | Notes |
 |---|---|---|---|---|---|
-| 0.3.2 (not released yet; checked 3 November 2026) | 21 of 21 passed (19 IDs) | Passed, pictures retaken | Gitleaks 0, Trivy 0, ESLint 0, Semgrep 0, Bandit 0, ShellCheck 0, ZAP no failures (baseline and active) | Run here: 0 real alerts left. On GitHub: 0 alerts | First full check; see [the 0.3.2 notes](releases/v0.3.2.md) |
+| 0.3.2 (3 November 2026) | 55 of 55 passed (19 IDs; the browser tests in Chromium, Firefox and WebKit) | Passed, pictures retaken | Gitleaks 0 (2 made-up test keys listed), Trivy 0, ESLint 0, Semgrep 0, Bandit 0, ShellCheck 0, ZAP no failures (baseline and active) | Run here: 0 real alerts left. On GitHub: 0 alerts | First full check; see [the 0.3.2 notes](releases/v0.3.2.md) |
