@@ -47,7 +47,7 @@ display, performance, errors, console, network, trail, context),
 limits { errors: 5, console: 10, network: 8, trail: 8, slowRequest: 2000 }, page { name: fn, keepParams: [] },
 component { attribute: "data-component", from: fn }, context (fn returning app details such as a build number),
 redact ([[regex, "[label]"]]), send { github: { repo, labels }, email: { to, subject }, endpoint: { url,
-headers }, copy: true, download: true }, beforeSend (fn(report) => report), text ({ key: "replacement" }).
+headers }, qr: true, copy: true, download: true }, beforeSend (fn(report) => report), text ({ key: "replacement" }).
 
 ## Translating
 

@@ -1,0 +1,58 @@
+[
+ {
+  "text": "A",
+  "version": 1,
+  "level": "M",
+  "mask": 4,
+  "sha256": "177b3a1897a152aee17ab1ee4b667913c6bb873e6ba357debfc5ba243dabff0e"
+ },
+ {
+  "text": "https://example.org/",
+  "version": 2,
+  "level": "M",
+  "mask": 2,
+  "sha256": "b4d9d79e77bb5c3b7f5b171b9969b530bfccd5ec8479f525adc04f7a7f3494b3"
+ },
+ {
+  "text": "https://github.com/TheMightyTRex/snaglist/issues/new?title=Something%20is%20broken",
+  "version": 5,
+  "level": "M",
+  "mask": 6,
+  "sha256": "4502c4629805d0f8dbf3c6a2ec26ca5cf869715b084f07d180b9ae3177d3a8fb"
+ },
+ {
+  "text": "Café, naïve, 東京 and ✓ in UTF-8",
+  "version": 3,
+  "level": "M",
+  "mask": 6,
+  "sha256": "946b510407efd969b38313ef4f6d8a3f3a4aa736352f2c5058278bfc147d7d68"
+ },
+ {
+  "text": "The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a",
+  "version": 8,
+  "level": "L",
+  "mask": 4,
+  "sha256": "7cd16d5a45b93e15cf73af93041fc509268749ed6583b39cf5bafbdfe84f2f4a"
+ },
+ {
+  "text": "The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the fo",
+  "version": 18,
+  "level": "L",
+  "mask": 2,
+  "sha256": "08eb2ff62a26f51e207feeb768ac96bb5dc842edce39a1ffa70f21a8f8e8a82e"
+ },
+ {
+  "text": "https://github.com/x/y/issues/new?body=word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word%20word",
+  "version": 23,
+  "level": "L",
+  "mask": 4,
+  "sha256": "0f28c474b70e1c88a828b477e44dec46950687c16683c0d28995c6ca283a28e0"
+ },
+ {
+  "text": "The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in it. The save button does nothing when the form has a long name in ",
+  "version": 40,
+  "level": "L",
+  "mask": 2,
+  "sha256": "6feb59d46be494ca2649cea219311820420826bc2d3fb649312b430ac54a18af"
+ }
+]

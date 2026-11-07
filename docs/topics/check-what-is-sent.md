@@ -21,11 +21,14 @@ parts out, then choose how to send it.
 3. Read the preview. Anything in the form of an email address, a long number or a key is shown as
    `[email]`, `[number]` or `[key]`. Check the text on screen shows nothing personal.
 
-   ![What is sent shows the privacy statement, a list of parts to include with a tick each, and the report as it will be sent, with the buttons Open in GitHub, Copy as Markdown, Download and Back.](../images/review.png)
+   ![What is sent shows the privacy statement, a list of parts to include with a tick each, and the report as it will be sent, with the buttons Open in GitHub, Show as a QR code, Copy as Markdown, Download and Back.](../images/review.png)
 
 4. Choose how to send it. You will find only the ways the site's team has set up:
    - **Open in GitHub** opens a new GitHub issue with everything filled in. Read
      [Post a report on GitHub](post-a-report-on-github.md).
+   - **Show as a QR code** shows the same GitHub issue as a code to scan with your phone, for a computer that
+     is not online. It comes first when this computer looks offline. Read
+     [Send a report with a QR code](send-a-report-with-a-qr-code.md).
    - **Open in email** opens your mail app with a new message filled in. Send it as you would any email.
    - **Send** posts it straight to the site's own server. A message says when it has arrived.
    - **Copy as Markdown** puts the report on your clipboard, to paste anywhere.

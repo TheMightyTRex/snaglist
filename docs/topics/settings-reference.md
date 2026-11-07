@@ -43,6 +43,7 @@ Snaglist.start({
     github: null,          // { repo: "owner/repo", labels: ["web"] }
     email: null,           // { to: "team@example.com", subject: "UX report" }
     endpoint: null,        // { url: "https://reports.example/api", headers: {} }
+    qr: true,              // Show as a QR code: the GitHub issue for a phone to open; only with github
     copy: true,            // Copy as Markdown
     download: true,        // Download as JSON
   },

@@ -36,6 +36,9 @@ from their own GitHub account, so no key is ever put in your page.
   [set-up tool](use-the-set-up-tool.md) gives the commands to make them all. GitHub
   only adds labels that exist, and only when the person may label issues. The kind and severity are always in
   the report too.
+- **Show as a QR code** is offered with **Open in GitHub**, for a computer that is not online: a phone scans
+  it and opens the same issue. To leave it out, set `send: { github: { repo: "owner/repo" }, qr: false }`.
+  Read [Send a report with a QR code](send-a-report-with-a-qr-code.md).
 - The people reporting need a GitHub account. For reports from anyone, read
   [Send reports to your own server](send-reports-to-your-own-server.md).
 - Very long reports do not fit in a web address. Snaglist then puts the report on the clipboard and says so.

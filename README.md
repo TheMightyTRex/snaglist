@@ -17,7 +17,7 @@ questions, check exactly what will be sent, and send it as a GitHub issue, an em
 
 ![The Send feedback window. Report a problem lists Something is broken, Hard to use, Looks wrong, Hard to use with my tools or needs, Slow and Words are wrong. Make a suggestion lists A new feature, Make something better and Something else. Check the page offers Check this page for accessibility problems. What do you want to show offers One thing on the page, A series of steps, and Describe it in words.](docs/images/choose.png)
 
-- **One file, no libraries:** about 100 KB, or 33 KB when your server compresses it. No build step.
+- **One file, no libraries:** about 125 KB, or 40 KB when your server compresses it. No build step.
 - **Simple to add and to remove:** one script tag, or the [set-up tool](https://themightytrex.github.io/snaglist/configure.html)
   writes the code and one prompt for your AI assistant. Removing it leaves nothing behind.
 - **Anonymous by design:** never what people type, no cookies, no query strings; emails, phone numbers,
@@ -106,6 +106,7 @@ want, then copy the code, or one prompt that has your AI assistant add everythin
 | GitHub | Opens a new issue with the title, report and labels filled in. The person posts it from their own account | A GitHub account for the person reporting |
 | Email | Opens their mail app with the report filled in | A mail app |
 | Your server | Posts the report as JSON, without cookies | An address that accepts it; [Send reports to your own server](https://themightytrex.github.io/snaglist/help/topics/send-reports-to-your-own-server.html) has an example that files GitHub issues for anyone |
+| QR code | Shows the same GitHub issue as a QR code with the link as text, for a computer that is not online. It comes first when the computer looks offline. A long report goes in shorter, and the view says what it holds | GitHub as above, and a phone |
 | Copy and Download | Markdown on the clipboard, or a JSON file | Nothing |
 
 No token or password is ever put in the page.

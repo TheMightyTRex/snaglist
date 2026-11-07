@@ -117,5 +117,32 @@ await wait(200);
 await shot(p, "set-up-tool");
 await p.context().close();
 
+// 13. What is sent, on a computer that is offline: Show as a QR code comes first. 14. The QR code view.
+p = await page();
+await button(p, "Send feedback").click();
+await choose(p, "bug", "none");
+await p.locator("snag-list textarea").first().fill("The save button does nothing on the last step.");
+await p.context().setOffline(true);
+await button(p, "Review what is sent").click();
+await wait(200);
+await shot(p, "review-offline");
+await button(p, "Show as a QR code").click();
+await wait(200);
+await shot(p, "qr-code");
+await p.context().close();
+
+// 15. The QR code view on a phone-sized window, in dark mode.
+p = await page({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, colorScheme: "dark", isMobile: true, hasTouch: true });
+await p.check("input[name=pg-theme][value=dark]");
+await button(p, "Send feedback").click();
+await choose(p, "ux", "none");
+await p.locator("snag-list textarea").first().fill("I could not find where to change my password.");
+await button(p, "Review what is sent").click();
+await button(p, "Show as a QR code").click();
+await wait(200);
+await shot(p, "qr-code-dark");
+await p.evaluate(() => localStorage.clear());
+await p.context().close();
+
 await browser.close();
 console.log("done");

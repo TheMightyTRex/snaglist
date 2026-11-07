@@ -14,6 +14,8 @@ Each way of sending fails in its own way. Find yours, and keep 'Copy as Markdown
   Paste it into the issue.
 - **Labels are missing on GitHub:** GitHub only adds labels that exist, and only for people who may label
   issues. Read [Send reports to GitHub](send-reports-to-github.md).
+- **This computer is not online:** select **Show as a QR code** and scan it with your phone. Read
+  [Send a report with a QR code](send-a-report-with-a-qr-code.md).
 - **Open in email does nothing:** no mail app is set up on this computer. Use **Copy as Markdown** and paste
   the report into an email.
 - **Send says "Not sent":** the message after it gives the reason. A number such as 403 or 500 comes from the

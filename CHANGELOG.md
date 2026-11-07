@@ -8,6 +8,13 @@ follow [Semantic Versioning](https://semver.org/). Each release's notes are also
 ## [Unreleased]
 
 ### Added
+- **Show as a QR code.** With GitHub set up, **What is sent** offers the same pre-filled new issue as a QR code,
+  for a phone to open when the computer is not online, such as one being set up. It comes first when the
+  computer looks offline. A long report goes in shorter, in the design system's order, and the view says what
+  the code holds. The link is shown as text with **Copy the link**, and **Download** keeps the whole report.
+  The encoder is part of `snaglist.js`, ported from the design system's `terminal/qr.py`, so there is still
+  one file and no libraries. Leave it out with `send: { qr: false }`.
+  [Send a report with a QR code](docs/topics/send-a-report-with-a-qr-code.md) has the steps.
 - **A changelog.** This file lists every version since 0.1.0.
 - **The help centre on the web.** The help in `docs` is published as web pages at
   https://themightytrex.github.io/snaglist/help/, with search, a menu of every article, On this page beside each

@@ -42,6 +42,7 @@ Each guide is a journey through several topics, in order.
 - [Suggest a feature or an improvement](topics/suggest-a-feature-or-improvement.md)
 - [Check what is sent, then send it](topics/check-what-is-sent.md)
 - [Post a report on GitHub](topics/post-a-report-on-github.md)
+- [Send a report with a QR code](topics/send-a-report-with-a-qr-code.md)
 - [Deactivate Send feedback](topics/deactivate-send-feedback.md)
 
 ### Accessibility

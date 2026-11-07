@@ -105,10 +105,21 @@ Chromium, Firefox and WebKit (Safari's engine). Each prints its ID, and the brow
 | SEC-17 | The privacy check catches a private word written with "TRex", and lets the public names through | Pass |
 | SEC-18 | The privacy check checks a private word that starts with a hyphen | Pass |
 | SEC-19 | A backslash or `\|` in page text cannot add a column to a report's tables | Pass |
+| SEC-20 | The QR code holds nothing typed into the page, and no email address or key | Pass |
+
+The tests for **Show as a QR code** run the same way:
+
+| ID | What is tested | Result |
+|---|---|---|
+| QR-01 | The encoder draws the same codes as the design system's `terminal/qr.py` (`tools/tests/qr-fixtures.py` makes them), from version 1 to 40 | Pass |
+| QR-02 | The code holds the same address as Open in GitHub, dark on light with a 4-module quiet zone and a description | Pass |
+| QR-03 | Offline, Show as a QR code comes first and says why | Pass |
+| QR-04 | A long report goes in shorter, the view says what the code holds, and the link and Download stay | Pass |
+| QR-05 | The view works from the keyboard and is dark on light in all four themes | Pass |
 
 The journeys in `tools/screenshots.sh` go through every main path in a real browser (one part, a recording, a
-suggestion, a phone in dark mode, the accessibility check, the demo's display settings and the set-up tool) and
-retake the pictures in the help.
+suggestion, a phone in dark mode, the accessibility check, the demo's display settings, the set-up tool, and
+the QR code, offline and in dark mode) and retake the pictures in the help.
 
 ## Security scans
 
