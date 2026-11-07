@@ -13,7 +13,7 @@ questions, check exactly what will be sent, and send it as a GitHub issue, an em
 
 **[Try the demo](https://themightytrex.github.io/snaglist/)** ·
 **[Set it up for your site](https://themightytrex.github.io/snaglist/configure.html)** ·
-**[Help centre](docs/README.md)** · **[Prompts for AI assistants](docs/AI-PROMPTS.md)**
+**[Help centre](https://themightytrex.github.io/snaglist/help/index.html)** · **[Prompts for AI assistants](https://themightytrex.github.io/snaglist/help/AI-PROMPTS.html)**
 
 ![The Send feedback window. Report a problem lists Something is broken, Hard to use, Looks wrong, Hard to use with my tools or needs, Slow and Words are wrong. Make a suggestion lists A new feature, Make something better and Something else. Check the page offers Check this page for accessibility problems. What do you want to show offers One thing on the page, A series of steps, and Describe it in words.](docs/images/choose.png)
 
@@ -41,8 +41,8 @@ questions, check exactly what will be sent, and send it as a GitHub issue, an em
 | Something else | Your message | Nothing extra |
 | Check this page for accessibility problems | Nothing: it runs an automatic check | Each problem, its WCAG criterion, where it is and how to fix it |
 
-You choose what to offer and what each records. [Choose what people can send](docs/topics/choose-what-people-can-send.md)
-and [What a report holds, and what it never holds](docs/topics/what-a-report-holds.md) have the details.
+You choose what to offer and what each records. [Choose what people can send](https://themightytrex.github.io/snaglist/help/topics/choose-what-people-can-send.html)
+and [What a report holds, and what it never holds](https://themightytrex.github.io/snaglist/help/topics/what-a-report-holds.html) have the details.
 
 ## Record a series of steps
 
@@ -58,7 +58,7 @@ recording carries on across pages in the same tab.
 **Check this page for accessibility problems** runs 13 checks for the most common WCAG 2.2 failures, or axe-core
 if you choose. Each problem says why it matters and how to fix it, with code before and after, and can be shown on
 the page and reported on its own or with the rest.
-[Fix common accessibility problems](docs/topics/fix-common-accessibility-problems.md) has every fix.
+[Fix common accessibility problems](https://themightytrex.github.io/snaglist/help/topics/fix-common-accessibility-problems.html) has every fix.
 
 ![The Accessibility check window lists 7 problems found on the demo. The first, Pictures with no text alternative, is open, with why it matters, how to fix it, the code before and after, and the buttons Show on the page and Report this.](docs/images/check-results.png)
 
@@ -74,7 +74,7 @@ want, then copy the code, or one prompt that has your AI assistant add everythin
    <script src="/snaglist.js" data-github="owner/repo" defer></script>
    ```
 
-   Or start it yourself, with any of the settings in the [settings reference](docs/topics/settings-reference.md):
+   Or start it yourself, with any of the settings in the [settings reference](https://themightytrex.github.io/snaglist/help/topics/settings-reference.html):
 
    ```html
    <script src="/snaglist.js"></script>
@@ -95,7 +95,7 @@ want, then copy the code, or one prompt that has your AI assistant add everythin
 
 - **For everyone:** set `enabled: false` to deactivate it, or activate it only in test builds.
 - **For each user:** give them a switch. `Snaglist.setUserEnabled(false)` hides the button and remembers the choice
-  in that browser. Read [Add a switch for your users](docs/topics/add-a-switch-for-your-users.md).
+  in that browser. Read [Add a switch for your users](https://themightytrex.github.io/snaglist/help/topics/add-a-switch-for-your-users.html).
 - **Remove it:** delete the script tags and `snaglist.js`. `Snaglist.destroy({ forget: true })` removes it from a
   running page, puts back anything it wrapped, and clears its saved setting.
 
@@ -105,27 +105,27 @@ want, then copy the code, or one prompt that has your AI assistant add everythin
 |---|---|---|
 | GitHub | Opens a new issue with the title, report and labels filled in. The person posts it from their own account | A GitHub account for the person reporting |
 | Email | Opens their mail app with the report filled in | A mail app |
-| Your server | Posts the report as JSON, without cookies | An address that accepts it; [Send reports to your own server](docs/topics/send-reports-to-your-own-server.md) has an example that files GitHub issues for anyone |
+| Your server | Posts the report as JSON, without cookies | An address that accepts it; [Send reports to your own server](https://themightytrex.github.io/snaglist/help/topics/send-reports-to-your-own-server.html) has an example that files GitHub issues for anyone |
 | Copy and Download | Markdown on the clipboard, or a JSON file | Nothing |
 
 No token or password is ever put in the page.
 
 ## Help
 
-The [help centre](docs/README.md) has guides from start to finish and a topic for each task:
+The [help centre](https://themightytrex.github.io/snaglist/help/index.html) has guides from start to finish and a topic for each task:
 
-- [Add Snaglist to your site and get your first report](docs/guides/add-snaglist-to-your-site.md)
-- [Set up Snaglist on your own server](docs/guides/set-up-snaglist-on-your-own-server.md)
-- [Run a test session with Snaglist](docs/guides/run-a-test-session.md)
-- [Find and fix accessibility problems](docs/guides/find-and-fix-accessibility-problems.md)
-- [Send feedback on a site that uses Snaglist](docs/guides/send-feedback-on-a-site.md), for the people using it
-- [Take Snaglist out of your site](docs/guides/take-snaglist-out-of-your-site.md)
+- [Add Snaglist to your site and get your first report](https://themightytrex.github.io/snaglist/help/guides/add-snaglist-to-your-site.html)
+- [Set up Snaglist on your own server](https://themightytrex.github.io/snaglist/help/guides/set-up-snaglist-on-your-own-server.html)
+- [Run a test session with Snaglist](https://themightytrex.github.io/snaglist/help/guides/run-a-test-session.html)
+- [Find and fix accessibility problems](https://themightytrex.github.io/snaglist/help/guides/find-and-fix-accessibility-problems.html)
+- [Send feedback on a site that uses Snaglist](https://themightytrex.github.io/snaglist/help/guides/send-feedback-on-a-site.html), for the people using it
+- [Take Snaglist out of your site](https://themightytrex.github.io/snaglist/help/guides/take-snaglist-out-of-your-site.html)
 
-[Security](docs/SECURITY-AND-TESTS.md) says how Snaglist protects people, what its security check found and
+[Security](https://themightytrex.github.io/snaglist/help/SECURITY-AND-TESTS.html) says how Snaglist protects people, what its security check found and
 fixed, and which tests pass.
 
 Building with an AI assistant? The [set-up tool](https://themightytrex.github.io/snaglist/configure.html) writes one
-prompt with your choices, [Prompts for AI assistants](docs/AI-PROMPTS.md) has more, and [llms.txt](llms.txt) is a
+prompt with your choices, [Prompts for AI assistants](https://themightytrex.github.io/snaglist/help/AI-PROMPTS.html) has more, and [llms.txt](llms.txt) is a
 short summary written for AI tools.
 
 ## Part of a family

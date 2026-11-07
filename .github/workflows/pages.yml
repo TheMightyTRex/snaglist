@@ -1,0 +1,51 @@
+name: Site and help centre
+# Publishes the demo site (the files at the top of the repository) and the help centre, built from docs with the
+# design system's help centre builder (settings in help-centre.json), on GitHub Pages:
+# https://themightytrex.github.io/snaglist/ and https://themightytrex.github.io/snaglist/help/
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/checkout@v4
+        with:
+          repository: TheMightyTRex/design-system
+          path: _design-system
+          persist-credentials: false
+      - name: Build the site
+        run: |
+          mkdir _site
+          # The site as before: everything at the top of the repository, without the tools and the git files.
+          tar --exclude=./.git --exclude=./.github --exclude=./tools --exclude=./_design-system --exclude=./_site \
+              --exclude=./.private-words -cf - . | tar -xf - -C _site
+          pip install markdown==3.7 pymdown-extensions==10.9
+          python _design-system/tools/help_centre/build.py --config help-centre.json --out _site
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

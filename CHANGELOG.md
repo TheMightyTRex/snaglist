@@ -9,6 +9,10 @@ follow [Semantic Versioning](https://semver.org/). Each release's notes are also
 
 ### Added
 - **A changelog.** This file lists every version since 0.1.0.
+- **The help centre on the web.** The help in `docs` is published as web pages at
+  https://themightytrex.github.io/snaglist/help/, with search, a menu of every article, On this page beside each
+  article and display settings, built by the design system's help centre builder (`help-centre.json`). The demo,
+  the set-up tool and the README link to it.
 
 ## [0.3.2] (3 November 2026)
 

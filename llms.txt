@@ -85,7 +85,7 @@ nothing is left.
 
 ## More
 
-- Help centre: https://github.com/TheMightyTRex/snaglist/blob/main/docs/README.md
-- Fix common accessibility problems: https://github.com/TheMightyTRex/snaglist/blob/main/docs/topics/fix-common-accessibility-problems.md
-- Prompts for AI assistants: https://github.com/TheMightyTRex/snaglist/blob/main/docs/AI-PROMPTS.md
+- Help centre: https://themightytrex.github.io/snaglist/help/index.html
+- Fix common accessibility problems: https://themightytrex.github.io/snaglist/help/topics/fix-common-accessibility-problems.html
+- Prompts for AI assistants: https://themightytrex.github.io/snaglist/help/AI-PROMPTS.html
 - Demo: https://themightytrex.github.io/snaglist/
