@@ -4,8 +4,15 @@
   "site": "https://themightytrex.github.io/snaglist/help/",
   "help_dir": "docs",
   "logo_file": "docs/images/logo.svg",
-  "leave_out": ["HOW-THIS-HELP-IS-WRITTEN.md", "releases/*"],
-  "sections": {"guides": "Guides", "topics": "Topics"},
+  "leave_out": [
+    "HOW-THIS-HELP-IS-WRITTEN.md",
+    "releases/*"
+  ],
+  "sections": {
+    "guides": "Guides",
+    "topics": "Topics"
+  },
   "search_example": "Type what you want to do, such as \"add Snaglist to a website\" or \"remove it\".",
-  "front_door": false
+  "front_door": false,
+  "favicon_file": "favicon.svg"
 }
