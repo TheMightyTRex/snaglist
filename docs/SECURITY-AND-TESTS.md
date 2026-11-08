@@ -106,6 +106,7 @@ Chromium, Firefox and WebKit (Safari's engine). Each prints its ID, and the brow
 | SEC-18 | The privacy check checks a private word that starts with a hyphen | Pass |
 | SEC-19 | A backslash or `\|` in page text cannot add a column to a report's tables | Pass |
 | SEC-20 | The QR code holds nothing typed into the page, and no email address or key | Pass |
+| SEC-21 | Snaglist is styled under a strict Content Security Policy (`default-src 'self'`) | Pass |
 
 The tests for **Show as a QR code** run the same way:
 

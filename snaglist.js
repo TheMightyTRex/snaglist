@@ -1074,7 +1074,7 @@
 
   async function copyText(text) {
     try { await navigator.clipboard.writeText(text); return true; } catch {
-      const area = h("textarea", { style: "position:fixed;opacity:0" }); area.value = text; wrap.append(area); area.select();
+      const area = h("textarea"); Object.assign(area.style, { position: "fixed", opacity: "0" }); area.value = text; wrap.append(area); area.select();
       const ok = document.execCommand("copy"); area.remove(); return ok;
     }
   }
@@ -1898,7 +1898,14 @@ fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 4px; min-inline
     const rtl = /^(ar|he|fa|ur|ps|yi)\b/i.test(lang);
     wrap = h("div", { class: `sl sl--${["dark", "auto"].includes(config.theme) ? config.theme : "light"}`, lang, dir: rtl ? "rtl" : null },
       h("div", { class: "sl-status", role: "status", hidden: true }));
-    root.append(h("style", { text: CSS_TEXT }), wrap);
+    // A constructed style sheet works under a strict Content Security Policy (style-src 'self'); a <style>
+    // element is the fallback for browsers without one.
+    if (typeof CSSStyleSheet === "function" && "adoptedStyleSheets" in root && "replaceSync" in CSSStyleSheet.prototype) {
+      const sheet = new CSSStyleSheet();
+      sheet.replaceSync(CSS_TEXT);
+      root.adoptedStyleSheets = [sheet];
+      root.append(wrap);
+    } else root.append(h("style", { text: CSS_TEXT }), wrap);
     if (config.launcher) {
       launcher = h("button", { type: "button", class: `sl-btn sl-btn--primary sl-launcher sl-launcher--${config.launcher}`, onclick: () => openChooser() },
         icon("flag"), t("launcher"));
