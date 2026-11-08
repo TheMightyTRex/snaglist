@@ -7,6 +7,9 @@ follow [Semantic Versioning](https://semver.org/). Each release's notes are also
 
 ## [Unreleased]
 
+### Changed
+- **Strict Content Security Policy:** Snaglist draws its styles with a constructed style sheet instead of a style element, so it works on pages whose policy is `default-src 'self'`.
+
 ## [0.4.0] (8 November 2026)
 
 Send a report from a computer that is not online, with a QR code for a phone to scan.
