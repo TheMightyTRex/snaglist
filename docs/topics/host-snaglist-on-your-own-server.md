@@ -13,10 +13,10 @@ update.
 
 ## Steps
 
-1. Download the version you want into the folder your server serves. This command saves version 0.3.2:
+1. Download the version you want into the folder your server serves. This command saves version 0.4.0:
 
    ```bash
-   curl -fsSL -o snaglist.js https://raw.githubusercontent.com/TheMightyTRex/snaglist/v0.3.2/snaglist.js
+   curl -fsSL -o snaglist.js https://raw.githubusercontent.com/TheMightyTRex/snaglist/v0.4.0/snaglist.js
    ```
 
 2. Check it downloaded in full. The file ends with `})();`:
@@ -42,7 +42,7 @@ update.
   visitors' requests:
 
   ```html
-  <script src="https://cdn.jsdelivr.net/gh/TheMightyTRex/snaglist@v0.3.2/snaglist.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/gh/TheMightyTRex/snaglist@v0.4.0/snaglist.js" defer></script>
   ```
 
 - To take reports on your own server too, read

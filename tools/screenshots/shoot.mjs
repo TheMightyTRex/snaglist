@@ -1,4 +1,5 @@
 // Takes the screenshots for the README and help from the demo and set-up pages. Run by tools/screenshots.sh.
+import { readFileSync } from "node:fs";
 import { chromium } from "playwright";
 
 const BASE = process.env.BASE;
@@ -12,6 +13,34 @@ async function page(options = {}) {
   await p.goto(`${BASE}/index.html`, { waitUntil: "networkidle" });
   await p.evaluate(() => sessionStorage.clear());
   return p;
+}
+// The design system's tools/annotate.js, copied here: a red outline, a curved arrow and the step number, to its
+// docs/SCREENSHOTS.md. Snaglist's windows open in the top layer, so the mark-up is moved into the open window,
+// and checked against Snaglist's own shadow root, which the design system's check cannot see into.
+// screenshots.sh copies annotate.js next to this file and runs it from there.
+const ANNOTATE = readFileSync("annotate.js", "utf8");
+async function markUp(p, marks, steps) {
+  await p.addScriptTag({ content: ANNOTATE });
+  const problems = await p.evaluate(({ marks, steps }) => {
+    const root = document.querySelector("snag-list").shadowRoot;
+    const open = [...root.querySelectorAll("dialog[open]")].pop();
+    for (const m of marks) {
+      const el = typeof m.find === "string" ? root.querySelector(m.find)
+        : [...root.querySelectorAll(m.find.css)].find((e) => e.textContent.trim() === m.find.text);
+      if (!el) return [`nothing matches ${JSON.stringify(m.find)}`];
+      window.Annotate.mark(el, m.options);
+    }
+    if (open) open.append(document.getElementById("__annotate_layer"));
+    const own = window.Annotate.verify({ steps }).problems.filter((x) => !/something covers|has left the page/.test(x));
+    for (const m of window.Annotate.marks) {
+      if (!m.els[0].isConnected) { own.push(`${m.els[0].tagName} has left the page`); continue; }
+      const r = m.els[0].getBoundingClientRect();
+      const top = root.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+      if (!top || !(m.els[0] === top || m.els[0].contains(top) || top.contains(m.els[0]))) own.push(`something covers ${m.els[0].tagName}`);
+    }
+    return own;
+  }, { marks, steps });
+  if (problems.length) throw new Error(`Mark-up: ${problems.join("; ")}`);
 }
 const shot = (p, name) => p.screenshot({ path: `${OUT}/${name}.png` });
 const button = (p, text) => p.locator("snag-list .sl-btn", { hasText: text }).first();
@@ -125,9 +154,12 @@ await p.locator("snag-list textarea").first().fill("The save button does nothing
 await p.context().setOffline(true);
 await button(p, "Review what is sent").click();
 await wait(200);
+await markUp(p, [{ find: { css: ".sl-foot button", text: "Show as a QR code" }, options: { step: 1, side: "top", tail: 90 } }], [1]);
 await shot(p, "review-offline");
+await p.evaluate(() => window.Annotate.clear());
 await button(p, "Show as a QR code").click();
 await wait(200);
+await markUp(p, [{ find: "svg.sl-qr", options: { step: 2, side: "left", tail: 80 } }], [2]);
 await shot(p, "qr-code");
 await p.context().close();
 
@@ -140,6 +172,7 @@ await p.locator("snag-list textarea").first().fill("I could not find where to ch
 await button(p, "Review what is sent").click();
 await button(p, "Show as a QR code").click();
 await wait(200);
+await markUp(p, [{ find: "svg.sl-qr", options: { side: "bottom", tail: 60 } }], []);
 await shot(p, "qr-code-dark");
 await p.evaluate(() => localStorage.clear());
 await p.context().close();

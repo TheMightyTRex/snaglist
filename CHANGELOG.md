@@ -7,6 +7,10 @@ follow [Semantic Versioning](https://semver.org/). Each release's notes are also
 
 ## [Unreleased]
 
+## [0.4.0] (8 November 2026)
+
+Send a report from a computer that is not online, with a QR code for a phone to scan.
+
 ### Added
 - **Show as a QR code.** With GitHub set up, **What is sent** offers the same pre-filled new issue as a QR code,
   for a phone to open when the computer is not online, such as one being set up. It comes first when the
@@ -138,7 +142,8 @@ The first version. It was not tagged.
   to record.
 - **A demo page,** documentation, prompts for AI coding assistants and an example server.
 
-[Unreleased]: https://github.com/TheMightyTRex/snaglist/compare/v0.3.2...HEAD
+[Unreleased]: https://github.com/TheMightyTRex/snaglist/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/TheMightyTRex/snaglist/compare/v0.3.2...v0.4.0
 [0.3.2]: https://github.com/TheMightyTRex/snaglist/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/TheMightyTRex/snaglist/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/TheMightyTRex/snaglist/compare/v0.2.0...v0.3.0

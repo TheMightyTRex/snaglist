@@ -21,7 +21,7 @@ Snaglist.start({ send: { endpoint: { url: "https://reports.example/" } } });
 {
   "title": "book-list: The list does not load",
   "markdown": "**What happened**\nThe list does not load\n\n| | |\n|---|---|\n| Report | Something is broken |\n...",
-  "report": { "tool": "snaglist 0.3.2", "type": "bug", "severity": "in-the-way", "answers": { "actual": "..." }, "page": {}, "element": {}, "network": [] }
+  "report": { "tool": "snaglist 0.4.0", "type": "bug", "severity": "in-the-way", "answers": { "actual": "..." }, "page": {}, "element": {}, "network": [] }
 }
 ```
 

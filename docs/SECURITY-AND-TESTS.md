@@ -9,7 +9,7 @@ To report a problem privately, use **Report a vulnerability** on the repository'
 [SECURITY.md](../SECURITY.md). For what a report holds, see
 [What a report holds, and what it never holds](topics/what-a-report-holds.md).
 
-Latest results: 3 November 2026.
+Latest results: 8 November 2026.
 
 ## How Snaglist protects people
 
@@ -117,6 +117,9 @@ The tests for **Show as a QR code** run the same way:
 | QR-04 | A long report goes in shorter, the view says what the code holds, and the link and Download stay | Pass |
 | QR-05 | The view works from the keyboard and is dark on light in all four themes | Pass |
 
+On 8 November 2026, TheMightyTRexUK scanned a code from the demo with a real phone, and the phone opened the
+new GitHub issue, filled in.
+
 The journeys in `tools/screenshots.sh` go through every main path in a real browser (one part, a recording, a
 suggestion, a phone in dark mode, the accessibility check, the demo's display settings, the set-up tool, and
 the QR code, offline and in dark mode) and retake the pictures in the help.
@@ -157,4 +160,5 @@ security fixes under Security.
 
 | Release | Tests | Journeys | Security scans | CodeQL | Notes |
 |---|---|---|---|---|---|
+| 0.4.0 (8 November 2026) | 73 of 73 passed (25 IDs; the browser tests in Chromium, Firefox and WebKit) | Passed, pictures retaken, the QR pictures marked up | Gitleaks 0, Trivy 0, ESLint 0 (after one warning in the screenshot tool was fixed), Semgrep 0, Bandit 0, ShellCheck 0, ZAP no failures (baseline and active) | Run here: 0 alerts | Show as a QR code; see [the 0.4.0 notes](releases/v0.4.0.md) |
 | 0.3.2 (3 November 2026) | 55 of 55 passed (19 IDs; the browser tests in Chromium, Firefox and WebKit) | Passed, pictures retaken | Gitleaks 0 (2 made-up test keys listed), Trivy 0, ESLint 0, Semgrep 0, Bandit 0, ShellCheck 0, ZAP no failures (baseline and active) | Run here: 0 real alerts left. On GitHub: 0 alerts | First full check; see [the 0.3.2 notes](releases/v0.3.2.md) |

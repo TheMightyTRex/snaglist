@@ -18,12 +18,12 @@ and scan it with your phone. The phone opens the same new GitHub issue, filled i
 1. In **What is sent**, select **Show as a QR code**. When this computer looks offline, it is the first choice,
    with the reason above the privacy statement.
 
-   ![What is sent says This computer looks offline: scan it with your phone instead. Show as a QR code is the first button, before Open in GitHub, Copy as Markdown, Download and Back.](../images/review-offline.png)
+   ![What is sent says This computer looks offline: scan it with your phone instead. Show as a QR code, outlined as step 1, is the first button, before Open in GitHub, Copy as Markdown, Download and Back.](../images/review-offline.png)
 
 2. Point your phone's camera at the code, then open the link it finds. The new issue opens with the title,
    the report and the labels filled in.
 
-   ![Show as a QR code shows Scan it with your phone's camera to open the report there, the QR code, It holds the whole report, and the link as text, with the buttons Copy the link, Download and Back.](../images/qr-code.png)
+   ![Show as a QR code shows Scan it with your phone's camera to open the report there, the QR code, outlined as step 2, It holds the whole report, and the link as text, with the buttons Copy the link, Download and Back.](../images/qr-code.png)
 
 3. Read the issue on your phone, then post it.
 4. On the computer, select **Back** to return to **What is sent**, or close the window.
@@ -39,7 +39,7 @@ and scan it with your phone. The phone opens the same new GitHub issue, filled i
 - The code is dark on light in every theme, so phones read it in dark mode too. Screen readers read a
   description of it, and the link as text.
 
-  ![On a phone-sized window in dark mode, Show as a QR code shows the code dark on a light square, It holds the whole report, the link as text, and the buttons Copy the link, Download and Back.](../images/qr-code-dark.png)
+  ![On a phone-sized window in dark mode, Show as a QR code shows the code, outlined, dark on a light square, It holds the whole report, the link as text, and the buttons Copy the link, Download and Back.](../images/qr-code-dark.png)
 
 - The code holds only what the preview in **What is sent** shows, never what you typed into the page.
 

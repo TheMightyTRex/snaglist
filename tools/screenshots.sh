@@ -19,9 +19,9 @@ sleep 1
 mkdir -p "$work/out"
 docker run --rm --network host -u "$(id -u):$(id -g)" -e HOME=/tmp \
   -e BASE="http://127.0.0.1:$PORT" -e OUT=/work/out \
-  -v "$work:/work" -v "$PWD/tools/screenshots/shoot.mjs:/shots/shoot.mjs:ro" \
+  -v "$work:/work" -v "$PWD/tools/screenshots:/shots:ro" \
   "mcr.microsoft.com/playwright:v$PLAYWRIGHT-noble" \
-  sh -c "mkdir -p /tmp/s && cp /shots/shoot.mjs /tmp/s/ && cd /tmp/s && npm init -y >/dev/null && npm i --silent playwright@$PLAYWRIGHT >/dev/null && node shoot.mjs"
+  sh -c "mkdir -p /tmp/s && cp /shots/shoot.mjs /shots/annotate.js /tmp/s/ && cd /tmp/s && npm init -y >/dev/null && npm i --silent playwright@$PLAYWRIGHT >/dev/null && node shoot.mjs"
 
 mkdir -p docs/images
 cp "$work"/out/*.png docs/images/

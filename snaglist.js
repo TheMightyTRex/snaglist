@@ -1,5 +1,5 @@
 /*
- * Snaglist 0.3.2: feedback for any website or app. People report bugs and UX problems, or suggest features and
+ * Snaglist 0.4.0: feedback for any website or app. People report bugs and UX problems, or suggest features and
  * improvements, tagged with the page and the part of it, with the technical detail needed to act on it and
  * without personal information. One file, no libraries, MIT licence.
  * https://github.com/TheMightyTRex/snaglist
@@ -15,7 +15,7 @@
   "use strict";
   if (window.Snaglist) return;
 
-  const VERSION = "0.3.2";
+  const VERSION = "0.4.0";
   const KEY = "snaglist:";
 
   // What people can send. Each type is a problem or a suggestion, asks its own questions and records the
@@ -1834,6 +1834,7 @@ fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 4px; min-inline
 /* Dark on light in every theme, with a border so the light square has an edge on a light dialog. */
 .sl-qr { display: block; height: auto; margin: 0 auto; background: #fff; border: 1px solid var(--bd); forced-color-adjust: none; }
 .sl-qr-link { min-height: 0; max-height: 8rem; }
+.sl-dialog--qr .sl-body { grid-auto-rows: max-content; }
 .sl-summary p { margin: 0; overflow-wrap: anywhere; }
 .sl-summary .sl-actions { gap: 16px; }
 .sl-disclosure { border: 1px solid var(--bd); background: var(--bg); }
