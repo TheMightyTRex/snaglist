@@ -1,4 +1,5 @@
 [Help centre](../README.md) · Guides
+<!-- help: start / add -->
 
 # Set up Snaglist on your own server
 

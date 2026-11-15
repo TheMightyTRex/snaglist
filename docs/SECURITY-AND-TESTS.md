@@ -1,4 +1,5 @@
 # Security: how Snaglist protects people, and how it was tested
+<!-- help: dev / build -->
 
 Snaglist runs inside other people's websites and sends what it finds to GitHub, an email or the site's own
 server. So it must never carry away what someone typed or who they are, never let the page or a link change

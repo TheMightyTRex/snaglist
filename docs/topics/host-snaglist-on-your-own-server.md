@@ -1,4 +1,5 @@
 [Help centre](../README.md) · Add and update
+<!-- help: start / add -->
 
 # Host Snaglist on your own server
 

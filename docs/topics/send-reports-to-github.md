@@ -1,4 +1,5 @@
 [Help centre](../README.md) · Reports
+<!-- help: use / reports -->
 
 # Send reports to GitHub
 

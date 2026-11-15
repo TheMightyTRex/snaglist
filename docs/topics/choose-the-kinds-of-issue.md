@@ -1,4 +1,5 @@
 [Help centre](../README.md) · Settings
+<!-- help: use / settings -->
 
 # Choose the kinds of issue and how bad they can be
 

@@ -1,4 +1,5 @@
 [Help centre](../README.md) · Guides
+<!-- help: start / update -->
 
 # Take Snaglist out of your site
 

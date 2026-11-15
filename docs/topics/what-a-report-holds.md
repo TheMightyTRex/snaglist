@@ -1,4 +1,5 @@
 [Help centre](../README.md) · Settings
+<!-- help: use / settings -->
 
 # What a report holds, and what it never holds
 

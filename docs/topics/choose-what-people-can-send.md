@@ -1,4 +1,5 @@
 [Help centre](../README.md) · Settings
+<!-- help: use / settings -->
 
 # Choose what people can send
 

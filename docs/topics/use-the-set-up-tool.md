@@ -1,4 +1,5 @@
 [Help centre](../README.md) · Add and update
+<!-- help: start / add -->
 
 # Use the set-up tool
 

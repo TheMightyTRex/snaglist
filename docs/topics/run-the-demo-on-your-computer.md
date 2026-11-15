@@ -1,4 +1,5 @@
 [Help centre](../README.md) · Before you add Snaglist
+<!-- help: start / before -->
 
 # Run the demo on your computer
 

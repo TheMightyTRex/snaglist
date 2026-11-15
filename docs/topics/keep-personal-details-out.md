@@ -1,4 +1,5 @@
 [Help centre](../README.md) · Settings
+<!-- help: use / settings -->
 
 # Keep personal details out of reports
 

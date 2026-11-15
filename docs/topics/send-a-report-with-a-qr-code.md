@@ -1,4 +1,5 @@
 [Help centre](../README.md) · Sending feedback
+<!-- help: use / feedback -->
 
 # Send a report with a QR code
 

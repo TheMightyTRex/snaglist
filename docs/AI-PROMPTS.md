@@ -1,4 +1,5 @@
 # Prompts for AI assistants
+<!-- help: dev / build -->
 
 These prompts work with any AI assistant that can read and change your project's files, such as Claude,
 ChatGPT, Gemini, Copilot, Cursor, Windsurf, Replit or Lovable. Copy the text between "Copy from here" and

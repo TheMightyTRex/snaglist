@@ -1,4 +1,5 @@
 [Help centre](../README.md) · Sending feedback
+<!-- help: use / feedback -->
 
 # Deactivate Send feedback
 

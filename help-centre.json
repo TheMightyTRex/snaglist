@@ -14,5 +14,241 @@
   },
   "search_example": "Type what you want to do, such as \"add Snaglist to a website\" or \"remove it\".",
   "front_door": false,
-  "favicon_file": "favicon.svg"
+  "favicon_file": "favicon.svg",
+  "version_from": "CHANGELOG.md",
+  "home": {
+    "title": "Welcome to Snaglist help",
+    "intro": "Help for adding Snaglist to a site, using it, and for the people who send feedback with it."
+  },
+  "areas": [
+    {
+      "key": "start",
+      "intro": "Add Snaglist to a site, keep it up to date, or take it out again.",
+      "groups": [
+        {
+          "key": "before",
+          "label": "Before you add it"
+        },
+        {
+          "key": "add",
+          "label": "Add Snaglist"
+        },
+        {
+          "key": "update",
+          "label": "Update or remove"
+        }
+      ]
+    },
+    {
+      "key": "use",
+      "intro": "Send feedback, get the reports where you want them, and choose what Snaglist does.",
+      "groups": [
+        {
+          "key": "feedback",
+          "label": "Sending feedback"
+        },
+        {
+          "key": "reports",
+          "label": "Reports"
+        },
+        {
+          "key": "settings",
+          "label": "Settings"
+        }
+      ]
+    },
+    {
+      "key": "plugins",
+      "none": "Snaglist has no plug-ins: it is one file you add to a page, with settings for everything it does."
+    },
+    {
+      "key": "a11y",
+      "intro": "Check a page for accessibility problems with Snaglist, and fix the common ones.",
+      "groups": [
+        {
+          "key": "check",
+          "label": "Check and fix a site"
+        }
+      ]
+    },
+    {
+      "key": "fix",
+      "intro": "Something not working? Each article starts with a flow chart: find what you see, then follow its numbered answer.",
+      "groups": [
+        {
+          "key": "problems",
+          "label": "When something is wrong"
+        }
+      ]
+    },
+    {
+      "key": "dev",
+      "intro": "Prompts for AI assistants, and how Snaglist keeps people safe and how it is tested.",
+      "groups": [
+        {
+          "key": "build",
+          "label": "Build with Snaglist"
+        }
+      ]
+    }
+  ],
+  "journey": {
+    "title": "From adding Snaglist to fixing what it finds",
+    "intro": "Follow the path, or go straight to any stage.",
+    "stages": [
+      {
+        "label": "Add it",
+        "icon": "compass",
+        "tone": "start",
+        "cards": [
+          {
+            "title": "Use the set-up tool",
+            "line": "It writes the code for your site",
+            "to": "topics/use-the-set-up-tool.md"
+          },
+          {
+            "title": "Add it to a website",
+            "line": "One script tag",
+            "to": "topics/add-snaglist-to-a-website.md"
+          },
+          {
+            "title": "Ask an AI assistant",
+            "line": "One prompt adds it for you",
+            "to": "topics/use-an-ai-assistant-to-add-snaglist.md"
+          }
+        ]
+      },
+      {
+        "label": "Collect feedback",
+        "icon": "play",
+        "tone": "step",
+        "cards": [
+          {
+            "title": "Report one thing on a page",
+            "line": "Select it, say what is wrong",
+            "to": "topics/send-feedback.md"
+          },
+          {
+            "title": "Record a series of steps",
+            "line": "For something that goes wrong over time",
+            "to": "topics/record-a-series-of-steps.md"
+          },
+          {
+            "title": "Check a page's accessibility",
+            "line": "Problems found on the page",
+            "to": "topics/check-a-page-for-accessibility-problems.md"
+          }
+        ]
+      },
+      {
+        "label": "Sort the reports",
+        "icon": "inbox",
+        "tone": "step",
+        "cards": [
+          {
+            "title": "Send reports to GitHub",
+            "line": "Each one a new issue",
+            "to": "topics/send-reports-to-github.md"
+          },
+          {
+            "title": "Triage reports on GitHub",
+            "line": "Labels, kinds and how bad",
+            "to": "topics/triage-reports-on-github.md"
+          },
+          {
+            "title": "Send reports by email",
+            "line": "When you do not use GitHub",
+            "to": "topics/send-reports-by-email.md"
+          }
+        ]
+      },
+      {
+        "label": "Fix things",
+        "icon": "wrench",
+        "tone": "fix",
+        "cards": [
+          {
+            "title": "Send feedback does not appear",
+            "line": "A flow chart finds the cause",
+            "to": "topics/if-send-feedback-does-not-appear.md"
+          },
+          {
+            "title": "A report does not send",
+            "line": "A flow chart finds the cause",
+            "to": "topics/if-a-report-does-not-send.md"
+          },
+          {
+            "title": "Remove Snaglist",
+            "line": "Every trace, in a few steps",
+            "to": "topics/remove-snaglist.md"
+          }
+        ]
+      }
+    ]
+  },
+  "featured": {
+    "chip": "New in 0.4",
+    "title": "Send a report with a QR code",
+    "text": "From a computer that is not online, show the report as a QR code and open it on your phone, ready to post on GitHub.",
+    "to": "topics/send-a-report-with-a-qr-code.md",
+    "button": "Read how it works",
+    "flow": "start: Review what is sent\nq: Is this computer online?\n  Yes -> end\n  No -> step\nend: Open in GitHub\nstep: Show as a QR code\n  Scan it -> end2\nend2: Post it from your phone"
+  },
+  "solver": {
+    "title": "Problem solver",
+    "intro": "Answer up to four questions and the problem solver takes you to the article that fixes it.",
+    "start": {
+      "question": "What is wrong?",
+      "answers": [
+        {
+          "label": "The Send feedback button does not appear",
+          "to": "topics/if-send-feedback-does-not-appear.md"
+        },
+        {
+          "label": "A report does not send",
+          "to": "topics/if-a-report-does-not-send.md"
+        },
+        {
+          "label": "Reports hold something they should not",
+          "next": {
+            "question": "What do you want to change?",
+            "answers": [
+              {
+                "label": "Keep personal details out",
+                "to": "topics/keep-personal-details-out.md"
+              },
+              {
+                "label": "Choose what a report records",
+                "to": "topics/choose-what-a-report-records.md"
+              },
+              {
+                "label": "Check what a report always holds",
+                "to": "topics/what-a-report-holds.md"
+              }
+            ]
+          }
+        },
+        {
+          "label": "I want to take Snaglist out",
+          "next": {
+            "question": "For whom?",
+            "answers": [
+              {
+                "label": "For everyone, from the site",
+                "to": "topics/remove-snaglist.md"
+              },
+              {
+                "label": "For now, with a setting",
+                "to": "topics/activate-or-deactivate-snaglist.md"
+              },
+              {
+                "label": "For me, in this browser",
+                "to": "topics/deactivate-send-feedback.md"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
 }

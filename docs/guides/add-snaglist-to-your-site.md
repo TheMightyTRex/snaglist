@@ -1,4 +1,5 @@
 [Help centre](../README.md) · Guides
+<!-- help: start / before -->
 
 # Add Snaglist to your site and get your first report
 

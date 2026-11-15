@@ -1,4 +1,5 @@
 [Help centre](../README.md) · Sending feedback
+<!-- help: use / feedback -->
 
 # Report a problem with one thing on a page
 

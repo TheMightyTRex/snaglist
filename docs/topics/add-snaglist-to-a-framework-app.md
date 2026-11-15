@@ -1,4 +1,5 @@
 [Help centre](../README.md) · Add and update
+<!-- help: start / add -->
 
 # Add Snaglist to a React, Vue, Svelte or other framework app
 

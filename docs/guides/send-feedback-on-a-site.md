@@ -1,4 +1,5 @@
 [Help centre](../README.md) · Guides
+<!-- help: use / feedback -->
 
 # Report issues on a site that uses Snaglist
 

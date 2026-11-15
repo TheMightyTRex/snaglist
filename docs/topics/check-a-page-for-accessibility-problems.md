@@ -1,4 +1,5 @@
 [Help centre](../README.md) · Accessibility
+<!-- help: a11y / check -->
 
 # Check a page for accessibility problems
 

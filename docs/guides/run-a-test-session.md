@@ -1,4 +1,5 @@
 [Help centre](../README.md) · Guides
+<!-- help: use / feedback -->
 
 # Run a test session with Snaglist
 
