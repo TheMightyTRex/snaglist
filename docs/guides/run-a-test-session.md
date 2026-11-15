@@ -20,15 +20,14 @@ tagged by page and component, sorted by how bad they are. Allow 30 minutes to se
 5. Triage the reports
 6. Deactivate the extra recording
 
-```mermaid
-flowchart TD
-  accTitle: The steps at a glance
-  accDescr: The steps in order: activate Snaglist for the test build only; record more for the session; choose an extra question for the session; brief the testers; triage the reports; deactivate the extra recording.
-  A[Activate for the test build] --> B[Record more]
-  B --> C[Choose an extra question]
-  C --> D[Brief the testers]
-  D --> E[Triage the reports]
-  E --> F[Deactivate extra recording]
+```flow
+title: The steps at a glance
+start: Activate for the test build
+step: Record more
+step2: Choose an extra question
+step3: Brief the testers
+step4: Triage the reports
+end: Deactivate extra recording
 ```
 
 ## Step 1: activate Snaglist for the test build only

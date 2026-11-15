@@ -18,13 +18,12 @@ has your report, tagged with the page and the part of it. Each report takes abou
 3. Check what is sent
 4. Send it
 
-```mermaid
-flowchart TD
-  accTitle: The steps at a glance
-  accDescr: The steps in order: find the problem; choose the part and describe it; check what is sent; send it.
-  A[Find the problem] --> B[Choose the part and describe it]
-  B --> C[Check what is sent]
-  C --> D[Send it]
+```flow
+title: The steps at a glance
+start: Find the problem
+step: Choose the part and describe it
+step2: Check what is sent
+end: Send it
 ```
 
 ## Step 1: find the problem

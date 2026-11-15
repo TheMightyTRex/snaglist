@@ -23,16 +23,15 @@ For anyone who runs a website or app and wants people to report UX issues. At th
 6. Give your users a switch
 7. Make your first report
 
-```mermaid
-flowchart TD
-  accTitle: The steps at a glance
-  accDescr: The steps in order: try Snaglist on the demo page; add it to your site; choose where reports go; name the parts of your pages and mark private ones; choose what reports record; give your users a switch; make your first report.
-  A[Try the demo] --> B[Add it to your site]
-  B --> C[Choose where reports go]
-  C --> D[Name parts, mark private ones]
-  D --> E[Choose what reports record]
-  E --> F[Give users a switch]
-  F --> G[Make your first report]
+```flow
+title: The steps at a glance
+start: Try the demo
+step: Add it to your site
+step2: Choose where reports go
+step3: Name parts, mark private ones
+step4: Choose what reports record
+step5: Give users a switch
+end: Make your first report
 ```
 
 ## Step 1: try Snaglist on the demo page

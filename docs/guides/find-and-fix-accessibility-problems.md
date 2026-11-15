@@ -18,14 +18,13 @@ issues, fixed, and checked again. Allow an hour to set up and check your main pa
 4. Fix the problems
 5. Check again, then test by hand
 
-```mermaid
-flowchart TD
-  accTitle: The steps at a glance
-  accDescr: The steps in order: activate the accessibility check; try it on the demo; check each main page and report what it finds; fix the problems; check again, then test by hand.
-  A[Activate the check] --> B[Try it on the demo]
-  B --> C[Check pages and report]
-  C --> D[Fix the problems]
-  D --> E[Check again, test by hand]
+```flow
+title: The steps at a glance
+start: Activate the check
+step: Try it on the demo
+step2: Check pages and report
+step3: Fix the problems
+end: Check again, test by hand
 ```
 
 ## Step 1: activate the accessibility check

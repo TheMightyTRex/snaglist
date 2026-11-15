@@ -18,13 +18,12 @@ your users' browsers, and your past reports are kept. It takes about 15 minutes.
 3. Remove the report server (if you set one up)
 4. Tidy up GitHub
 
-```mermaid
-flowchart TD
-  accTitle: The steps at a glance
-  accDescr: The steps in order: clear people's saved choice (optional); remove Snaglist from your code; remove the report server (if you set one up); tidy up GitHub.
-  A[Clear saved choices] --> B[Remove from your code]
-  B --> C[Remove the report server]
-  C --> D[Tidy up GitHub]
+```flow
+title: The steps at a glance
+start: Clear saved choices
+step: Remove from your code
+step2: Remove the report server
+end: Tidy up GitHub
 ```
 
 ## Step 1: clear people's saved choice (optional)

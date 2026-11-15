@@ -23,16 +23,15 @@ key that never reaches the browser. It takes about 45 minutes.
 6. Make a test report
 7. Guard against spam
 
-```mermaid
-flowchart TD
-  accTitle: The steps at a glance
-  accDescr: The steps in order: host the file on your server; add it to your pages; mark private parts of your pages; set up the server that takes reports; point Snaglist at your server; make a test report; guard against spam.
-  A[Host snaglist.js] --> B[Add the script tag]
-  B --> C[Mark private parts]
-  C --> D[Set up the report server]
-  D --> E[Point Snaglist at it]
-  E --> F[Make a test report]
-  F --> G[Guard against spam]
+```flow
+title: The steps at a glance
+start: Host snaglist.js
+step: Add the script tag
+step2: Mark private parts
+step3: Set up the report server
+step4: Point Snaglist at it
+step5: Make a test report
+end: Guard against spam
 ```
 
 ## Step 1: host the file on your server
