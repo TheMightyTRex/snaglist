@@ -7,6 +7,8 @@ follow [Semantic Versioning](https://semver.org/). Each release's notes are also
 
 ## [Unreleased]
 
+## [0.4.1] (17 November 2026)
+
 ### Changed
 - **Strict Content Security Policy:** Snaglist draws its styles with a constructed style sheet instead of a style element, so it works on pages whose policy is `default-src 'self'`.
 
@@ -145,7 +147,8 @@ The first version. It was not tagged.
   to record.
 - **A demo page,** documentation, prompts for AI coding assistants and an example server.
 
-[Unreleased]: https://github.com/TheMightyTRex/snaglist/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/TheMightyTRex/snaglist/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/TheMightyTRex/snaglist/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/TheMightyTRex/snaglist/compare/v0.3.2...v0.4.0
 [0.3.2]: https://github.com/TheMightyTRex/snaglist/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/TheMightyTRex/snaglist/compare/v0.3.0...v0.3.1

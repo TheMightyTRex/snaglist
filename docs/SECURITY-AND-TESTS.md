@@ -162,5 +162,6 @@ security fixes under Security.
 
 | Release | Tests | Journeys | Security scans | CodeQL | Notes |
 |---|---|---|---|---|---|
+| 0.4.1 (17 November 2026) | 76 of 76 passed (the browser tests in Chromium, Firefox and WebKit, with the strict Content Security Policy test) | Not run: nothing on screen changed, so no pictures were retaken | Gitleaks 0, Trivy 0, ESLint 0, Semgrep 0, Bandit 0, ShellCheck 0, ZAP no failures (baseline and active) | Run here: 0 alerts | Works under a strict Content Security Policy; see [the 0.4.1 notes](releases/v0.4.1.md) |
 | 0.4.0 (8 November 2026) | 73 of 73 passed (25 IDs; the browser tests in Chromium, Firefox and WebKit) | Passed, pictures retaken, the QR pictures marked up | Gitleaks 0, Trivy 0, ESLint 0 (after one warning in the screenshot tool was fixed), Semgrep 0, Bandit 0, ShellCheck 0, ZAP no failures (baseline and active) | Run here: 0 alerts | Show as a QR code; see [the 0.4.0 notes](releases/v0.4.0.md) |
 | 0.3.2 (3 November 2026) | 55 of 55 passed (19 IDs; the browser tests in Chromium, Firefox and WebKit) | Passed, pictures retaken | Gitleaks 0 (2 made-up test keys listed), Trivy 0, ESLint 0, Semgrep 0, Bandit 0, ShellCheck 0, ZAP no failures (baseline and active) | Run here: 0 real alerts left. On GitHub: 0 alerts | First full check; see [the 0.3.2 notes](releases/v0.3.2.md) |
