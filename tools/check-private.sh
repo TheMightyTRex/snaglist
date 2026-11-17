@@ -41,7 +41,14 @@ check "Private key" 'BEGIN [A-Z ]*PRIVATE KEY'
 # sits wholly inside one of these names, so "ExampleTRex" is still caught for the private word "exampletrex".
 PUBLIC_NAMES='[Tt][Hh][Ee][Mm][Ii][Gg][Hh][Tt][Yy][Tt][Rr][Ee][Xx]([Uu][Kk])?|TRex'
 
-if [ -f .private-words ]; then
+# A worktree has no .private-words of its own (git ignores it), so it uses the one in the main copy.
+WORDS=.private-words
+if [ ! -f "$WORDS" ]; then
+  main_copy="$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")"
+  [ -f "$main_copy/.private-words" ] && WORDS="$main_copy/.private-words"
+fi
+
+if [ -f "$WORDS" ]; then
   while IFS= read -r word; do
     [ -z "$word" ] || [ "${word#\#}" != "$word" ] && continue
     pattern="$(printf '%s' "$word" | sed 's/[][\.*^$(){}?+|/]/\\&/g')"
@@ -58,7 +65,7 @@ if [ -f .private-words ]; then
       printf '\n%s:\n%s\n' "Private word from .private-words" "$hits"
       found=1
     fi
-  done < .private-words
+  done < "$WORDS"
 fi
 
 if [ "$found" = 1 ]; then
