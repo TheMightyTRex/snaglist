@@ -54,7 +54,7 @@ await test("QR-03", "offline, Show as a QR code comes first and says why", async
   const page = await open(`<p class="x">Hello</p>`, GITHUB);
   await page.context().setOffline(true);
   await reviewFor(page, ".x", "bug", "It broke.");
-  const first = page.locator("snag-list .sl-foot button").first();
+  const first = page.locator("snag-list dialog:has(.sl-privacy) .sl-foot button").first();
   expect((await first.textContent()) === "Show as a QR code", `the first choice is ${await first.textContent()}`);
   expect((await first.getAttribute("class")).includes("sl-btn--primary"), "the QR choice is not the main button");
   const note = await page.locator("snag-list .sl-offline").textContent();
@@ -62,7 +62,7 @@ await test("QR-03", "offline, Show as a QR code comes first and says why", async
   await page.context().setOffline(false);
   const online = await open(`<p class="x">Hello</p>`, GITHUB);
   await reviewFor(online, ".x", "bug", "It broke.");
-  expect((await online.locator("snag-list .sl-foot button").first().textContent()) === "Open in GitHub", "online, GitHub should come first");
+  expect((await online.locator("snag-list dialog:has(.sl-privacy) .sl-foot button").first().textContent()) === "Open in GitHub", "online, GitHub should come first");
   expect(await online.locator("snag-list .sl-offline").count() === 0, "online, the offline note should not show");
 });
 
