@@ -100,9 +100,9 @@
         <legend>What people can send</legend>
         <p class="sub">Report a problem</p>
         <label class="check"><input type="checkbox" value="bug" checked><span>Something is broken <small>Records errors, console, failed requests, steps before</small></span></label>
-        <label class="check"><input type="checkbox" value="ux" checked><span>Hard to use <small>Records the part and steps before</small></span></label>
-        <label class="check"><input type="checkbox" value="visual" checked><span>Looks wrong <small>Records styles, contrast, layout, the part's HTML</small></span></label>
-        <label class="check"><input type="checkbox" value="accessibility" checked><span>Hard to use with my tools or needs <small>Records role, name, states, focus, target size</small></span></label>
+        <label class="check"><input type="checkbox" value="confusing" checked><span>Confusing to use <small>Records the part and steps before</small></span></label>
+        <label class="check"><input type="checkbox" value="display" checked><span>Display problem <small>Records styles, contrast, layout, the part's HTML</small></span></label>
+        <label class="check"><input type="checkbox" value="accessibility" checked><span>Does not work with my tools or needs <small>Records role, name, states, focus, target size</small></span></label>
         <label class="check"><input type="checkbox" value="performance" checked><span>Slow <small>Records load timings, Core Web Vitals, long tasks</small></span></label>
         <label class="check"><input type="checkbox" value="content" checked><span>Words are wrong <small>Records the part and a suggested wording</small></span></label>
         <p class="sub">Make a suggestion</p>
@@ -123,7 +123,7 @@
         <div class="field"><label for="c-to">Email address</label><input class="input" id="c-to" type="email" value="team@example.com"></div>
         <label class="check"><input type="checkbox" id="c-ep"><span>Your own server <small>Posts the report as JSON; works for anyone</small></span></label>
         <div class="field"><label for="c-url">Server address</label><input class="input" id="c-url" value="https://reports.example/"></div>
-        <label class="check"><input type="checkbox" id="c-copy" checked><span>Copy and Download <small>Always works, even offline</small></span></label>
+        <label class="check"><input type="checkbox" id="c-copy" checked><span>Copy as Markdown and Download as JSON <small>Always works, even offline</small></span></label>
       </fieldset>
 
       <fieldset id="c-collect">
@@ -272,7 +272,7 @@
     };
   }
 
-  const ALL_TYPES = ["bug", "ux", "visual", "accessibility", "performance", "content", "feature", "idea", "other", "check"];
+  const ALL_TYPES = ["bug", "confusing", "display", "accessibility", "performance", "content", "feature", "idea", "other", "check"];
   function settings(c) {
     const s = { app: c.app };
     if (c.version) s.version = c.version;
@@ -360,7 +360,7 @@ import Script from "next/script";
       ``,
       `This project is built with: ${platformName}. Check that is right before you start, and tell me if it is not.`,
       ``,
-      `Please do all of this, then tell me every file you changed or added:`,
+      `Do all of this, then tell me every file you changed or added:`,
       ``,
       `1. Download https://raw.githubusercontent.com/TheMightyTRex/snaglist/v${VERSION}/snaglist.js into ${p.folder}. Do not change it.`,
       `2. Create snaglist-start.js in the same folder with exactly this content:`,
@@ -373,7 +373,7 @@ import Script from "next/script";
     ];
     let n = 6;
     if (!/^(auto|en)/.test(c.language)) steps.push(`${n++}. Snaglist's interface is in English. Translate it into ${c.languageName}: open a page with Snaglist, run Snaglist.strings() in the browser console (or read the TEXT, TYPES, GROUPS, SEVERITIES, PARTS and RULES lists in snaglist.js) to get every key and its English text, translate each value into natural, plain ${c.languageName}, and add them to snaglist-start.js as text: { "key": "translation", ... }. Keep every key exactly as it is, keep any word in bold quotes the same as the matching button, and ask me to check the translation with a native speaker.`);
-    if (c.userSwitch) steps.push(`${n++}. Add a user setting next to the app's other display or accessibility settings: a switch labelled "Show Send feedback", on by default, with the hint "A button for sending feedback or reporting a problem on any page. Reports never include your personal details." Deactivating it calls Snaglist.setUserEnabled(false); activating it calls Snaglist.setUserEnabled(true). If the app saves settings per account, save it there too and call Snaglist.setUserEnabled(savedValue) when the app loads. Build it with the app's own switch component if it has one.`);
+    if (c.userSwitch) steps.push(`${n++}. Add a user setting next to the app's other display or accessibility settings: a switch labelled "Show Send feedback", active by default, with the hint "A button for sending feedback or reporting a problem on any page. Reports never include your personal details." Deactivating it calls Snaglist.setUserEnabled(false); activating it calls Snaglist.setUserEnabled(true). If the app saves settings per account, save it there too and call Snaglist.setUserEnabled(savedValue) when the app loads. Build it with the app's own switch component if it has one.`);
     if (c.github) steps.push(`${n++}. If the GitHub command-line tool (gh) is available and signed in, make these labels; if not, list the commands for me to run:`, ``, labelCommands(c).split("\n").map((l) => `   ${l}`).join("\n"), ``);
     steps.push(`${n++}. Do not put any password, token or API key in the page. Snaglist does not need one.`,
       `${n++}. When you have finished, tell me how to try it: open a page, select ${JSON.stringify(c.label || "Send feedback")}, choose what to send, fill in the form and select "Review what is sent". Also tell me how to deactivate it for everyone (enabled: false in snaglist-start.js) and how to remove it (delete both files, the two script lines${c.userSwitch ? ", the user setting" : ""} and the data-snag-private attributes).`);
@@ -440,7 +440,10 @@ import Script from "next/script";
         if (el.type === "checkbox") el.checked = !!state[id];
         else if (el.tagName !== "SELECT" || [...el.options].some((o) => o.value === state[id])) el.value = String(state[id]).slice(0, 200);
       }
-      if (state.types) for (const b of document.querySelectorAll("#c-types input")) b.checked = state.types.includes(b.value);
+      // Links shared before 0.5.0 use the old ids for Confusing to use (ux) and Display problem (visual).
+      const renamed = { ux: "confusing", visual: "display" };
+      const types = Array.isArray(state.types) ? state.types.map((x) => (Object.hasOwn(renamed, x) ? renamed[x] : x)) : null;
+      if (types) for (const b of document.querySelectorAll("#c-types input")) b.checked = types.includes(b.value);
       if (state.parts) for (const s of document.querySelectorAll("[data-part]")) if ([...s.options].some((o) => o.value === state.parts[s.dataset.part])) s.value = state.parts[s.dataset.part];
     } catch { /* no saved settings */ }
   }

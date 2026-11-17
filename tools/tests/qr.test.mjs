@@ -43,7 +43,7 @@ await test("QR-02", "the code holds the same address as Open in GitHub, drawn da
     d: s.querySelector("path").getAttribute("d") }));
   const code = await page.evaluate((u) => Snaglist.qr(u), link);
   expect(svg.box === `0 0 ${code.size + 8} ${code.size + 8}`, `no 4-module quiet zone: ${svg.box} for ${code.size} modules`);
-  expect(svg.role === "img" && /QR code for the link below\. It holds/.test(svg.label), `no text description: ${JSON.stringify(svg)}`);
+  expect(svg.role === "img" && /QR code for the report link\. It holds/.test(svg.label), `no text description: ${JSON.stringify(svg)}`);
   expect(svg.light === "#fff" && svg.dark === "#000", `not dark on light: ${svg.light}, ${svg.dark}`);
   expect(svg.width / (code.size + 8) >= 2.5, `modules are too small to scan: ${svg.width} px for ${code.size + 8}`);
   const first = code.modules[0].findIndex(Boolean);
@@ -58,7 +58,7 @@ await test("QR-03", "offline, Show as a QR code comes first and says why", async
   expect((await first.textContent()) === "Show as a QR code", `the first choice is ${await first.textContent()}`);
   expect((await first.getAttribute("class")).includes("sl-btn--primary"), "the QR choice is not the main button");
   const note = await page.locator("snag-list .sl-offline").textContent();
-  expect(note === "This computer looks offline: scan it with your phone instead.", `the reason is missing: ${note}`);
+  expect(note === "This computer seems to be offline: scan the code with your phone instead.", `the reason is missing: ${note}`);
   await page.context().setOffline(false);
   const online = await open(`<p class="x">Hello</p>`, GITHUB);
   await reviewFor(online, ".x", "bug", "It broke.");
@@ -66,15 +66,15 @@ await test("QR-03", "offline, Show as a QR code comes first and says why", async
   expect(await online.locator("snag-list .sl-offline").count() === 0, "online, the offline note should not show");
 });
 
-await test("QR-04", "a long report falls back to less, says so, and keeps the link and Download", async () => {
+await test("QR-04", "a long report falls back to less, says so, and keeps the link and Download as JSON", async () => {
   const page = await open(`<p class="x">Hello</p>`, GITHUB);
   await page.evaluate(() => { for (let i = 0; i < 5; i++) console.error(`Failure ${i}: ${"something went wrong ".repeat(20)}`); });
   await reviewFor(page, ".x", "bug", "It broke when I saved the form.");
   const { view, link, holds } = await qrView(page);
   expect(link.length <= 1200, `the address is ${link.length} characters, more than a code holds`);
-  expect(/without its technical details/.test(holds) && /Download keeps the whole report/.test(holds), `the view does not say what the code holds: ${holds}`);
+  expect(/without its technical details/.test(holds) && /Download as JSON keeps the whole report/.test(holds), `the view does not say what the code holds: ${holds}`);
   expect(!link.includes("Failure"), "the technical details should be left out");
-  expect(await view.locator("button", { hasText: /^Download$/ }).count() === 1, "no Download in the QR view");
+  expect(await view.locator("button", { hasText: /^Download as JSON$/ }).count() === 1, "no Download in the QR view");
   expect(await view.locator("button", { hasText: /^Copy the link$/ }).count() === 1, "no Copy button for the link");
   // Words too long even for the report without its details: a short report, cut to fit.
   const long = await open(`<p class="x">Hello</p>`, GITHUB);

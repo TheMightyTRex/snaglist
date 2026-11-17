@@ -25,7 +25,7 @@ Short instructions for AI tools: https://raw.githubusercontent.com/TheMightyTRex
 
 Please do this:
 
-1. Read llms.txt from the address above. If you cannot open web pages, use these steps.
+1. Read llms.txt from the address at the start of this prompt. If you cannot open web pages, use these steps.
 2. Read my project and tell me in one or two sentences what kind of app it is, what it is built with, and
    where its shared page layout is. Then ask me these questions, all at once, and wait for my answers:
    a. Where should reports go: a GitHub repository (owner/name), an email address, or both?
@@ -35,7 +35,7 @@ Please do this:
    e. What is the site's main language? (Snaglist is in English; for US English it uses US spelling; for any
       other language you will translate its text.)
    f. What should people be able to send? Offer these, all on by default. Problems: Something is broken (bug),
-      Hard to use (ux), Looks wrong (visual), Hard to use with my tools or needs (accessibility), Slow
+      Confusing to use (confusing), Display problem (display), Does not work with my tools or needs (accessibility), Slow
       (performance), Words are wrong (content). Suggestions: A new feature (feature), Make something better
       (idea), Something else (other). And: Check this page for accessibility problems (check).
 3. Download https://raw.githubusercontent.com/TheMightyTRex/snaglist/main/snaglist.js into the folder this
@@ -48,7 +48,7 @@ Please do this:
          app: "<the app's name>",
          language: "<the language code, for example en-GB, en-US or es>",
          enabled: <true, or a check that is only true in testing>,
-         types: [<what I chose, for example "bug", "ux", "feature", "check">],
+         types: [<what I chose, for example "bug", "confusing", "feature", "check">],
          send: { github: { repo: "<owner/name>" }, email: { to: "<email>" } },
        });
      })(0);

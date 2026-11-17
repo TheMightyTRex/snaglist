@@ -59,7 +59,7 @@ After:
 
 WCAG 1.3.1 Info and relationships, 3.3.2 Labels or instructions, level A. Impact: critical. Rule `field-label`.
 
-**Why it matters:** People using a screen reader or voice control cannot tell what to type, and a placeholder disappears as soon as they type.
+**Why it matters:** People using a screen reader or voice control cannot tell what to enter, and a placeholder disappears as soon as they start entering text.
 
 **How to fix it:** Give every field a visible label joined to it with for and id.
 
@@ -80,7 +80,7 @@ After:
 
 WCAG 1.4.3 Contrast (minimum), level AA. Impact: serious. Rule `contrast`.
 
-**Why it matters:** Faint text is hard or impossible to read for people with low vision, and for everyone in bright light.
+**Why it matters:** Some people with low vision cannot read faint text, and in bright light nobody can.
 
 **How to fix it:** Make text at least 4.5 to 1 against its background, or 3 to 1 for large text (24px, or 18.66px bold). Use a darker text colour or a stronger background.
 
@@ -100,7 +100,7 @@ After:
 
 WCAG 2.5.8 Target size (minimum), level AA. Impact: moderate. Rule `target-size`.
 
-**Why it matters:** Small targets are hard to hit for people with tremors, on touch screens, and for anyone in a hurry.
+**Why it matters:** Small targets are often missed by people with tremors, on touch screens, and by anyone in a hurry.
 
 **How to fix it:** Make buttons, links in menus and other controls at least 24 by 24 pixels (44 is better), or leave space around them.
 
@@ -120,7 +120,7 @@ After:
 
 WCAG 1.3.1 Info and relationships, 2.4.6 Headings and labels, level AA. Impact: moderate. Rule `headings`.
 
-**Why it matters:** Screen reader users move around a page by its headings. A missing main heading or a skipped level makes the page hard to follow.
+**Why it matters:** Screen reader users move around a page by its headings. A missing main heading or a skipped level makes the page confusing to move around.
 
 **How to fix it:** Give each page one h1, then go down one level at a time: h2 for sections, h3 inside them. Style headings with CSS, not by choosing the level.
 
@@ -202,7 +202,7 @@ After:
 
 WCAG 2.4.3 Focus order, level A. Impact: serious. Rule `tab-order`.
 
-**Why it matters:** A tabindex above 0 makes keyboard focus jump around the page in an order that does not match what people see.
+**Why it matters:** A tabindex greater than 0 makes keyboard focus jump around the page in an order that does not match the order on the page.
 
 **How to fix it:** Use tabindex="0" or none, and put elements in the order they should be reached.
 
@@ -249,7 +249,7 @@ WCAG 2.4.4 Link purpose (in context), level A. Impact: moderate. Rule `link-text
 Before:
 
 ```html
-To change your plan, <a href="/plan">click here</a> help.
+To change your plan, <a href="/plan">click here</a>.
 ```
 
 After:
@@ -290,6 +290,6 @@ Automatic checks find only some problems. Before a release, also:
 ## Find out more
 
 - [Check a page for accessibility problems](check-a-page-for-accessibility-problems.md)
-- [Turn on the accessibility check](activate-the-accessibility-check.md)
+- [Activate the accessibility check](activate-the-accessibility-check.md)
 - [Find and fix accessibility problems](../guides/find-and-fix-accessibility-problems.md)
 - [WCAG 2.2 quick reference](https://www.w3.org/WAI/WCAG22/quickref/) (opens in a new tab)

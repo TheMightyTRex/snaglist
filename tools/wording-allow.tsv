@@ -1,0 +1,8 @@
+# Genuine exceptions to tools/check-wording.py: file, a regular expression for the line, and the reason.
+llms.txt	enabled \(true\)|Set enabled: false	The setting is called enabled (a code identifier)
+configure.html	enabled: 	Code the set-up tool writes: the setting is called enabled
+docs/HOW-THIS-HELP-IS-WRITTEN.md	^3\. Select, not click|^ *inactive; never enable|^5a\. Never say how difficult|^5c\. No "see"	The rules list the banned words to name them
+docs/topics/fix-common-accessibility-problems.md	"Click here" and "Read more"	Quotes the link text the check finds
+snaglist.js	\\"Click here\\" and \\"Read more\\"	Quotes the link text the check finds
+CHANGELOG.md	Looks wrong is now|Looks is now	Names the old label that 0.5.0 renames
+docs/releases/v0.5.0.md	Looks wrong is now|Looks is now	Names the old label that 0.5.0 renames

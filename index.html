@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<title>Snaglist: try it</title>
+<title>Snaglist demo</title>
 <meta name="description" content="Feedback for any website or app: bug reports, UX problems and suggestions, tagged with the page and the part of it, without personal information.">
 <link rel="stylesheet" href="https://themightytrex.github.io/design-system/tokens.css">
 <link rel="stylesheet" href="https://themightytrex.github.io/design-system/components.css">
@@ -55,7 +55,7 @@
 </head>
 <body>
 <header class="intro">
-  <h1 style="display:flex;align-items:center;gap:12px"><img src="docs/images/logo.svg" alt="" width="40" height="40">Snaglist</h1>
+  <h1 style="display:flex;align-items:center;gap:12px"><img src="docs/images/logo.svg" alt="" width="40" height="40">Snaglist demo</h1>
   <p>Feedback for any website or app: people report bugs and UX problems, or suggest features and improvements.
     Each report is tagged with the page and the part of it, records what is needed to act on it, and keeps no
     personal information. Select <strong>Send feedback</strong>, choose what to send, then show one thing on the page
@@ -79,7 +79,7 @@
     <div class="app__main" id="books">
       <div>
         <h2 style="margin:0">My books</h2>
-        <p class="faint" data-component="page-summary">12 books, 3 waiting. This line is too faint on purpose: report it as Looks wrong.</p>
+        <p class="faint" data-component="page-summary">12 books, 3 waiting. This line is too faint on purpose: report it as Display problem.</p>
       </div>
       <ul class="books" data-component="cover-wall">
         <li class="book"><div class="book__cover" style="background:#0b5f5a">The Glass Harbour</div><h3 class="book__title">The Glass Harbour</h3><span class="chip" data-tone="success">In library</span></li>
@@ -140,9 +140,9 @@
     <fieldset id="pg-types">
       <legend>What people can send</legend>
       <label><input type="checkbox" value="bug" checked> Something is broken</label>
-      <label><input type="checkbox" value="ux" checked> Hard to use</label>
-      <label><input type="checkbox" value="visual" checked> Looks wrong</label>
-      <label><input type="checkbox" value="accessibility" checked> Hard to use with my tools or needs</label>
+      <label><input type="checkbox" value="confusing" checked> Confusing to use</label>
+      <label><input type="checkbox" value="display" checked> Display problem</label>
+      <label><input type="checkbox" value="accessibility" checked> Does not work with my tools or needs</label>
       <label><input type="checkbox" value="performance" checked> Slow</label>
       <label><input type="checkbox" value="content" checked> Words are wrong</label>
       <label><input type="checkbox" value="feature" checked> A new feature</label>
@@ -225,7 +225,7 @@
     ["layout", "Size, position, what covers it", "auto"], ["a11y", "Accessibility details", "auto"], ["html", "HTML without text", "auto"],
     ["environment", "Screen, browser, device", "true"], ["display", "Display settings", "true"], ["performance", "Page speed", "auto"],
     ["errors", "Script errors", "auto"], ["console", "Console messages", "auto"], ["network", "Failed and slow requests", "auto"],
-    ["trail", "What was done before", "auto"], ["text", "Text on screen", "auto"]];
+    ["trail", "What was done before", "auto"], ["text", "Text on the page", "auto"]];
   for (const [key, text, value] of PARTS) {
     const select = document.createElement("select");
     select.className = "select"; select.name = key; select.id = `pg-c-${key}`;
@@ -242,7 +242,7 @@
     return {
       app: "Harbour Library (Snaglist demo)",
       version: Snaglist.version,
-      types: types.length ? types : ["ux"],
+      types: types.length ? types : ["confusing"],
       categories: document.querySelector("[name=pg-cat]:checked").value || null,
       severities: document.querySelector("[name=pg-sev]:checked").value,
       collect,

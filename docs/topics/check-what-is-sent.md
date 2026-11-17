@@ -17,23 +17,23 @@ parts out, then choose how to send it.
 ## Steps
 
 1. Read the statement at the start of **What is sent**: no personal information is kept in the report.
-2. Under **Include**, untick anything you would rather not send, such as **Text on screen** or **Screen,
+2. Under **Include**, clear the tick from anything you would rather not send, such as **Text on the page** or **Screen,
    browser and device**. The preview changes at once.
 3. Read the preview. Anything in the form of an email address, a long number or a key is shown as
-   `[email]`, `[number]` or `[key]`. Check the text on screen shows nothing personal.
+   `[email]`, `[number]` or `[key]`. Check the text on the page shows nothing personal.
 
-   ![What is sent shows the privacy statement, a list of parts to include with a tick each, and the report as it will be sent, with the buttons Open in GitHub, Show as a QR code, Copy as Markdown, Download and Back.](../images/review.png)
+   ![What is sent shows the privacy statement, a list of parts to include with a tick each, and the report as it will be sent, with the buttons Open in GitHub, Show as a QR code, Copy as Markdown, Download as JSON and Back.](../images/review.png)
 
 4. Choose how to send it. You will find only the ways the site's team has set up:
    - **Open in GitHub** opens a new GitHub issue with everything filled in. Read
      [Post a report on GitHub](post-a-report-on-github.md).
    - **Show as a QR code** shows the same GitHub issue as a code to scan with your phone, for a computer that
-     is not online. It comes first when this computer looks offline. Read
+     is not online. It comes first when this computer seems to be offline. Read
      [Send a report with a QR code](send-a-report-with-a-qr-code.md).
    - **Open in email** opens your mail app with a new message filled in. Send it as you would any email.
-   - **Send** posts it straight to the site's own server. A message says when it has arrived.
+   - **Send report** posts it straight to the site's own server. A message says when it has arrived.
    - **Copy as Markdown** puts the report on your clipboard, to paste anywhere.
-   - **Download** saves the report as a file.
+   - **Download as JSON** saves the report as a file.
 5. To change something first, select **Back**.
 
 ## If it does not work

@@ -15,10 +15,10 @@ questions, check exactly what will be sent, and send it as a GitHub issue, an em
 **[Set it up for your site](https://themightytrex.github.io/snaglist/configure.html)** ·
 **[Help centre](https://themightytrex.github.io/snaglist/help/index.html)** · **[Prompts for AI assistants](https://themightytrex.github.io/snaglist/help/AI-PROMPTS.html)**
 
-![The Send feedback window. Report a problem lists Something is broken, Hard to use, Looks wrong, Hard to use with my tools or needs, Slow and Words are wrong. Make a suggestion lists A new feature, Make something better and Something else. Check the page offers Check this page for accessibility problems. What do you want to show offers One thing on the page, A series of steps, and Describe it in words.](docs/images/choose.png)
+![The Send feedback window. Report a problem lists Something is broken, Confusing to use, Display problem, Does not work with my tools or needs, Slow and Words are wrong. Make a suggestion lists A new feature, Make something better and Something else. Check the page offers Check this page for accessibility problems. What do you want to show offers One thing on the page, A series of steps, and Describe it in words.](docs/images/choose.png)
 
-- **One file, no libraries:** about 125 KB, or 40 KB when your server compresses it. No build step.
-- **Simple to add and to remove:** one script tag, or the [set-up tool](https://themightytrex.github.io/snaglist/configure.html)
+- **One file, no libraries:** about 129 KB, or 41 KB when your server compresses it. No build step.
+- **One script tag to add, nothing left when removed:** one script tag, or the [set-up tool](https://themightytrex.github.io/snaglist/configure.html)
   writes the code and one prompt for your AI assistant. Removing it leaves nothing behind.
 - **Anonymous by design:** never what people type, no cookies, no query strings; emails, phone numbers,
   addresses and keys are replaced. People are shown the whole report before it goes, and can take parts out.
@@ -30,10 +30,10 @@ questions, check exactly what will be sent, and send it as a GitHub issue, an em
 
 | Choice | Asks | Records for developers |
 |---|---|---|
-| Something is broken | What happened, what you expected | Text on screen, script errors with stack, console errors and warnings, failed and slow requests, steps before, the part's HTML |
-| Hard to use | What is wrong | The part, text on screen, steps before |
-| Looks wrong | What is wrong | Text on screen, styles and contrast, size and position, content cut off, what covers it, the part's HTML |
-| Hard to use with my tools or needs | What is wrong, what you were using | Role, name, states, focus, target size, landmark, contrast |
+| Something is broken | What happened, what you expected | Text on the page, script errors with stack, console errors and warnings, failed and slow requests, steps before, the part's HTML |
+| Confusing to use | What is wrong | The part, text on the page, steps before |
+| Display problem | What is wrong | Text on the page, styles and contrast, size and position, content cut off, what covers it, the part's HTML |
+| Does not work with my tools or needs | What is wrong, what you were using | Role, name, states, focus, target size, landmark, contrast |
 | Slow | What is wrong, when | Load timings, LCP, CLS and INP, long tasks, script memory, slow requests |
 | Words are wrong | What is wrong, a better wording | The part and its text |
 | A new feature | What you would like, what it would help with, how you manage today | The page |
@@ -82,7 +82,7 @@ want, then copy the code, or one prompt that has your AI assistant add everythin
      Snaglist.start({
        app: "My app",
        language: "en-US",
-       types: ["bug", "ux", "feature", "check"],
+       types: ["bug", "confusing", "feature", "check"],
        send: { github: { repo: "owner/repo" }, email: { to: "team@example.com" } },
      });
    </script>
@@ -106,8 +106,8 @@ want, then copy the code, or one prompt that has your AI assistant add everythin
 | GitHub | Opens a new issue with the title, report and labels filled in. The person posts it from their own account | A GitHub account for the person reporting |
 | Email | Opens their mail app with the report filled in | A mail app |
 | Your server | Posts the report as JSON, without cookies | An address that accepts it; [Send reports to your own server](https://themightytrex.github.io/snaglist/help/topics/send-reports-to-your-own-server.html) has an example that files GitHub issues for anyone |
-| QR code | Shows the same GitHub issue as a QR code with the link as text, for a computer that is not online. It comes first when the computer looks offline. A long report goes in shorter, and the view says what it holds | GitHub as above, and a phone |
-| Copy and Download | Markdown on the clipboard, or a JSON file | Nothing |
+| QR code | Shows the same GitHub issue as a QR code with the link as text, for a computer that is not online. It comes first when the computer seems to be offline. A long report goes in shorter, and the view says what it holds | The same as GitHub, and a phone |
+| Copy as Markdown and Download as JSON | Markdown on the clipboard, or a JSON file | Nothing |
 
 No token or password is ever put in the page.
 
@@ -137,5 +137,5 @@ shared by [Storyarr](https://github.com/TheMightyTRex/storyarr) and
 
 ## Licence
 
-MIT. See [LICENSE](LICENSE). The flag and close icons are from [Lucide](https://lucide.dev) (ISC). The optional
+MIT. Read the [licence](LICENSE). The flag and close icons are from [Lucide](https://lucide.dev) (ISC). The optional
 axe-core engine is Deque's, under the Mozilla Public License 2.0, and is loaded only when chosen.

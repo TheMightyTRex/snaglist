@@ -28,7 +28,7 @@ end: Send it
 
 ## Step 1: find the problem
 
-Use the site as you normally would. Anything wrong, confusing, slow or hard to use is worth reporting, as is
+Use the site as you normally would. Anything wrong, confusing or slow is worth reporting, as is
 an idea.
 
 ## Step 2: choose the part and describe it

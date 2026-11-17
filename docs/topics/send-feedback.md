@@ -5,7 +5,7 @@
 
 How-to
 
-Tell the site's team about something on a page that is broken, confusing, slow or hard to use. You choose the
+Tell the site's team about something on a page that is broken, confusing or slow. You choose the
 part of the page, say what is wrong, and check the report before it goes.
 
 ## Before you begin
@@ -18,11 +18,11 @@ part of the page, say what is wrong, and check the report before it goes.
 ## Steps
 
 1. Go to the page with the problem and select **Send feedback**.
-2. Under **Report a problem**, choose the one that fits best, such as **Something is broken**, **Looks wrong**
+2. Under **Report a problem**, choose the one that fits best, such as **Something is broken**, **Display problem**
    or **Words are wrong**.
 3. Under **What do you want to show**, choose **One thing on the page**, then select **Continue**.
 
-   ![The Send feedback window. Report a problem lists Something is broken, Hard to use, Looks wrong, Hard to use with my tools or needs, Slow and Words are wrong. Make a suggestion lists A new feature, Make something better and Something else. Check the page offers Check this page for accessibility problems. What do you want to show offers One thing on the page, A series of steps, and Describe it in words.](../images/choose.png)
+   ![The Send feedback window. Report a problem lists Something is broken, Confusing to use, Display problem, Does not work with my tools or needs, Slow and Words are wrong. Make a suggestion lists A new feature, Make something better and Something else. Check the page offers Check this page for accessibility problems. What do you want to show offers One thing on the page, A series of steps, and Describe it in words.](../images/choose.png)
 
 4. Choose the part with the problem. A box shows what will be chosen.
    - With a mouse or touch screen, select the part.
@@ -35,7 +35,7 @@ part of the page, say what is wrong, and check the report before it goes.
    another part, select **Choose again**.
 6. Say what is wrong, then choose **How bad is it**.
 
-   ![The form shows Looks wrong, the part chosen and the text copied from it, a box for What is wrong, and How bad is it with Minor, Gets in the way and Stops me.](../images/form-one-thing.png)
+   ![The form shows Display problem, the part chosen and the text copied from it, a box for What is wrong, and How bad is it with Minor, Gets in the way and Stops me.](../images/form-one-thing.png)
 
 7. Select **Review what is sent**. Read [Check what is sent, then send it](check-what-is-sent.md) for the
    last step.

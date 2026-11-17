@@ -7,6 +7,36 @@ follow [Semantic Versioning](https://semver.org/). Each release's notes are also
 
 ## [Unreleased]
 
+## [0.5.0] (17 November 2026)
+
+Report types with clearer names, and messages that follow the design system.
+
+### Changed
+- **Report types renamed.** Hard to use is now **Confusing to use**, Looks wrong is now **Display problem**, and
+  Hard to use with my tools or needs is now **Does not work with my tools or needs**. Their ids change with them:
+  `ux` is now `confusing` and `visual` is now `display`. The old ids still work in `types`, `data-types`, text
+  keys such as `types.ux.label`, `Snaglist.open()`, links from the set-up tool and a recording that was running
+  during the update. **Existing GitHub issues keep their old labels** (`type: ux`, `type: visual` and
+  `kind: looks`); new issues get `type: confusing`, `type: display` and `kind: appearance`.
+- **Kinds of issue renamed.** In the everyday UX list, Looks is now **Appearance**. In the WCAG list, the four
+  are **Cannot read or hear it**, **Cannot operate it**, **Unclear** and **Does not work with my tools**. In
+  Nielsen's list, error prevention is **Mistakes are likely**.
+- **Clearer words.** Text on screen is now **Text on the page**. The button that posts to your own server is
+  **Send report**, and Download is **Download as JSON**. The offline notice says "This computer seems to be
+  offline: scan the code with your phone instead.", and the QR code's description no longer points to a place
+  on the page. The help, the demo and the set-up tool use the same words.
+- **Colours match the design system.** The fallback colours for the sunken surface, the danger text and the
+  scroll bars now match `tokens.css` in light and dark, and the recording dot uses the danger colour. Snaglist
+  draws borders instead of shadows outside its dialogs, and uses the design system's type sizes.
+
+### Fixed
+- **Errors stay until they are closed.** When a report is not sent, or the accessibility check cannot run, the
+  message shows in the dialog, is read out at once (`role="alert"`) and stays until you close it. It says what
+  happened and what to do; the raw error is under **Technical details** instead of in the sentence.
+- **Messages are read out the first time.** The status region is always in the page, so screen readers announce
+  the first message too. A message stays while the pointer or keyboard focus is on it, and a message about a
+  dialog shows in that dialog.
+
 ## [0.4.1] (17 November 2026)
 
 ### Changed
@@ -147,7 +177,8 @@ The first version. It was not tagged.
   to record.
 - **A demo page,** documentation, prompts for AI coding assistants and an example server.
 
-[Unreleased]: https://github.com/TheMightyTRex/snaglist/compare/v0.4.1...HEAD
+[Unreleased]: https://github.com/TheMightyTRex/snaglist/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/TheMightyTRex/snaglist/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/TheMightyTRex/snaglist/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/TheMightyTRex/snaglist/compare/v0.3.2...v0.4.0
 [0.3.2]: https://github.com/TheMightyTRex/snaglist/compare/v0.3.1...v0.3.2

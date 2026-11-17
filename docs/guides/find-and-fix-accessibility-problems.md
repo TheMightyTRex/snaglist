@@ -57,4 +57,4 @@ listed at the end of [Fix common accessibility problems](../topics/fix-common-ac
 ## What next
 
 - Ask testers who use a screen reader, magnifier or voice control to try the site, and to report with
-  'Hard to use with my tools or needs'.
+  'Does not work with my tools or needs'.

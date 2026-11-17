@@ -28,7 +28,7 @@ Snaglist.start({ send: { endpoint: { url: "https://reports.example/" } } });
 
 3. Make your server accept it. Your server must answer the browser's `OPTIONS` check with
    `Access-Control-Allow-Origin` set to your site, then reply to the `POST` with any 2xx status.
-4. Make a test report and select **Send**. Snaglist says "Report sent. Thank you." when your server replies.
+4. Make a test report and select **Send report**. Snaglist says "Report sent. Thank you." when your server replies.
 
 ## Example: file GitHub issues with a Cloudflare Worker
 

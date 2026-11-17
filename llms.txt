@@ -3,7 +3,7 @@
 > A single JavaScript file, with no libraries, that adds a "Send feedback" button to any website or web app.
 > People report bugs and UX problems, suggest features and improvements, record a series of steps, or check the
 > page for accessibility problems. Each report is tagged with the page and the part of it, carries the technical
-> details needed to act on it (text on screen, script errors with stack, console errors and warnings, failed and
+> details needed to act on it (text on the page, script errors with stack, console errors and warnings, failed and
 > slow requests, recorded steps, styles and contrast, layout, accessibility details, sanitised HTML, Core Web
 > Vitals), and keeps no personal information: never what people type, no cookies or query strings; emails, long
 > numbers, IP addresses and keys are replaced. People are shown the whole report before it is sent. MIT licence.
@@ -26,7 +26,7 @@ snaglist-start.js, the script tags for the platform, and one prompt for an AI as
    <script src="/snaglist.js" defer></script>
    <script src="/snaglist-start.js" defer></script>
    Shortest form instead: <script src="/snaglist.js" data-github="owner/name" defer></script>
-   (optional data-types="bug ux feature check", data-email, data-endpoint, data-app, data-version)
+   (optional data-types="bug confusing feature check", data-email, data-endpoint, data-app, data-version)
 4. Add data-component="name" to main parts of pages (header, menus, forms, cards, tables, dialogs).
 5. Add data-snag-private to anything that shows personal details.
 6. Never put a token or password in the page; Snaglist does not need one.
@@ -36,7 +36,7 @@ snaglist-start.js, the script tags for the platform, and one prompt for an AI as
 language ("auto" reads <html lang>; "en-US" uses US spelling; any other language: translate with text),
 theme ("light" default | "dark" | "auto"), enabled (true), userToggle (true), launcher ("bottom-right" |
 "bottom-left" | false), shortcut ("" or "Alt+Shift+F"),
-types (["bug", "ux", "visual", "accessibility", "performance", "content", "feature", "idea", "other", "check"],
+types (["bug", "confusing", "display", "accessibility", "performance", "content", "feature", "idea", "other", "check"],
 or objects { id, label, hint, group: "problem" | "suggestion", pick, scale, fields: [{ id, label, hint,
 type: "textarea" | "text" | "select", options, required }], collect: [parts] }),
 check ({ engine: "built-in" | "axe", axe: url, contrastLimit: 300 }),

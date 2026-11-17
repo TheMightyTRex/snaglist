@@ -37,7 +37,7 @@ end: Make your first report
 ## Step 1: try Snaglist on the demo page
 
 Open the [online demo](https://themightytrex.github.io/snaglist/) and report something on the made-up app,
-to learn what your users will see: report one thing, record a series of steps, make a suggestion and check the
+to find out what your users get: report one thing, record a series of steps, make a suggestion and check the
 page. You know it worked when **What is sent** shows your report.
 
 ## Step 2: add it to your site

@@ -20,7 +20,7 @@ export async function open(html = "", options = {}, url = "/tools/tests/page.htm
 }
 
 // The report Snaglist shows in its review window for one part of the page, as Markdown.
-export async function reviewFor(page, selector, type = "visual", answer = "It looks wrong.") {
+export async function reviewFor(page, selector, type = "display", answer = "The text overlaps.") {
   await page.evaluate(([s, t]) => Snaglist.report(document.querySelector(s), t), [selector, type]);
   const box = page.locator("snag-list textarea").first();
   if (await box.count()) await box.fill(answer);

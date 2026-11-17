@@ -2,12 +2,12 @@
 <!-- help: dev / build -->
 
 Snaglist runs inside other people's websites and sends what it finds to GitHub, an email or the site's own
-server. So it must never carry away what someone typed or who they are, never let the page or a link change
+server. So it must never carry away what someone entered or who they are, never let the page or a link change
 what it sends, and never put the site at risk. This page says how it does that, what the security check in
 November 2026 found and fixed, and which tests pass today.
 
-To report a problem privately, use **Report a vulnerability** on the repository's **Security** tab; see
-[SECURITY.md](../SECURITY.md). For what a report holds, see
+To report a problem privately, use **Report a vulnerability** on the repository's **Security** tab; read
+[SECURITY.md](../SECURITY.md). For what a report holds, read
 [What a report holds, and what it never holds](topics/what-a-report-holds.md).
 
 Latest results: 8 November 2026.
@@ -15,13 +15,13 @@ Latest results: 8 November 2026.
 ## How Snaglist protects people
 
 **What it never takes**
-- Nothing typed into the page: field values, editable areas and the choices made in lists, tick boxes and radio
+- Nothing entered in the page: field values, editable areas and the choices made in lists, tick boxes and radio
   buttons are left out. A step says "Entered text in Your name" or "Made a choice in Title", never what it was.
 - No cookies, storage, accounts or query strings. Addresses keep their path, with ids replaced by `:id`; the
   query and the hash are taken out, including from addresses inside error and console messages.
 - Emails, phone and card numbers, IP addresses, ids, keys and tokens are replaced in everything a report holds,
   and anything inside `data-snag-private` is left out.
-- The person sees the whole report before it goes, and can take parts out.
+- The whole report is shown to the person before it goes, and can take parts out.
 
 **What the page cannot do**
 - Snaglist builds everything as text, never as HTML, so text from the page is shown, never run.
@@ -34,16 +34,16 @@ Latest results: 8 November 2026.
 
 ## The security check, November 2026
 
-Snaglist 0.3.1 was checked in three ways: the free scanners below, an independent code review by a reviewer who
-had not seen the scan results, and new tests in a real browser for every real finding. No high or critical
-problems were found. Fourteen medium or low problems were real; all are fixed, and each fix has a test that
+Snaglist 0.3.1 was checked in three ways: the free scanners in [Security scans](#security-scans), an independent code review by a reviewer who
+had not read the scan results, and new tests in a real browser for every real finding. No high or critical
+problems were found. 14 medium or low problems were real; all are fixed, and each fix has a test that
 failed before it and passes now.
 
 | Severity | What was found | How it was fixed | Test |
 |---|---|---|---|
 | Medium | The set-up tool fills its fields from a shared link. A crafted link could put a shell command into the label commands, code into snaglist-start.js and instructions into the AI prompt. | The repository, the app details value and the language code must have the right shape, or they are left out with an error under the field. The button words are quoted in the prompt. An unknown choice in a link is ignored. | SEC-04 |
 | Medium | Recorded steps and the trail kept the choice made in a field: the option chosen in a list, a ticked box, a selected radio button or a picked suggestion. | Only that a choice was made, and in which group or field, is kept. | SEC-05 |
-| Medium | Text typed into an editable area (`contenteditable`) was kept as text on screen, and private parts inside a chosen part were not left out. | Editable areas and private parts inside the chosen part are left out. | SEC-01 |
+| Medium | Text entered in an editable area (`contenteditable`) was kept as text on the page, and private parts inside a chosen part were not left out. | Editable areas and private parts inside the chosen part are left out. | SEC-01 |
 | Medium | Error and console messages kept addresses with their query strings, and logged objects with their values. | Each address keeps its path only; a logged object shows its keys only. | SEC-02, SEC-06 |
 | Medium | Several key and number formats were not replaced: `access_token=`, `Authorization: Bearer`, `session=`, `pwd=`, AWS key ids and phone numbers written with dots. | Each is replaced now. Error codes, timings and version numbers stay. | SEC-07 |
 | Medium | A part's HTML kept phone numbers in `tel:` links, names in `skype:` links, and values in `aria-valuetext`, `aria-description`, `id` and `data-testid`. | A link to anything but a web page keeps only its scheme. Value attributes become `…`, and every other kept attribute has emails, numbers and keys replaced. | SEC-08 |
@@ -58,26 +58,26 @@ failed before it and passes now.
 
 **Also changed**
 - The review window's privacy statement no longer says no personal information is kept, because the page title
-  and the text on screen are copied as they are. It says what is left out, and asks people to check the rest.
+  and the text on the page are copied as they are. It says what is left out, and asks people to check the rest.
 - The test and screenshot tools serve only the files git would publish, so `.git` and `.private-words` are never
   on offer, even on this computer.
 - `tools/check-private.sh` stops if it cannot find the repository (ShellCheck).
 
 **Left as they are, on purpose**
-- **Page titles and the text on screen** are copied as they are, because they are what developers need to find
-  the problem. The person sees them before sending, sites can mark parts `data-snag-private`, and
+- **Page titles and the text on the page** are copied as they are, because they are what developers need to find
+  the problem. They are shown to the person before sending, sites can mark parts `data-snag-private`, and
   `page.name` can replace the title.
 - **Names in paths and class names** (such as a picture called after a person) are kept, apart from ids,
   numbers, emails and keys. They are part of the site's structure.
 - **A report sent to GitHub travels in the address**, so it is in the browser's history. That is how GitHub's
-  new issue form works; Copy, Download and your own server avoid it.
+  new issue form works; Copy as Markdown, Download as JSON and your own server avoid it.
 - **Answers are kept in the tab's session storage while a recording runs**, so they survive going to another
   page. They are cleared when the recording stops, is cancelled or Snaglist is removed.
 - **The demo and set-up pages on GitHub Pages** have no content security policy, frame or content type headers,
   because GitHub Pages cannot set them, and they load the design system's style sheets without a hash, because
   those change with each design system update. Nothing from a visitor is written into the pages as HTML, and
   they hold nothing worth tricking anyone into.
-- **Snaglist's window is an open shadow root**, so the page's own scripts can see what is typed into Snaglist's
+- **Snaglist's window is an open shadow root**, so the page's own scripts can read what is entered in Snaglist's
   form, as they can for any part of the page. A site that records sessions should leave Snaglist out of them.
 
 ## Security tests and results
@@ -87,7 +87,7 @@ Chromium, Firefox and WebKit (Safari's engine). Each prints its ID, and the brow
 
 | ID | What is tested | Result |
 |---|---|---|
-| SEC-01 | Text typed into an editable area is never in a report | Pass |
+| SEC-01 | Text entered in an editable area is never in a report | Pass |
 | SEC-02 | Query strings and hashes inside console and error messages are taken out | Pass |
 | SEC-03 | axe-core is loaded only with its integrity hash | Pass |
 | SEC-04 | A shared set-up link cannot put code or commands into what the tool writes | Pass |
@@ -106,7 +106,7 @@ Chromium, Firefox and WebKit (Safari's engine). Each prints its ID, and the brow
 | SEC-17 | The privacy check catches a private word written with "TRex", and lets the public names through | Pass |
 | SEC-18 | The privacy check checks a private word that starts with a hyphen | Pass |
 | SEC-19 | A backslash or `\|` in page text cannot add a column to a report's tables | Pass |
-| SEC-20 | The QR code holds nothing typed into the page, and no email address or key | Pass |
+| SEC-20 | The QR code holds nothing entered in the page, and no email address or key | Pass |
 | SEC-21 | Snaglist is styled under a strict Content Security Policy (`default-src 'self'`) | Pass |
 
 The tests for **Show as a QR code** run the same way:
@@ -116,8 +116,19 @@ The tests for **Show as a QR code** run the same way:
 | QR-01 | The encoder draws the same codes as the design system's `terminal/qr.py` (`tools/tests/qr-fixtures.py` makes them), from version 1 to 40 | Pass |
 | QR-02 | The code holds the same address as Open in GitHub, dark on light with a 4-module quiet zone and a description | Pass |
 | QR-03 | Offline, Show as a QR code comes first and says why | Pass |
-| QR-04 | A long report goes in shorter, the view says what the code holds, and the link and Download stay | Pass |
+| QR-04 | A long report goes in shorter, the view says what the code holds, and the link and Download as JSON stay | Pass |
 | QR-05 | The view works from the keyboard and is dark on light in all four themes | Pass |
+
+The tests for messages, the renamed report types and the design system's rules run the same way:
+
+| ID | What is tested | Result |
+|---|---|---|
+| MSG-01 | A report that is not sent says what to do in an alert that stays until it is closed, with the raw error under Technical details | Pass |
+| MSG-02 | The status region is in the page before the first message, and a message stays while the pointer is on it | Pass |
+| TYPE-01 | The report type ids from before 0.5.0 (`ux`, `visual`) still work, in settings, text keys and `Snaglist.open()` | Pass |
+| WORD-01 | The text people read has none of the words the design system's content rules ban (`tools/check-wording.py`) | Pass |
+| WORD-02 | The wording check catches a banned word | Pass |
+| TOKENS-01 | The fallback colours in `snaglist.js` match the design system's `tokens.css`, light and dark (`tools/check-tokens.py`) | Pass |
 
 On 8 November 2026, TheMightyTRexUK scanned a code from the demo with a real phone, and the phone opened the
 new GitHub issue, filled in.
@@ -157,11 +168,11 @@ raised 0 alerts, and secret scanning found nothing. Private vulnerability report
 
 ## Security checks for each release
 
-Every release runs the checks below before it is tagged, and adds a row here. A release's notes list its
+Every release runs these checks before it is tagged, and adds a row here. A release's notes list its
 security fixes under Security.
 
 | Release | Tests | Journeys | Security scans | CodeQL | Notes |
 |---|---|---|---|---|---|
-| 0.4.1 (17 November 2026) | 76 of 76 passed (the browser tests in Chromium, Firefox and WebKit, with the strict Content Security Policy test) | Not run: nothing on screen changed, so no pictures were retaken | Gitleaks 0, Trivy 0, ESLint 0, Semgrep 0, Bandit 0, ShellCheck 0, ZAP no failures (baseline and active) | Run here: 0 alerts | Works under a strict Content Security Policy; see [the 0.4.1 notes](releases/v0.4.1.md) |
-| 0.4.0 (8 November 2026) | 73 of 73 passed (25 IDs; the browser tests in Chromium, Firefox and WebKit) | Passed, pictures retaken, the QR pictures marked up | Gitleaks 0, Trivy 0, ESLint 0 (after one warning in the screenshot tool was fixed), Semgrep 0, Bandit 0, ShellCheck 0, ZAP no failures (baseline and active) | Run here: 0 alerts | Show as a QR code; see [the 0.4.0 notes](releases/v0.4.0.md) |
-| 0.3.2 (3 November 2026) | 55 of 55 passed (19 IDs; the browser tests in Chromium, Firefox and WebKit) | Passed, pictures retaken | Gitleaks 0 (2 made-up test keys listed), Trivy 0, ESLint 0, Semgrep 0, Bandit 0, ShellCheck 0, ZAP no failures (baseline and active) | Run here: 0 real alerts left. On GitHub: 0 alerts | First full check; see [the 0.3.2 notes](releases/v0.3.2.md) |
+| 0.4.1 (17 November 2026) | 76 of 76 passed (the browser tests in Chromium, Firefox and WebKit, with the strict Content Security Policy test) | Not run: nothing on screen changed, so no pictures were retaken | Gitleaks 0, Trivy 0, ESLint 0, Semgrep 0, Bandit 0, ShellCheck 0, ZAP no failures (baseline and active) | Run here: 0 alerts | Works under a strict Content Security Policy; read [the 0.4.1 notes](releases/v0.4.1.md) |
+| 0.4.0 (8 November 2026) | 73 of 73 passed (25 IDs; the browser tests in Chromium, Firefox and WebKit) | Passed, pictures retaken, the QR pictures marked up | Gitleaks 0, Trivy 0, ESLint 0 (after one warning in the screenshot tool was fixed), Semgrep 0, Bandit 0, ShellCheck 0, ZAP no failures (baseline and active) | Run here: 0 alerts | Show as a QR code; read [the 0.4.0 notes](releases/v0.4.0.md) |
+| 0.3.2 (3 November 2026) | 55 of 55 passed (19 IDs; the browser tests in Chromium, Firefox and WebKit) | Passed, pictures retaken | Gitleaks 0 (2 made-up test keys listed), Trivy 0, ESLint 0, Semgrep 0, Bandit 0, ShellCheck 0, ZAP no failures (baseline and active) | Run here: 0 real alerts left. On GitHub: 0 alerts | First full check; read [the 0.3.2 notes](releases/v0.3.2.md) |

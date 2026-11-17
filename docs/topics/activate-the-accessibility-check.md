@@ -14,7 +14,7 @@ it off.
 1. Keep `"check"` in the list of what people can send. It is in the default list. If you set `types`, add it:
 
    ```js
-   Snaglist.start({ types: ["bug", "ux", "feature", "check"] });
+   Snaglist.start({ types: ["bug", "confusing", "feature", "check"] });
    ```
 
 2. Choose the engine:

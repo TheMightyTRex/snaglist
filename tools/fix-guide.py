@@ -15,9 +15,12 @@ def field(chunk, name):
     return json.loads(s)
 
 rules = [c for c in re.split(r"\n    \{ id: ", block)[1:]]
-out = ["""[Help centre](../README.md) · Accessibility · Reference
+out = ["""[Help centre](../README.md) · Accessibility
+<!-- help: a11y / check -->
 
 # Fix common accessibility problems
+
+Reference
 
 How to fix each problem Snaglist's accessibility check finds, with code before and after. Seven of them are
 broken on purpose on the [demo page](https://themightytrex.github.io/snaglist/), under **Accessibility problems
@@ -43,7 +46,7 @@ out += ["## What the automatic check cannot find", "",
         "- check that error messages say how to fix the problem, and that nothing depends on colour alone.", "",
         "## Find out more", "",
         "- [Check a page for accessibility problems](check-a-page-for-accessibility-problems.md)",
-        "- [Turn on the accessibility check](activate-the-accessibility-check.md)",
+        "- [Activate the accessibility check](activate-the-accessibility-check.md)",
         "- [Find and fix accessibility problems](../guides/find-and-fix-accessibility-problems.md)",
         "- [WCAG 2.2 quick reference](https://www.w3.org/WAI/WCAG22/quickref/) (opens in a new tab)", ""]
 (root / "docs/topics/fix-common-accessibility-problems.md").write_text("\n".join(out))

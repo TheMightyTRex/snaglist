@@ -23,7 +23,7 @@ q2: What happened?
 1: GitHub opens in the same tab #github-opens-in-the-same-tab
 2: GitHub opens with an empty report #github-opens-with-an-empty-report
 3: Open in email does nothing #open-in-email-does-nothing
-4: Send says Not sent #send-says-not-sent
+4: Send report says The report was not sent #send-report-says-the-report-was-not-sent
 5: This computer is not online #this-computer-is-not-online
 ```
 
@@ -45,9 +45,9 @@ GitHub only adds labels that exist, and only for people who may label issues. Re
 
 No mail app is set up on this computer. Use **Copy as Markdown** and paste the report into an email.
 
-## Send says Not sent
+## Send report says The report was not sent
 
-The message after it gives the reason. A number such as 403 or 500 comes from the site's server; "Failed to fetch"
+Select **Technical details** in the message for the reason. A number such as 403 or 500 comes from the site's server; "Failed to fetch"
 usually means the server did not allow the request from this site. Read step 3 of
 [Send reports to your own server](send-reports-to-your-own-server.md).
 

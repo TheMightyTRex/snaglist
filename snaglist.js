@@ -1,5 +1,5 @@
 /*
- * Snaglist 0.4.1: feedback for any website or app. People report bugs and UX problems, or suggest features and
+ * Snaglist 0.5.0: feedback for any website or app. People report bugs and UX problems, or suggest features and
  * improvements, tagged with the page and the part of it, with the technical detail needed to act on it and
  * without personal information. One file, no libraries, MIT licence.
  * https://github.com/TheMightyTRex/snaglist
@@ -15,7 +15,7 @@
   "use strict";
   if (window.Snaglist) return;
 
-  const VERSION = "0.4.1";
+  const VERSION = "0.5.0";
   const KEY = "snaglist:";
 
   // What people can send. Each type is a problem or a suggestion, asks its own questions and records the
@@ -30,11 +30,11 @@
         { id: "steps", label: "Steps to make it happen again", hint: "One step per line. Or go back and choose A series of steps to record them.", type: "textarea", unlessRecorded: true },
       ],
       collect: ["element", "text", "errors", "console", "network", "trail", "html"] },
-    ux: { group: "problem", pick: true, label: "Hard to use", hint: "Confusing, too many steps, not where you expected",
+    confusing: { group: "problem", pick: true, label: "Confusing to use", hint: "Unclear, too many steps, not where you expected",
       fields: [WHAT], collect: ["element", "text", "trail"] },
-    visual: { group: "problem", pick: true, label: "Looks wrong", hint: "Overlaps, cut off, misaligned, wrong colour or size",
+    display: { group: "problem", pick: true, label: "Display problem", hint: "Overlaps, cut off, misaligned, wrong colour or size",
       fields: [WHAT], collect: ["element", "text", "styles", "layout", "html"] },
-    accessibility: { group: "problem", pick: true, label: "Hard to use with my tools or needs", hint: "Keyboard, screen reader, zoom, contrast, motion",
+    accessibility: { group: "problem", pick: true, label: "Does not work with my tools or needs", hint: "Keyboard, screen reader, zoom, contrast, motion",
       fields: [WHAT, { id: "using", label: "What were you using", type: "select", options: [["keyboard", "Keyboard only"],
         ["screen-reader", "A screen reader"], ["zoom", "Zoom or large text"], ["voice", "Voice control"], ["switch", "Switch access"],
         ["contrast", "High contrast or forced colours"], ["none", "Nothing special"], ["other", "Something else"]] }],
@@ -71,14 +71,14 @@
       ["words", "Words", "Unclear, wrong or inconsistent text"],
       ["behaviour", "Behaviour", "Does not do what you expected"],
       ["accessibility", "Accessibility", "Keyboard, screen reader, contrast, zoom"],
-      ["looks", "Looks", "Colour, icons, type, not like the rest"],
+      ["appearance", "Appearance", "Colour, icons, fonts, not like the rest"],
     ],
     heuristics: [
       ["status", "Status not clear", "Nielsen 1: visibility of system status"],
       ["language", "Not the user's language", "Nielsen 2: match with the real world"],
       ["control", "No way out", "Nielsen 3: user control and freedom"],
       ["consistency", "Inconsistent", "Nielsen 4: consistency and standards"],
-      ["errors", "Easy to make a mistake", "Nielsen 5: error prevention"],
+      ["errors", "Mistakes are likely", "Nielsen 5: error prevention"],
       ["recall", "Too much to remember", "Nielsen 6: recognition rather than recall"],
       ["efficiency", "Slow to use", "Nielsen 7: flexibility and efficiency"],
       ["clutter", "Cluttered", "Nielsen 8: aesthetic and minimalist design"],
@@ -86,9 +86,9 @@
       ["help", "Help missing", "Nielsen 10: help and documentation"],
     ],
     wcag: [
-      ["perceivable", "Hard to see or hear", "WCAG: perceivable (contrast, text size, alternatives)"],
-      ["operable", "Hard to use", "WCAG: operable (keyboard, focus, targets, time)"],
-      ["understandable", "Hard to understand", "WCAG: understandable (words, labels, errors)"],
+      ["perceivable", "Cannot read or hear it", "WCAG: perceivable (contrast, text size, alternatives)"],
+      ["operable", "Cannot operate it", "WCAG: operable (keyboard, focus, targets, time)"],
+      ["understandable", "Unclear", "WCAG: understandable (words, labels, errors)"],
       ["robust", "Does not work with my tools", "WCAG: robust (screen readers, zoom, other browsers)"],
     ],
   };
@@ -110,11 +110,29 @@
       ["need", "I need it", "I need it to do what I came to do"],
     ],
   };
+  // Report types and a category renamed in 0.5.0. The old ids still work: in types, data-types, text keys,
+  // Snaglist.open() and a recording saved before the update.
+  const RENAMED_TYPES = { ux: "confusing", visual: "display" };
+  const RENAMED_CATEGORIES = { looks: "appearance" };
+  const newType = (id) => (typeof id === "string" && Object.hasOwn(RENAMED_TYPES, id) ? RENAMED_TYPES[id] : id);
+  const newCategory = (id) => (typeof id === "string" && Object.hasOwn(RENAMED_CATEGORIES, id) ? RENAMED_CATEGORIES[id] : id);
+  function renameOld(options) {
+    const out = { ...options };
+    if (Array.isArray(out.types)) out.types = out.types.map(newType);
+    if (isPlain(out.text)) {
+      out.text = { ...out.text };
+      for (const [k, v] of Object.entries(out.text)) {
+        const m = /^types\.(\w+)\.(label|hint)$/.exec(k);
+        if (m && Object.hasOwn(RENAMED_TYPES, m[1])) { const key = `types.${RENAMED_TYPES[m[1]]}.${m[2]}`; if (out.text[key] == null) out.text[key] = v; }
+      }
+    }
+    return out;
+  }
   const GROUPS = [["problem", "Report a problem"], ["suggestion", "Make a suggestion"], ["check", "Check the page"]];
 
   // What a report can record. true: always; false: never; "auto": when the report type asks for it.
   const PARTS = [
-    ["page", "Page name and path"], ["element", "The part of the page"], ["text", "Text on screen"], ["steps", "Recorded steps"], ["styles", "Its font and colours"],
+    ["page", "Page name and path"], ["element", "The part of the page"], ["text", "Text on the page"], ["steps", "Recorded steps"], ["styles", "Its font and colours"],
     ["layout", "Its size, position and what covers it"], ["a11y", "Its accessibility details"], ["html", "Its HTML, without text"],
     ["environment", "Screen, browser and device"], ["display", "Display settings"], ["performance", "Page speed"],
     ["errors", "Script errors"], ["console", "Console messages"], ["network", "Failed and slow requests"],
@@ -134,7 +152,7 @@
     userToggle: true,
     launcher: "bottom-right",
     shortcut: "",
-    types: ["bug", "ux", "visual", "accessibility", "performance", "content", "feature", "idea", "other", "check"],
+    types: ["bug", "confusing", "display", "accessibility", "performance", "content", "feature", "idea", "other", "check"],
     check: { engine: "built-in", axe: AXE.url, integrity: "", contrastLimit: 300 },
     categories: null,
     severities: "three",
@@ -209,38 +227,39 @@
     cancel: "Cancel",
     reviewTitle: "What is sent",
     include: "Include",
-    privacy: "This report keeps no account, cookies or anything entered in the page's fields, and anything in the form of an email, a long number or a key is replaced. The page title and the text on screen are copied as they are, so check they show nothing personal. Untick anything you would rather not send.",
+    privacy: "This report keeps no account, cookies or anything entered in the page's fields, and anything in the form of an email, a long number or a key is replaced. The page title and the text on the page are copied as they are, so check they show nothing personal. Clear the tick from anything you would rather not send.",
     githubNote: "GitHub opens with the report filled in. You post it from your own GitHub account, so GitHub shows your user name on the issue.",
     emailNote: "Your mail app opens with the report filled in. The reply address is your own.",
     endpointNote: "The report is sent to the site's own server, without cookies.",
     sendGithub: "Open in GitHub",
     sendEmail: "Open in email",
-    sendEndpoint: "Send",
+    sendEndpoint: "Send report",
     sendQr: "Show as a QR code",
-    qrOffline: "This computer looks offline: scan it with your phone instead.",
+    qrOffline: "This computer seems to be offline: scan the code with your phone instead.",
     qrTitle: "Show as a QR code",
     qrScan: "Scan it with your phone's camera to open the report there.",
-    qrAlt: "QR code for the link below.",
+    qrAlt: "QR code for the report link.",
     qrHoldsAll: "It holds the whole report.",
     qrHoldsNoDetails: "It holds the report without its technical details.",
     qrHoldsShort: "It holds a short report: the kind, where it happened and your words, cut to fit.",
     qrHoldsWhere: "It holds the kind, where it happened and the version.",
     qrHoldsTitle: "It holds only the title.",
-    qrWhole: "Download keeps the whole report.",
-    qrNone: "The report is too long for a QR code. Copy the link, or use Download.",
+    qrWhole: "Download as JSON keeps the whole report.",
+    qrNone: "The report is too long for a QR code. Copy the link, or use Download as JSON.",
     qrLink: "The link",
     copyLink: "Copy the link",
     linkCopied: "Link copied",
     copy: "Copy as Markdown",
-    download: "Download",
+    download: "Download as JSON",
     back: "Back",
     close: "Close",
     copied: "Report copied",
     copiedForGithub: "The technical details were too long for GitHub's address, so the full report is on your clipboard: paste it into the issue.",
     sent: "Report sent. Thank you.",
-    sendFailed: "Not sent",
+    sendFailed: "The report was not sent",
     sendFailedSafe: "Your report is kept: select 'Back', then send it another way, such as 'Copy as Markdown'.",
     opened: "Opened. Thank you.",
+    technical: "Technical details",
   };
 
   let config = null;
@@ -825,7 +844,7 @@
           ...(c.count > c.where.length ? [`| and ${c.count - c.where.length} more | |`] : [])]);
       }
       if (report.steps) section("Recorded steps", report.steps.map((s, i) => `${i + 1}. ${s.text} (${s.at} s)`));
-      if (report.text) section("Text on screen", [...(report.text.chosen ? [`> ${report.text.chosen}`] : []), ...(report.text.messages || []).map((m) => `- Message: ${m}`)]);
+      if (report.text) section("Text on the page", [...(report.text.chosen ? [`> ${report.text.chosen}`] : []), ...(report.text.messages || []).map((m) => `- Message: ${m}`)]);
       if (report.styles) section("Styles", table(report.styles));
       if (report.layout) section("Layout", table(report.layout, { coveredBy: "Covered by", onScreen: "On the page", pageScrollsSideways: "Page scrolls sideways" }));
       if (report.a11y) section("Accessibility", table(report.a11y, { a11y: "Accessibility" }));
@@ -1100,14 +1119,15 @@
   async function sendGithub(report) {
     const base = githubBase(report);
     let url = `${base}&body=${enc(markdown(report))}`;
-    if (url.length > 7500) {
+    const long = url.length > 7500;
+    if (long) {
       await copyText(markdown(report));
       url = `${base}&body=${enc(markdown(report, true))}`;
       if (url.length > 7500) url = `${base}&body=${enc("Paste the report here: it is on your clipboard.")}`;
-      say(t("copiedForGithub"));
     }
     openUrl(url);
-    return t("opened");
+    // Said after the dialog closes, so the note about the clipboard is not lost behind "Opened".
+    return long ? t("copiedForGithub") : t("opened");
   }
 
   async function sendEmail(report) {
@@ -1190,13 +1210,31 @@
 
   // Interface --------------------------------------------------------------------------------------------
 
+  // A message that something worked, read out through a status region that is always in the page (out of sight
+  // while empty). In an open dialog it is a line in the dialog, since everything outside it is inert; otherwise
+  // a toast that goes after 6 seconds, waiting while the pointer or keyboard focus is on it.
   function say(message) {
-    const region = wrap.querySelector(".sl-status");
+    const d = [...wrap.querySelectorAll("dialog[open]")].pop();
+    const region = d ? d.querySelector(".sl-note") : wrap.querySelector(".sl-status");
     region.textContent = "";
     requestAnimationFrame(() => { region.textContent = message; });
-    region.hidden = false;
     clearTimeout(say.timer);
-    say.timer = setTimeout(() => { region.hidden = true; }, 6000);
+    if (d) return;
+    const hide = () => { say.timer = setTimeout(() => { if (!region.matches(":hover, :focus-within")) region.textContent = ""; else hide(); }, 6000); };
+    hide();
+  }
+
+  // An error in a dialog: what happened, what to do and what is safe, read out at once (role="alert") and kept
+  // until it is closed. The raw message goes under Technical details, never into the sentence.
+  function showError(d, message, next, err, back) {
+    const region = d.querySelector(".sl-alert");
+    const raw = String(err?.message || err || "").trim();
+    const close = h("button", { type: "button", class: "sl-btn", text: t("close"), "aria-label": `${t("close")}: ${message}`,
+      onclick: () => { region.replaceChildren(); (back?.isConnected ? back : d.querySelector(".sl-icon"))?.focus(); } });
+    region.replaceChildren(h("div", { class: "sl-notice" },
+      h("p", { class: "sl-notice__title", text: message }), h("p", { text: next }),
+      raw ? h("details", { class: "sl-notice__details" }, h("summary", { text: t("technical") }), h("p", { text: clip(redact(raw), 500) })) : null,
+      h("div", { class: "sl-actions" }, close)));
   }
 
   function dialog(title, body, foot) {
@@ -1204,8 +1242,8 @@
     const d = h("dialog", { class: "sl-dialog", "aria-labelledby": id },
       h("div", { class: "sl-head" }, h("h2", { id, text: title }),
         h("button", { type: "button", class: "sl-icon", "aria-label": `${t("close")}: ${title}`, onclick: () => d.close() }, icon("x"))),
-      h("div", { class: "sl-body sl-scroll" }, body),
-      h("div", { class: "sl-foot" }, foot));
+      h("div", { class: "sl-body sl-scroll" }, h("div", { class: "sl-alert", role: "alert" }), body),
+      h("div", { class: "sl-foot" }, foot, h("p", { class: "sl-note", role: "status" })));
     d.addEventListener("close", () => { d.remove(); if (!wrap.querySelector("dialog[open]")) restoreFocus(); });
     wrap.append(d);
     d.showModal();
@@ -1409,8 +1447,8 @@
     ];
     const run = async (button, fn) => {
       button.disabled = true;
-      try { const message = await fn(report); if (message) say(message); d.close(); }
-      catch (err) { say(`${t("sendFailed")}: ${err.message || err}. ${t("sendFailedSafe")}`); button.disabled = false; }
+      try { const message = await fn(report); d.close(); if (message) say(message); }
+      catch (err) { button.disabled = false; showError(d, t("sendFailed"), t("sendFailedSafe"), err, button); }
     };
     // The first way of sending is the primary button; the rest are secondary.
     const buttons = [];
@@ -1454,13 +1492,13 @@
       before: '<button><svg>…</svg></button>', after: '<button aria-label="Close the menu"><svg aria-hidden="true">…</svg></button>',
       find: () => all("button, a[href], [role=button], [role=link], [role=menuitem], [role=tab]").filter((el) => visible(el) && !named(el)) },
     { id: "field-label", name: "Fields with no label", wcag: "1.3.1 Info and relationships, 3.3.2 Labels or instructions", level: "A", impact: "critical",
-      why: "People using a screen reader or voice control cannot tell what to type, and a placeholder disappears as soon as they type.",
+      why: "People using a screen reader or voice control cannot tell what to enter, and a placeholder disappears as soon as they start entering text.",
       fix: "Give every field a visible label joined to it with for and id.",
       before: '<input type="email" placeholder="Email">', after: '<label for="email">Email</label>\n<input type="email" id="email" autocomplete="email">',
       find: () => all("input:not([type=hidden]):not([type=submit]):not([type=button]):not([type=reset]):not([type=image]), select, textarea")
         .filter((el) => visible(el) && !(el.labels && el.labels.length) && !el.getAttribute("aria-label")?.trim() && !el.getAttribute("aria-labelledby") && !el.getAttribute("title")) },
     { id: "contrast", name: "Text with too little contrast", wcag: "1.4.3 Contrast (minimum)", level: "AA", impact: "serious",
-      why: "Faint text is hard or impossible to read for people with low vision, and for everyone in bright light.",
+      why: "Some people with low vision cannot read faint text, and in bright light nobody can.",
       fix: "Make text at least 4.5 to 1 against its background, or 3 to 1 for large text (24px, or 18.66px bold). Use a darker text colour or a stronger background.",
       before: '.summary { color: #9aa3b0; }  /* 2.4:1 on white */', after: '.summary { color: #424b5b; }  /* 8.9:1 on white */',
       find: () => {
@@ -1478,7 +1516,7 @@
         return out;
       } },
     { id: "target-size", name: "Controls smaller than 24 by 24 pixels", wcag: "2.5.8 Target size (minimum)", level: "AA", impact: "moderate",
-      why: "Small targets are hard to hit for people with tremors, on touch screens, and for anyone in a hurry.",
+      why: "Small targets are often missed by people with tremors, on touch screens, and by anyone in a hurry.",
       fix: "Make buttons, links in menus and other controls at least 24 by 24 pixels (44 is better), or leave space around them.",
       before: '<button class="icon">⚙</button>  /* 18 × 18 */', after: '.icon { min-width: 44px; min-height: 44px; }',
       find: () => all("button, [role=button], input[type=checkbox], input[type=radio], select, a[href]")
@@ -1489,7 +1527,7 @@
           const r = target.getBoundingClientRect();
           return r.width < 24 || r.height < 24; }) },
     { id: "headings", name: "Headings out of order", wcag: "1.3.1 Info and relationships, 2.4.6 Headings and labels", level: "AA", impact: "moderate",
-      why: "Screen reader users move around a page by its headings. A missing main heading or a skipped level makes the page hard to follow.",
+      why: "Screen reader users move around a page by its headings. A missing main heading or a skipped level makes the page confusing to move around.",
       fix: "Give each page one h1, then go down one level at a time: h2 for sections, h3 inside them. Style headings with CSS, not by choosing the level.",
       before: '<h1>My books</h1>\n<h4>Following</h4>', after: '<h1>My books</h1>\n<h2>Following</h2>',
       find: () => {
@@ -1516,7 +1554,7 @@
       before: '<meta name="viewport" content="width=device-width, user-scalable=no">', after: '<meta name="viewport" content="width=device-width, initial-scale=1">',
       find: () => all("meta[name=viewport]").filter((m) => /user-scalable\s*=\s*(no|0)|maximum-scale\s*=\s*(1(\.0)?|0\.\d)\b/i.test(m.content)) },
     { id: "tab-order", name: "Tab order changed by tabindex", wcag: "2.4.3 Focus order", level: "A", impact: "serious",
-      why: "A tabindex above 0 makes keyboard focus jump around the page in an order that does not match what people see.",
+      why: "A tabindex greater than 0 makes keyboard focus jump around the page in an order that does not match the order on the page.",
       fix: "Use tabindex=\"0\" or none, and put elements in the order they should be reached.",
       before: '<button tabindex="3">Save</button>', after: '<button>Save</button>',
       find: () => all("[tabindex]").filter((el) => +el.getAttribute("tabindex") > 0) },
@@ -1595,7 +1633,7 @@
     const d = dialog(t("checkTitle"), body, [close]);
     let results;
     try { results = await runCheck(); }
-    catch (err) { body.replaceChildren(h("p", { class: "sl-error", role: "alert", text: `${t("checkFailed")}: ${err.message || err}. ${t("checkFailedNext")}` })); return; }
+    catch (err) { body.replaceChildren(); if (d.open) showError(d, t("checkFailed"), t("checkFailedNext"), err, close); return; }
     if (!d.open) return;
     if (!results.length) { body.replaceChildren(h("p", { role: "status", text: t("checkNone") })); return; }
     const total = results.reduce((n, r) => n + r.elements.length, 0);
@@ -1740,6 +1778,7 @@
     let saved = null;
     try { saved = JSON.parse(sessionStorage.getItem(REC_KEY)); } catch { /* none */ }
     if (!saved) return;
+    if (saved.values) { saved.values.type = newType(saved.values.type); saved.values.category = newCategory(saved.values.category); }
     startRecorder(saved.values, { status: saved.status, steps: saved.steps || [], values: saved.values, started: saved.started });
     if (saved.path !== location.pathname) recNote(`Went to ${cleanPath(location.pathname)}`);
   }
@@ -1751,13 +1790,14 @@
 * { box-sizing: border-box; }
 .sl { --a: var(--color-accent, #0b5f5a); --at: var(--color-accent-text, #fff); --bg: var(--color-surface-raised, #fff);
   --tx: var(--color-text, #141416); --mu: var(--color-text-muted, #424b5b); --bd: var(--color-border, #7d879a);
-  --sk: var(--color-surface-sunken, #eef1f6); --fo: var(--color-focus, var(--a)); --er: var(--status-danger-fg, #a1262a); --rec: #c4161c;
-  --sb: var(--color-scrollbar, #8a94a6); --sbh: var(--color-scrollbar-hover, #5d6778);
+  --sk: var(--color-surface-sunken, #e4ebf7); --fo: var(--color-focus, var(--a)); --er: var(--status-danger-fg, #9b1c14); --rec: var(--er);
+  --erb: var(--status-danger-bg, #fbe0de); --sb: var(--color-scrollbar, #7d879a); --sbh: var(--color-scrollbar-hover, #424b5b);
   font: 1rem/1.5 var(--font, system-ui, -apple-system, "Segoe UI", sans-serif); color: var(--tx); }
-.sl--dark { --sb: #6f7b91; --sbh: #a4aec1; --a: #5ed3c6; --at: #101827; --bg: #232f42; --tx: #f3f4f6; --mu: #a4aec1; --bd: #6f7b91; --sk: #0c1220; --er: #ff9b9b; --rec: #ff6b6b; }
+.sl--dark { --sb: #6f7b91; --sbh: #a4aec1; --a: #5ed3c6; --at: #101827; --bg: #232f42; --tx: #f3f4f6; --mu: #a4aec1; --bd: #6f7b91; --sk: #0c1220; --er: #ffaaa3; --erb: #431816; }
 @media (prefers-color-scheme: dark) { .sl--auto { --a: var(--color-accent, #5ed3c6); --at: var(--color-accent-text, #101827);
   --bg: var(--color-surface-raised, #232f42); --tx: var(--color-text, #f3f4f6); --mu: var(--color-text-muted, #a4aec1);
-  --bd: var(--color-border, #6f7b91); --sk: var(--color-surface-sunken, #0c1220); --er: var(--status-danger-fg, #ff9b9b); --rec: #ff6b6b; } }
+  --bd: var(--color-border, #6f7b91); --sk: var(--color-surface-sunken, #0c1220); --er: var(--status-danger-fg, #ffaaa3); --erb: var(--status-danger-bg, #431816);
+  --sb: var(--color-scrollbar, #6f7b91); --sbh: var(--color-scrollbar-hover, #a4aec1); } }
 button, input, select, textarea { font: inherit; color: inherit; }
 /* Scroll bars, as in the design system: thin, square, in the scroll bar colour on a clear track, and visible
    whenever there is more to scroll. A shadow at the edge says there is more, for systems that hide scroll bars. */
@@ -1782,13 +1822,13 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .sl-btn--primary { background: var(--a); color: var(--at); border-color: var(--a); }
 .sl-btn:disabled { opacity: .6; cursor: progress; }
 .sl-btn svg, .sl-icon svg { width: 18px; height: 18px; }
-.sl-launcher { position: fixed; bottom: 16px; z-index: 2147483000; box-shadow: 0 2px 8px rgb(0 0 0 / .25); }
+.sl-launcher { position: fixed; bottom: 16px; z-index: 2147483000; }
 .sl-launcher--bottom-right { right: 16px; } .sl-launcher--bottom-left { left: 16px; }
 .sl-icon { width: 44px; height: 44px; display: grid; place-items: center; border: 0; background: none; cursor: pointer; color: var(--tx); }
 .sl-link { min-height: 44px; border: 0; background: none; color: var(--a); text-decoration: underline; cursor: pointer; padding: 0; justify-self: start; }
 .sl-banner { position: fixed; left: 50%; top: 16px; transform: translateX(-50%); z-index: 2147483001; width: min(640px, calc(100vw - 32px));
   background: var(--bg); border: 2px solid var(--a); padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
-  justify-content: space-between; box-shadow: 0 4px 16px rgb(0 0 0 / .25); }
+  justify-content: space-between; }
 .sl-banner p { margin: 0; flex: 1 1 260px; }
 .sl-actions, .sl-foot { display: flex; flex-wrap: wrap; gap: 8px; }
 .sl-outline { position: fixed; z-index: 2147482999; pointer-events: none; outline: 3px solid var(--a); outline-offset: 2px;
@@ -1799,7 +1839,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .sl-dialog:not([open]) { display: none; }
 .sl-dialog::backdrop { background: rgb(0 0 0 / .45); }
 .sl-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 4px 4px 20px; border-bottom: 1px solid var(--bd); }
-.sl-head h2 { font-size: 1.125rem; margin: 0; }
+.sl-head h2 { font-size: 1.25rem; margin: 0; }
 .sl-body { padding: 16px 20px; overflow: auto; display: grid; gap: 16px; overscroll-behavior: contain; }
 .sl-foot { padding: 12px 20px; border-top: 1px solid var(--bd); }
 .sl-form { display: grid; gap: 16px; }
@@ -1815,7 +1855,7 @@ fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 4px; min-inline
 .sl-choices--cards legend { grid-column: 1 / -1; margin-bottom: 4px; }
 .sl-choices--cards .sl-choice { border: 1px solid var(--bd); padding: 8px 12px; min-height: 44px; gap: 10px; }
 .sl-choices--cards .sl-choice:has(input:checked) { border: 2px solid var(--a); padding: 7px 11px; }
-.sl-choices--cards .sl-muted { font-size: .8125rem; }
+.sl-choices--cards .sl-muted { font-size: .875rem; }
 .sl-choice, .sl-check { display: flex; gap: 12px; align-items: flex-start; min-height: 44px; padding: 8px 0; cursor: pointer; }
 .sl-choice input, .sl-check input { width: 22px; height: 22px; margin: 1px 0 0; accent-color: var(--a); flex: none; }
 .sl-choice > span { display: grid; }
@@ -1825,7 +1865,7 @@ fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 4px; min-inline
 .sl-check { padding: 4px 0; }
 .sl-privacy { margin: 0; padding: 12px 16px; border-left: 4px solid var(--a); background: var(--sk); }
 .sl-preview { margin: 0; padding: 12px; background: var(--sk); border: 1px solid var(--bd); white-space: pre-wrap; overflow-wrap: anywhere;
-  font: .8125rem/1.5 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; min-height: 12rem; max-height: 40vh; overflow: auto;
+  font: .875rem/1.5 var(--font, system-ui, -apple-system, "Segoe UI", sans-serif); min-height: 12rem; max-height: 40vh; overflow: auto;
   --sbg: var(--sk); overscroll-behavior: contain; }
 .sl-summary { display: grid; gap: 4px; padding: 12px 16px; background: var(--sk); }
 .sl-offline { margin: 0; font-weight: 600; }
@@ -1856,7 +1896,7 @@ fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 4px; min-inline
 .sl-choices--row .sl-choice { padding: 4px 0; min-height: 44px; align-items: center; }
 @media (min-width: 560px) { .sl-choices--row { display: flex; flex-wrap: wrap; gap: 0 24px; } .sl-choices--row legend { width: 100%; } }
 .sl-recorder { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 2147483001; width: min(720px, calc(100vw - 32px));
-  background: var(--bg); border: 2px solid var(--a); padding: 12px 16px; display: grid; gap: 8px; box-shadow: 0 4px 16px rgb(0 0 0 / .3); }
+  background: var(--bg); border: 2px solid var(--a); padding: 12px 16px; display: grid; gap: 8px; }
 .sl-recorder p { margin: 0; }
 .sl-recorder__status { display: flex; gap: 12px; align-items: center; font-weight: 600; }
 .sl-recorder__dot { width: 14px; height: 14px; border-radius: 50%; background: var(--mu); flex: none; }
@@ -1877,7 +1917,16 @@ fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 4px; min-inline
 .sl-preview--code { min-height: 0; max-height: none; }
 .sl-outline--found { outline-color: var(--rec); outline-width: 4px; background: color-mix(in srgb, var(--rec) 12%, transparent); }
 .sl-status { position: fixed; bottom: 72px; right: 16px; z-index: 2147483002; max-width: min(420px, calc(100vw - 32px)); padding: 12px 16px;
-  background: var(--tx); color: var(--bg); box-shadow: 0 2px 8px rgb(0 0 0 / .3); }
+  background: var(--bg); color: var(--tx); border: 1px solid var(--bd); border-left: 4px solid var(--a); }
+/* Live regions stay in the page so the first message is read out; out of sight while empty. */
+.sl-status:empty, .sl-alert:empty, .sl-note:empty { position: absolute; width: 1px; height: 1px; padding: 0; border: 0; margin: -1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.sl-note { flex-basis: 100%; margin: 0; color: var(--mu); }
+.sl-notice { display: grid; gap: 8px; padding: 12px 16px; border: 1px solid var(--er); border-left: 4px solid var(--er); background: var(--erb); }
+.sl-notice p { margin: 0; }
+.sl-notice__title { font-weight: 600; color: var(--er); }
+.sl-notice__details summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 600; }
+.sl-notice__details p { overflow-wrap: anywhere; }
 @media (forced-colors: active) { .sl-outline { outline-color: Highlight; background: none; } .sl-btn--primary { border: 2px solid ButtonText; } }
 `;
 
@@ -1887,7 +1936,7 @@ fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 4px; min-inline
 
   function start(options = {}) {
     if (host) destroy();
-    config = merge(DEFAULTS, options);
+    config = merge(DEFAULTS, renameOld(options));
     if (!config.enabled || (config.userToggle && !userEnabled())) { config = null; return false; }
     if (!types().length) config.types = DEFAULTS.types;
     host = document.createElement("snag-list");
@@ -1897,7 +1946,7 @@ fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 4px; min-inline
     american = /^en-(US|PH|PR)$/i.test(lang) || /^en$/i.test(lang) && /^en-US/i.test(navigator.language);
     const rtl = /^(ar|he|fa|ur|ps|yi)\b/i.test(lang);
     wrap = h("div", { class: `sl sl--${["dark", "auto"].includes(config.theme) ? config.theme : "light"}`, lang, dir: rtl ? "rtl" : null },
-      h("div", { class: "sl-status", role: "status", hidden: true }));
+      h("div", { class: "sl-status", role: "status" }));
     // A constructed style sheet works under a strict Content Security Policy (style-src 'self'); a <style>
     // element is the fallback for browsers without one.
     if (typeof CSSStyleSheet === "function" && "adoptedStyleSheets" in root && "replaceSync" in CSSStyleSheet.prototype) {
@@ -1948,8 +1997,8 @@ fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 4px; min-inline
     version: VERSION,
     start: (options) => { lastOptions = options || {}; return start(lastOptions); },
     destroy,
-    open: (type) => openChooser(null, type ? { type } : {}),
-    report: (element, type) => { if (config) { const part = describe(element || document.body); type && typeOf(type) ? openForm(part, { type }) : openChooser(part); } },
+    open: (type) => openChooser(null, type ? { type: newType(type) } : {}),
+    report: (element, type) => { type = newType(type); if (config) { const part = describe(element || document.body); type && typeOf(type) ? openForm(part, { type }) : openChooser(part); } },
     isUserEnabled: userEnabled,
     setUserEnabled,
     presets: { types: TYPES, categories: CATEGORIES, severities: SEVERITIES, groups: GROUPS },

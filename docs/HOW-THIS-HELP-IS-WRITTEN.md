@@ -84,7 +84,7 @@ opening sentences, with each numbered answer as a section of its own.
 8. Links name their destination. A link that leaves the help says "(opens in a new tab)".
 9. Made-up examples only: Alex, Sam, Priya and Jordan; `owner/repo`; emails at `example.com`; domains ending
    `.example`; phone numbers `07700 900` then three digits.
-10. Pictures come from `tools/screenshots.sh`, which drives the demo with made-up data. Run it after any change
+10. Pictures come from `tools/screenshots.sh`, which runs the demo with made-up data. Run it after any change
     to what Snaglist shows, and check every picture. Describe each picture in words in its alt text.
 11. `fix-common-accessibility-problems.md` is made from the rules in `snaglist.js` by `tools/fix-guide.py`.
     Change the rules, then run it; never edit that topic by hand.

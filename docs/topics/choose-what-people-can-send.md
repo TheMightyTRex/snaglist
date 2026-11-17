@@ -14,10 +14,10 @@ asks its own questions and records the technical details needed to act on it. Of
 
    | Type | Shown as | Group | Records for developers |
    |---|---|---|---|
-   | `bug` | Something is broken | Report a problem | Text on screen, script errors, console, failed requests, steps before, the part's HTML |
-   | `ux` | Hard to use | Report a problem | The part, text on screen, steps before |
-   | `visual` | Looks wrong | Report a problem | Text on screen, styles, contrast, layout, what covers it, the part's HTML |
-   | `accessibility` | Hard to use with my tools or needs | Report a problem | Role, name, states, focus, target size, contrast, layout |
+   | `bug` | Something is broken | Report a problem | Text on the page, script errors, console, failed requests, steps before, the part's HTML |
+   | `confusing` | Confusing to use | Report a problem | The part, text on the page, steps before |
+   | `display` | Display problem | Report a problem | Text on the page, styles, contrast, layout, what covers it, the part's HTML |
+   | `accessibility` | Does not work with my tools or needs | Report a problem | Role, name, states, focus, target size, contrast, layout |
    | `performance` | Slow | Report a problem | Load timings, Core Web Vitals, long tasks, slow requests |
    | `content` | Words are wrong | Report a problem | The part, its text, and a suggested wording |
    | `feature` | A new feature | Make a suggestion | What, why, how they manage today, and how much it would help |
@@ -27,10 +27,10 @@ asks its own questions and records the technical details needed to act on it. Of
 2. List the ones you want, in the order to offer them:
 
    ```js
-   Snaglist.start({ types: ["bug", "visual", "feature", "idea"] });
+   Snaglist.start({ types: ["bug", "display", "feature", "idea"] });
    ```
 
-   With the script tag only, use `data-types="bug visual feature idea"`. The
+   With the script tag only, use `data-types="bug display feature idea"`. The
    [set-up tool](use-the-set-up-tool.md) has a tick box for each.
 3. Make a test report of each and check its questions and its preview in **What is sent**.
 
@@ -40,7 +40,10 @@ asks its own questions and records the technical details needed to act on it. Of
 - With every type, people can show one thing on the page, record a series of steps, or describe it in words.
 - A type of your own can ask its own questions and record any of the parts. Set `group: "suggestion"` to list it
   under 'Make a suggestion'. The [settings reference](settings-reference.md) has an example.
-- For the public, `bug`, `ux`, `feature` and `other` are often enough. For a test team, offer them all.
+- For the public, `bug`, `confusing`, `feature` and `other` are often enough. For a test team, offer them all.
+- Before Snaglist 0.5.0, `confusing` was `ux` and `display` was `visual`. The old names still work in `types`,
+  `data-types`, your own text and links from the set-up tool. New GitHub issues get the labels `type: confusing`
+  and `type: display`; issues filed before keep `type: ux` and `type: visual`.
 
 ## Find out more
 

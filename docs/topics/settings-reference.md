@@ -18,7 +18,7 @@ Snaglist.start({
   userToggle: true,        // respect the user's own switch (Snaglist.setUserEnabled)
   launcher: "bottom-right",// "bottom-right", "bottom-left", or false to open it from your own menu
   shortcut: "",            // a keyboard shortcut, for example "Alt+Shift+R"
-  types: ["bug", "ux", "visual", "accessibility", "performance", "content", "feature", "idea", "other", "check"], // what people can send, in order
+  types: ["bug", "confusing", "display", "accessibility", "performance", "content", "feature", "idea", "other", "check"], // what people can send, in order
   check: { engine: "built-in", axe: "https://cdn.jsdelivr.net/npm/axe-core@4.10.2/axe.min.js", integrity: "", contrastLimit: 300 }, // the accessibility check; integrity: the hash of your own copy of axe-core (the default copy is always checked)
   categories: null,        // an extra "Kind of issue" question for problems: "ux", "heuristics", "wcag" or your own list
   severities: "three",     // how bad a problem is: "three", "nielsen", or your own list
@@ -58,9 +58,9 @@ Snaglist.start({
 | Type | Shown as | Group | Asks | Records when set to "auto" |
 |---|---|---|---|---|
 | `bug` | Something is broken | Problem | What happened, what you expected, steps (when none were recorded) | element, text, html, errors, console, network, trail |
-| `ux` | Hard to use | Problem | What is wrong | element, text, trail |
-| `visual` | Looks wrong | Problem | What is wrong | element, text, styles, layout, html |
-| `accessibility` | Hard to use with my tools or needs | Problem | What is wrong, what were you using | element, text, a11y, styles, layout |
+| `confusing` | Confusing to use | Problem | What is wrong | element, text, trail |
+| `display` | Display problem | Problem | What is wrong | element, text, styles, layout, html |
+| `accessibility` | Does not work with my tools or needs | Problem | What is wrong, what were you using | element, text, a11y, styles, layout |
 | `performance` | Slow | Problem | What is wrong, when is it slow | performance, network, trail |
 | `content` | Words are wrong | Problem | What is wrong, suggested wording | element, text |
 | `feature` | A new feature | Suggestion | What you would like, what it would help with, how you manage today | page |
@@ -123,9 +123,9 @@ page only, so the details are there when someone reports. Set one to `false` and
 | `data-github="owner/repo"` | `send.github.repo` |
 | `data-email="team@example.com"` | `send.email.to` |
 | `data-endpoint="https://..."` | `send.endpoint.url` |
-| `data-types="bug ux visual"` | `types` |
+| `data-types="bug confusing display"` | `types` |
 | `data-app`, `data-version` | `app`, `version` |
-| `data-start` | Start with the defaults, sending by Copy and Download only |
+| `data-start` | Start with the defaults, sending by Copy as Markdown and Download as JSON only |
 
 ## Functions
 

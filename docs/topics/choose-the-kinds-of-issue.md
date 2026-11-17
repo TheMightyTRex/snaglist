@@ -13,8 +13,8 @@ by a scheme your team already uses, such as Nielsen's heuristics or the WCAG pri
 1. Choose a scale for how bad it is, with `severities`:
    - `"three"` (the default): Minor, Gets in the way, Stops me.
    - `"nielsen"`: 1 Cosmetic, 2 Minor, 3 Major, 4 Catastrophe.
-2. If you want an extra question for problems, choose a list with `categories`. It is off by default:
-   - `"ux"`: Layout, Words, Behaviour, Accessibility and Looks.
+2. If you want an extra question for problems, choose a list with `categories`. It is not asked by default:
+   - `"ux"`: Layout, Words, Behaviour, Accessibility and Appearance.
    - `"heuristics"`: Jakob Nielsen's 10 usability heuristics, in plain words. Best for UX reviews.
    - `"wcag"`: the four WCAG (Web Content Accessibility Guidelines) principles. Best for accessibility testing.
 3. Set them:

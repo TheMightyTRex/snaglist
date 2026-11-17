@@ -61,7 +61,7 @@ who would rather post from their own account.
 
 ## Step 6: make a test report
 
-Report something and select **Send**. You know it worked when Snaglist says "Report sent. Thank you." and the
+Report something and select **Send report**. You know it worked when Snaglist says "Report sent. Thank you." and the
 issue appears in GitHub with its labels. If not, read [If a report does not send](../topics/if-a-report-does-not-send.md).
 
 ## Step 7: guard against spam

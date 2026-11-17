@@ -60,7 +60,7 @@ await wait(200);
 await shot(p, "choose");
 
 // 3. Choosing one thing on the page.
-await choose(p, "visual", "one");
+await choose(p, "display", "one");
 await p.hover(".faint");
 await wait(200);
 await shot(p, "pick");
@@ -167,7 +167,7 @@ await p.context().close();
 p = await page({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, colorScheme: "dark", isMobile: true, hasTouch: true });
 await p.check("input[name=pg-theme][value=dark]");
 await button(p, "Send feedback").click();
-await choose(p, "ux", "none");
+await choose(p, "confusing", "none");
 await p.locator("snag-list textarea").first().fill("I could not find where to change my password.");
 await button(p, "Review what is sent").click();
 await button(p, "Show as a QR code").click();
