@@ -42,7 +42,10 @@ def resolved(found):
 tokens = tokens_css.read_text()
 light_raw = raw(block(tokens, ":root {"))
 light = resolved(light_raw)
-dark = resolved({**light_raw, **raw(block(block(tokens, "@media (prefers-color-scheme: dark) {"), ':root:not([data-theme="light"]) {'))})
+# Dark: the device block of older design systems, or the chosen-dark block (light is the default since 18 November 2026).
+dark_block = (block(block(tokens, "@media (prefers-color-scheme: dark) {"), ':root:not([data-theme="light"]) {')
+              if "@media (prefers-color-scheme: dark) {" in tokens else block(tokens, ':root[data-theme="dark"] {'))
+dark = resolved({**light_raw, **raw(dark_block)})
 
 src = (root / "snaglist.js").read_text()
 css = src[src.index("const CSS_TEXT = `"):]
