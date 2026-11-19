@@ -1788,16 +1788,16 @@
   const CSS_TEXT = `
 :host { all: initial; }
 * { box-sizing: border-box; }
-.sl { --a: var(--color-accent, #0b5f5a); --at: var(--color-accent-text, #fff); --bg: var(--color-surface-raised, #fff);
-  --tx: var(--color-text, #141416); --mu: var(--color-text-muted, #424b5b); --bd: var(--color-border, #7d879a);
-  --sk: var(--color-surface-sunken, #e4ebf7); --fo: var(--color-focus, var(--a)); --er: var(--status-danger-fg, #9b1c14); --rec: var(--er);
-  --erb: var(--status-danger-bg, #fbe0de); --sb: var(--color-scrollbar, #7d879a); --sbh: var(--color-scrollbar-hover, #424b5b);
+.sl { --a: var(--color-accent, #005fb8); --at: var(--color-accent-text, #fff); --bg: var(--color-surface-raised, #fff);
+  --tx: var(--color-text, #1a1a1a); --mu: var(--color-text-muted, #5d5d5d); --bd: var(--color-border, #767676);
+  --sk: var(--color-surface-sunken, #ebebeb); --fo: var(--color-focus, var(--a)); --er: var(--status-danger-fg, #9b1c14); --rec: var(--er);
+  --erb: var(--status-danger-bg, #fbe0de); --sb: var(--color-scrollbar, #767676); --sbh: var(--color-scrollbar-hover, #5d5d5d);
   font: 1rem/1.5 var(--font, system-ui, -apple-system, "Segoe UI", sans-serif); color: var(--tx); }
-.sl--dark { --sb: #6f7b91; --sbh: #a4aec1; --a: #5ed3c6; --at: #101827; --bg: #232f42; --tx: #f3f4f6; --mu: #a4aec1; --bd: #6f7b91; --sk: #0c1220; --er: #ffaaa3; --erb: #431816; }
-@media (prefers-color-scheme: dark) { .sl--auto { --a: var(--color-accent, #5ed3c6); --at: var(--color-accent-text, #101827);
-  --bg: var(--color-surface-raised, #232f42); --tx: var(--color-text, #f3f4f6); --mu: var(--color-text-muted, #a4aec1);
-  --bd: var(--color-border, #6f7b91); --sk: var(--color-surface-sunken, #0c1220); --er: var(--status-danger-fg, #ffaaa3); --erb: var(--status-danger-bg, #431816);
-  --sb: var(--color-scrollbar, #6f7b91); --sbh: var(--color-scrollbar-hover, #a4aec1); } }
+.sl--dark { --sb: #949494; --sbh: #c5c5c5; --a: #60cdff; --at: #000000; --bg: #323232; --tx: #ffffff; --mu: #c5c5c5; --bd: #949494; --sk: #1c1c1c; --er: #ffaaa3; --erb: #431816; }
+@media (prefers-color-scheme: dark) { .sl--auto { --a: var(--color-accent, #60cdff); --at: var(--color-accent-text, #000000);
+  --bg: var(--color-surface-raised, #323232); --tx: var(--color-text, #ffffff); --mu: var(--color-text-muted, #c5c5c5);
+  --bd: var(--color-border, #949494); --sk: var(--color-surface-sunken, #1c1c1c); --er: var(--status-danger-fg, #ffaaa3); --erb: var(--status-danger-bg, #431816);
+  --sb: var(--color-scrollbar, #949494); --sbh: var(--color-scrollbar-hover, #c5c5c5); } }
 button, input, select, textarea { font: inherit; color: inherit; }
 /* Scroll bars, as in the design system: thin, square, in the scroll bar colour on a clear track, and visible
    whenever there is more to scroll. A shadow at the edge says there is more, for systems that hide scroll bars. */
@@ -1818,7 +1818,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 :focus-visible { outline: 3px solid var(--fo); outline-offset: 2px; }
 [hidden] { display: none !important; }
 .sl-btn { min-height: 44px; padding: 0 16px; border: 1px solid var(--bd); background: var(--bg); color: var(--tx); cursor: pointer;
-  display: inline-flex; align-items: center; gap: 8px; border-radius: 0; font-weight: 600; }
+  display: inline-flex; align-items: center; gap: 8px; border-radius: var(--radius, 6px); font-weight: 600; }
 .sl-btn--primary { background: var(--a); color: var(--at); border-color: var(--a); }
 .sl-btn:disabled { opacity: .6; cursor: progress; }
 .sl-btn svg, .sl-icon svg { width: 18px; height: 18px; }
@@ -1828,14 +1828,14 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .sl-link { min-height: 44px; border: 0; background: none; color: var(--a); text-decoration: underline; cursor: pointer; padding: 0; justify-self: start; }
 .sl-banner { position: fixed; left: 50%; top: 16px; transform: translateX(-50%); z-index: 2147483001; width: min(640px, calc(100vw - 32px));
   background: var(--bg); border: 2px solid var(--a); padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
-  justify-content: space-between; }
+  justify-content: space-between; border-radius: var(--radius, 6px); }
 .sl-banner p { margin: 0; flex: 1 1 260px; }
 .sl-actions, .sl-foot { display: flex; flex-wrap: wrap; gap: 8px; }
 .sl-outline { position: fixed; z-index: 2147482999; pointer-events: none; outline: 3px solid var(--a); outline-offset: 2px;
   background: color-mix(in srgb, var(--a) 12%, transparent); transition: all 80ms ease-out; }
 @media (prefers-reduced-motion: reduce) { .sl-outline { transition: none; } }
 .sl-dialog { width: min(680px, calc(100vw - 32px)); max-height: calc(100vh - 32px); padding: 0; border: 1px solid var(--bd);
-  background: var(--bg); color: var(--tx); border-radius: 0; display: flex; flex-direction: column; }
+  background: var(--bg); color: var(--tx); border-radius: var(--radius, 6px); display: flex; flex-direction: column; }
 .sl-dialog:not([open]) { display: none; }
 .sl-dialog::backdrop { background: rgb(0 0 0 / .45); }
 .sl-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 4px 4px 20px; border-bottom: 1px solid var(--bd); }
@@ -1848,7 +1848,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .sl-where { margin: 0; padding: 8px 12px; background: var(--sk); overflow-wrap: anywhere; }
 .sl-muted { color: var(--mu); margin: 0; font-size: .875rem; }
 .sl-error { color: var(--er); font-weight: 600; margin: 0; }
-input[type=text], textarea, select { width: 100%; min-height: 44px; padding: 8px 12px; border: 1px solid var(--bd); background: var(--bg); border-radius: 0; }
+input[type=text], textarea, select { width: 100%; min-height: 44px; padding: 8px 12px; border: 1px solid var(--bd); background: var(--bg); border-radius: var(--radius, 6px); }
 [aria-invalid] { border: 2px solid var(--er) !important; }
 fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 4px; min-inline-size: 0; }
 .sl-choices--cards { grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 8px; }
