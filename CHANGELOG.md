@@ -7,6 +7,11 @@ follow [Semantic Versioning](https://semver.org/). Each release's notes are also
 
 ## [Unreleased]
 
+### Changed
+- **Mica, the design system's new default.** The colours Snaglist uses when a page has no design tokens are Mica's
+  neutral greys with its Blue accent, and buttons, fields, the banner and the dialog have 6px corners (the page's
+  own `--radius` when it has one).
+
 ## [0.5.0] (17 November 2026)
 
 Report types with clearer names, and messages that follow the design system.
