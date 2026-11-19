@@ -28,9 +28,32 @@ for line in allow_file.read_text().splitlines() if allow_file.exists() else []:
         path, pattern, *_ = line.split("\t")
         allow.append((path, re.compile(pattern)))
 
+def without_comments(line, inside):
+    """Takes HTML comments out of one line, carrying a comment that is still open on to the next line (code scanning
+    alert 1: a pattern on each line alone missed comments over several lines). Returns (line, still inside)."""
+    out = ""
+    while line:
+        if inside:
+            end = line.find("-->")
+            if end < 0:
+                return out, True
+            line, inside = line[end + 3:], False
+        else:
+            start = line.find("<!--")
+            if start < 0:
+                return out + line, False
+            out, line, inside = out + line[:start], line[start + 4:], True
+    return out, inside
+
+
 def markdown_lines(text):
     fenced = False
+    comment = False
     for n, line in enumerate(text.splitlines(), 1):
+        line, comment_after = without_comments(line, comment)
+        was_in_comment, comment = comment, comment_after
+        if was_in_comment and not line.strip():
+            continue
         if line.lstrip().startswith(("```", "~~~")):
             fenced = not fenced
             continue
@@ -38,7 +61,6 @@ def markdown_lines(text):
             continue
         line = re.sub(r"`[^`]*`", "", line)
         line = re.sub(r"\]\([^)]*\)", "]", line)
-        line = re.sub(r"<!--.*?-->", "", line)
         line = re.sub(r"https?://\S+", "", line)
         yield n, line
 
