@@ -7,6 +7,8 @@ follow [Semantic Versioning](https://semver.org/). Each release's notes are also
 
 ## [Unreleased]
 
+## [0.6.0] (19 November 2026)
+
 ### Changed
 - **Mica, the design system's new default.** The colours Snaglist uses when a page has no design tokens are Mica's
   neutral greys with its Blue accent, and buttons, fields, the banner and the dialog have 6px corners (the page's
@@ -182,7 +184,8 @@ The first version. It was not tagged.
   to record.
 - **A demo page,** documentation, prompts for AI coding assistants and an example server.
 
-[Unreleased]: https://github.com/TheMightyTRex/snaglist/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/TheMightyTRex/snaglist/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/TheMightyTRex/snaglist/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/TheMightyTRex/snaglist/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/TheMightyTRex/snaglist/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/TheMightyTRex/snaglist/compare/v0.3.2...v0.4.0
