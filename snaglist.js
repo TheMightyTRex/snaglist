@@ -730,7 +730,7 @@
         const messages = messagesOnScreen();
         if ((part.text && !part.whole) || messages.length) report.text = { chosen: part.whole ? undefined : part.text || undefined, messages: messages.length ? messages : undefined };
       }
-      if (key === "steps" && values.steps?.length) report.steps = values.steps;
+      if (key === "steps" && recordedSteps(values)) report.steps = values.steps;
       if (key === "page" && values.check) report.check = values.check;
       if (el && key === "styles") report.styles = stylesOf(el);
       if (el && key === "layout") report.layout = layoutOf(el);
@@ -1316,7 +1316,7 @@
     const go = (key, show) => {
       const values = { ...previous, type: key };
       if (key === "check") openCheck();
-      else if (values.steps?.length) openForm(describe(document.body), values);
+      else if (recordedSteps(values)) openForm(describe(document.body), values);
       else if (show === "steps") startRecorder(values);
       else if (show === "one" && !part) startPicking(values);
       else openForm(show === "none" ? describe(document.body) : part || describe(document.body), values);
@@ -1327,7 +1327,7 @@
     const typeGroups = all.length > 1 ? groups.map(([legend, items]) => choiceGroup("type", items.map(([k, v]) => [k, v.label, v.hint]), first, legend, "cards")) : [];
     const showGroup = choiceGroup("show", [["one", t("showOne"), t("showOneHint")], ["steps", t("showSteps"), t("showStepsHint")], ["none", t("showNone"), t("showNoneHint")]],
       defaultShow(first), t("show"), "cards");
-    const form = h("form", { id: "sl-choose", class: "sl-form", novalidate: true }, ...typeGroups, previous.steps?.length ? null : showGroup);
+    const form = h("form", { id: "sl-choose", class: "sl-form", novalidate: true }, ...typeGroups, recordedSteps(previous) ? null : showGroup);
     for (const input of form.querySelectorAll("[name=type]")) input.checked = input.value === first;
     showGroup.hidden = first === "check";
     let touched = false;
@@ -1368,13 +1368,16 @@
       f.hint ? h("p", { class: "sl-muted", id: hintId, text: f.hint }) : null, error, control);
   }
 
+  // Recorded steps are a list; "Steps to make it happen again", typed in the form, is words with the same name.
+  const recordedSteps = (values) => (Array.isArray(values?.steps) && values.steps.length ? values.steps : null);
+
   function openForm(part, previous = {}) {
     const all = types();
     const typeKey = previous.type && typeOf(previous.type) ? previous.type : all[0][0];
     const type = typeOf(typeKey);
     const cats = type.group === "problem" ? list(config.categories, CATEGORIES) : null;
     const scale = scaleOf(type);
-    const recorded = previous.steps?.length ? previous.steps : null;
+    const recorded = recordedSteps(previous);
     const fields = h("div", { class: "sl-form" }, type.fields.filter((f) => !(f.unlessRecorded && recorded)).map((f) => fieldFor(f, previous[f.id])));
     const kept = () => ({ ...previous, ...Object.fromEntries([...form.querySelectorAll("[name]")].filter((c) => c.type !== "radio" || c.checked).map((c) => [c.name, c.value])), type: typeKey });
     const category = cats ? h("select", { id: "sl-category", name: "category" },

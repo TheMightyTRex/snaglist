@@ -7,6 +7,10 @@ follow [Semantic Versioning](https://semver.org/). Each release's notes are also
 
 ## [Unreleased]
 
+### Fixed
+- **A report with "Steps to make it happen again" filled in did not open What is sent.** The words were read as
+  recorded steps, and the report closed with an error. They are now kept as words in the report.
+
 ## [0.6.0] (19 November 2026)
 
 ### Changed

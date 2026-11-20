@@ -126,6 +126,7 @@ The tests for messages, the renamed report types and the design system's rules r
 | MSG-01 | A report that is not sent says what to do in an alert that stays until it is closed, with the raw error under Technical details | Pass |
 | MSG-02 | The status region is in the page before the first message, and a message stays while the pointer is on it | Pass |
 | TYPE-01 | The report type ids from before 0.5.0 (`ux`, `visual`) still work, in settings, text keys and `Snaglist.open()` | Pass |
+| TYPE-02 | A report with "Steps to make it happen again" filled in reaches What is sent, with the steps as words (before 0.6.1, the words were read as recorded steps and the report did not open) | Pass |
 | WORD-01 | The text people read has none of the words the design system's content rules ban (`tools/check-wording.py`) | Pass |
 | WORD-02 | The wording check catches a banned word | Pass |
 | TOKENS-01 | The fallback colours in `snaglist.js` match the design system's `tokens.css`, light and dark (`tools/check-tokens.py`) | Pass |
