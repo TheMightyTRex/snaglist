@@ -177,5 +177,38 @@ await shot(p, "qr-code-dark");
 await p.evaluate(() => localStorage.clear());
 await p.context().close();
 
+// 16 to 18. The demo inside Starboard: Feedback in its side menu, Save in Starboard, and the report it would keep.
+// Marks on the page itself, outside Snaglist, are checked by the design system's own check.
+async function markPage(p, css, options, steps) {
+  await p.addScriptTag({ content: ANNOTATE });
+  const problems = await p.evaluate(({ css, options, steps }) => {
+    const els = [...document.querySelectorAll(css)];
+    window.Annotate.mark(els.length > 1 ? els : els[0], options);
+    return window.Annotate.verify({ steps }).problems;
+  }, { css, options, steps });
+  if (problems.length) throw new Error(`Mark-up: ${problems.join("; ")}`);
+}
+p = await page();
+await p.goto(`${BASE}/demo-starboard.html`, { waitUntil: "networkidle" });
+// The button fills the side menu's width, so the outline goes round its icon and words.
+await markPage(p, ".rail__feedback > svg, .rail__feedback > span:not(.visually-hidden)", { step: 3, side: "right", tail: 110 }, [3]);
+await shot(p, "demo-starboard");
+await p.evaluate(() => window.Annotate.clear());
+await p.click("#check-updates").catch(() => {});
+await p.click(".rail__feedback");
+await choose(p, "bug", "none");
+await p.locator("snag-list textarea").first().fill("Check now says it could not check for updates.");
+await button(p, "Review what is sent").click();
+await wait(200);
+await markUp(p, [{ find: { css: ".sl-foot button", text: "Save in Starboard" }, options: { step: 5, side: "top", tail: 90 } }], [5]);
+await shot(p, "demo-starboard-review");
+await p.evaluate(() => window.Annotate.clear());
+await button(p, "Save in Starboard").click();
+await p.locator("#saved-layer:not([hidden])").waitFor();
+await wait(300);
+await markPage(p, "#saved-title", { step: 6, side: "bottom", tail: 70 }, [6]);
+await shot(p, "demo-starboard-saved");
+await p.context().close();
+
 await browser.close();
 console.log("done");

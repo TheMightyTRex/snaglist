@@ -48,4 +48,5 @@ before you add Snaglist to your site. To try it without installing anything, ope
 
 ## Find out more
 
+- [Try the demos](try-the-demos.md), online, with Snaglist inside Starboard as well
 - [Add Snaglist to a website](add-snaglist-to-a-website.md)

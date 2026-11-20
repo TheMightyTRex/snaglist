@@ -23,6 +23,7 @@ Each guide is a journey through several topics, in order.
 
 ### Before you add Snaglist
 
+- [Try the demos](topics/try-the-demos.md)
 - [Run the demo on your computer](topics/run-the-demo-on-your-computer.md)
 
 ### Add and update
