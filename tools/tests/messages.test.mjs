@@ -61,4 +61,19 @@ await test("TYPE-01", "the old report type ids from before 0.5.0 still work", as
   expect(labels.split(",").includes("type: display"), `the GitHub labels are ${labels}`);
 });
 
+await test("TYPE-02", "a report with Steps to make it happen again filled in reaches What is sent, with the steps as words", async () => {
+  const page = await open(`<p class="x">Hello</p>`, { send: { copy: true } });
+  const errors = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  await page.evaluate(() => Snaglist.report(document.querySelector(".x"), "bug"));
+  const boxes = page.locator("snag-list textarea");
+  await boxes.nth(0).fill("It broke.");
+  await boxes.nth(2).fill("Open the page\nSelect Hello");
+  await page.locator("snag-list button", { hasText: /^Review what is sent$/ }).click();
+  const preview = await page.locator("snag-list pre.sl-preview").textContent();
+  expect(errors.length === 0, `the page had errors: ${errors.join(" | ")}`);
+  expect(preview.includes("Select Hello"), "the typed steps are not in the report");
+  expect(!preview.includes("Recorded steps"), "the typed steps were read as recorded steps");
+});
+
 await done();

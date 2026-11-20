@@ -12,6 +12,7 @@ button to your site. People choose what to send, show one thing on the page or r
 questions, check exactly what will be sent, and send it as a GitHub issue, an email or a post to your own server.
 
 **[Try the demo](https://themightytrex.github.io/snaglist/)** ·
+**[Try it inside Starboard](https://themightytrex.github.io/snaglist/demo-starboard.html)** ·
 **[Set it up for your site](https://themightytrex.github.io/snaglist/configure.html)** ·
 **[Help centre](https://themightytrex.github.io/snaglist/help/index.html)** · **[Prompts for AI assistants](https://themightytrex.github.io/snaglist/help/AI-PROMPTS.html)**
 

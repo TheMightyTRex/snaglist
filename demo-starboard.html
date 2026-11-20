@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en-GB" data-theme="light" data-design="health">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Dashboard · Starboard · Snaglist demo</title>
+<meta name="description" content="Snaglist inside a real app: the Starboard dashboard with made-up data, with Send feedback in its side menu.">
+<!-- The shared design system, as on the Snaglist demo, then Starboard's own styles (copied into demo/starboard). -->
+<link rel="stylesheet" href="https://themightytrex.github.io/design-system/tokens.css">
+<link rel="stylesheet" href="https://themightytrex.github.io/design-system/components.css">
+<link rel="stylesheet" href="demo/starboard/app.css">
+<link rel="stylesheet" href="demo/starboard/dashboard.css">
+<script src="https://themightytrex.github.io/design-system/components.js" data-manual></script>
+<style>
+  /* Only for this demo: the note at the top of the page, and the saved report. */
+  .demo-note { margin-bottom: var(--space-4, 16px); }
+  .demo-note p { margin: 0; }
+  .demo-note .demo-note__links { display: flex; flex-wrap: wrap; gap: var(--space-1, 4px) var(--space-4, 16px); }
+  .demo-saved { white-space: pre-wrap; overflow-wrap: anywhere; font-size: var(--text-sm, .875rem); margin: 0;
+    padding: var(--space-3, 12px); background: var(--color-surface-sunken); border: 1px solid var(--color-divider); }
+</style>
+</head>
+<body class="page-apps with-rail">
+<a class="skip-link" href="#main">Skip to main content</a>
+<nav class="rail" aria-label="Side menu">
+  <a class="rail__brand" href="#" data-demo-link><svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" focusable="false"><path fill-rule="evenodd" fill="var(--color-logo-tile)" d="M1.5 6h26v19.5h-26z M3.8 8.3v14.9h21.4V8.3z"></path><path fill="var(--color-logo-tile)" d="M9.5 26.6h10v2.2h-10z"></path><path fill="var(--color-logo-tile)" d="M6.2 10.6h7.6v5.2H6.2z M15.2 10.6h7.6v5.2h-7.6z M6.2 17.4h7.6v3.9H6.2z M15.2 17.4h7.6v3.9h-7.6z"></path><path fill="var(--color-logo-star)" d="M25.2 0.2L26.8 4.9L31.8 5.0L27.8 8.0L29.3 12.8L25.2 10.0L21.1 12.8L22.6 8.0L18.6 5.0L23.6 4.9Z"></path></svg><span class="rail__name">Starboard</span></a>
+  <a href="#" data-demo-link aria-current="page"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Home</span></a><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m16 6 4 14"></path><path d="M12 6v14"></path><path d="M8 8v12"></path><path d="M4 4v16"></path></svg><span>Library</span></a><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"></circle><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"></path></svg><span>Discover</span></a><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path></svg><span>Activity</span></a><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"></rect><rect width="20" height="8" x="2" y="14" rx="2" ry="2"></rect><line x1="6" x2="6.01" y1="6" y2="6"></line><line x1="6" x2="6.01" y1="18" y2="18"></line></svg><span>System</span></a><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg><span>Settings</span></a>
+  <div class="rail__end">
+    <button type="button" class="rail__feedback" data-feedback-open hidden><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"></path><path d="M12 15h.01"></path><path d="M12 7v4"></path></svg><span>Feedback</span><span class="visually-hidden"> (send feedback)</span></button>
+    <button type="button" class="rail__signout" data-sign-out=""><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg><span>Sign out</span></button>
+    <a class="rail__version" href="#" data-demo-link data-version-link=""><span class="update-dot" data-update-available="" hidden="" aria-hidden="true"></span><span data-version-short=""><span class="visually-hidden">Starboard version </span>v0.24.0</span></a>
+  </div>
+</nav>
+<header class="site-header">
+  <div class="site-header__bar">
+    <button type="button" class="icon-btn phone-menu-button" data-phone-menu-open="" aria-expanded="false" aria-controls="phone-menu"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path></svg><span class="visually-hidden">Menu</span></button>
+    <a class="site-header__brand" href="#" data-demo-link><svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true" focusable="false"><path fill-rule="evenodd" fill="var(--color-logo-tile)" d="M1.5 6h26v19.5h-26z M3.8 8.3v14.9h21.4V8.3z"></path><path fill="var(--color-logo-tile)" d="M9.5 26.6h10v2.2h-10z"></path><path fill="var(--color-logo-tile)" d="M6.2 10.6h7.6v5.2H6.2z M15.2 10.6h7.6v5.2h-7.6z M6.2 17.4h7.6v3.9H6.2z M15.2 17.4h7.6v3.9h-7.6z"></path><path fill="var(--color-logo-star)" d="M25.2 0.2L26.8 4.9L31.8 5.0L27.8 8.0L29.3 12.8L25.2 10.0L21.1 12.8L22.6 8.0L18.6 5.0L23.6 4.9Z"></path></svg><span>Starboard</span></a>
+    <span class="site-header__server" data-server-name=""><span class="visually-hidden">Server: </span>Harbour</span>
+    <nav class="menu-tabs" id="main-nav" aria-label="Home">
+        <a href="#" data-demo-link aria-current="page"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg><span class="menu-tabs__label">Dashboard</span></a>
+    </nav>
+    <form class="site-header__search search-field" id="header-search" action="#" role="search"><label class="visually-hidden" for="header-search-input">Search films, series, music and books</label><input class="input" id="header-search-input" name="q" type="search" placeholder="Search films, series, music and books" data-search-icon="1"><button type="submit" class="search-field__btn"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg><span class="visually-hidden">Search</span></button></form>
+    <div class="site-header__actions">
+      <button type="button" class="icon-btn site-header__search-btn" data-search-open="" aria-controls="header-search" aria-expanded="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg><span class="visually-hidden">Search</span></button>
+      <a class="icon-btn" href="https://themightytrex.github.io/starboard/help/topics/use-the-dashboard.html" target="_blank" rel="noopener noreferrer" data-help-link=""><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11 3H3v18h18v-8"></path><path d="M15 3h6v6"></path><path d="M21 3l-5.5 5.5"></path><path d="M7.59 11a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M10.5 18h.01"></path></svg><span class="label">Help</span><span class="visually-hidden"> with your dashboard (opens in a new tab)</span></a>
+      <button type="button" class="icon-btn" data-display-toggle="" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg><span class="label">Display</span></button>
+    </div>
+  </div>
+<div class="loading-bar" aria-hidden="true"></div></header>
+<div class="side-panel-layer" id="phone-menu" hidden="">
+  <div class="side-panel-backdrop"></div>
+  <nav class="phone-menu" aria-label="Menu">
+    <div class="panel-header">
+      <span class="panel-header__brand"><svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true" focusable="false"><path fill-rule="evenodd" fill="var(--color-logo-tile)" d="M1.5 6h26v19.5h-26z M3.8 8.3v14.9h21.4V8.3z"></path><path fill="var(--color-logo-tile)" d="M9.5 26.6h10v2.2h-10z"></path><path fill="var(--color-logo-tile)" d="M6.2 10.6h7.6v5.2H6.2z M15.2 10.6h7.6v5.2h-7.6z M6.2 17.4h7.6v3.9H6.2z M15.2 17.4h7.6v3.9h-7.6z"></path><path fill="var(--color-logo-star)" d="M25.2 0.2L26.8 4.9L31.8 5.0L27.8 8.0L29.3 12.8L25.2 10.0L21.1 12.8L22.6 8.0L18.6 5.0L23.6 4.9Z"></path></svg><span>Starboard</span></span>
+      <button type="button" class="icon-btn" data-closes="" aria-label="Close menu"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+    </div>
+    <form class="phone-menu__search search-field" action="#" role="search"><label class="visually-hidden" for="phone-search-input">Search films, series, music and books</label><input class="input" id="phone-search-input" name="q" type="search" placeholder="Search films, series, music and books" data-search-icon="1"><button type="submit" class="search-field__btn"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg><span class="visually-hidden">Search</span></button></form>
+    <div class="phone-menu__sections">
+        <div class="phone-menu__section" data-current="">
+          <button type="button" aria-expanded="true" aria-controls="phone-sub-home"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span>Home</span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="phone-menu__chevron" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></button>
+          <ul id="phone-sub-home">
+            <li><a href="#" data-demo-link aria-current="page"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg><span>Dashboard</span></a></li>
+          </ul>
+        </div>
+        <div class="phone-menu__section">
+          <button type="button" aria-expanded="false" aria-controls="phone-sub-library"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m16 6 4 14"></path><path d="M12 6v14"></path><path d="M8 8v12"></path><path d="M4 4v16"></path></svg><span>Library</span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="phone-menu__chevron" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></button>
+          <ul id="phone-sub-library" hidden="">
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m17 2-5 5-5-5"></path><rect width="20" height="15" x="2" y="7" rx="2"></rect></svg><span>TV</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M7 3v18"></path><path d="M3 7.5h4"></path><path d="M3 12h18"></path><path d="M3 16.5h4"></path><path d="M17 3v18"></path><path d="M17 7.5h4"></path><path d="M17 16.5h4"></path></svg><span>Films</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg><span>Music</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16.247 7.761a6 6 0 0 1 0 8.478"></path><path d="M19.075 4.933a10 10 0 0 1 0 14.134"></path><path d="M4.925 19.067a10 10 0 0 1 0-14.134"></path><path d="M7.753 16.239a6 6 0 0 1 0-8.478"></path><circle cx="12" cy="12" r="2"></circle></svg><span>Radio</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v16"></path><path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z"></path></svg><span>Books</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"></path></svg><span>Audiobooks</span></a></li>
+          </ul>
+        </div>
+        <div class="phone-menu__section">
+          <button type="button" aria-expanded="false" aria-controls="phone-sub-discover"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"></circle><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"></path></svg><span>Discover</span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="phone-menu__chevron" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></button>
+          <ul id="phone-sub-discover" hidden="">
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg><span>Search</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M7 3v18"></path><path d="M3 7.5h4"></path><path d="M3 12h18"></path><path d="M3 16.5h4"></path><path d="M17 3v18"></path><path d="M17 7.5h4"></path><path d="M17 16.5h4"></path></svg><span>Films</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m17 2-5 5-5-5"></path><rect width="20" height="15" x="2" y="7" rx="2"></rect></svg><span>TV</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg><span>Music</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16.247 7.761a6 6 0 0 1 0 8.478"></path><path d="M19.075 4.933a10 10 0 0 1 0 14.134"></path><path d="M4.925 19.067a10 10 0 0 1 0-14.134"></path><path d="M7.753 16.239a6 6 0 0 1 0-8.478"></path><circle cx="12" cy="12" r="2"></circle></svg><span>Radio</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v16"></path><path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z"></path></svg><span>Books</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"></path></svg><span>Audiobooks</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8 2v3"></path><path d="M16 2v3"></path><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="M8 13h.01"></path><path d="M12 13h.01"></path><path d="M16 13h.01"></path><path d="M8 17h.01"></path><path d="M12 17h.01"></path><path d="M16 17h.01"></path></svg><span>Coming up</span></a></li>
+            <li data-plugin="on-demand"><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path><path d="M12 7v5l4 2"></path></svg><span>On demand history</span></a></li>
+          </ul>
+        </div>
+        <div class="phone-menu__section">
+          <button type="button" aria-expanded="false" aria-controls="phone-sub-activity"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path></svg><span>Activity</span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="phone-menu__chevron" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></button>
+          <ul id="phone-sub-activity" hidden="">
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 15V3"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path></svg><span>Downloads</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M13 5h8"></path><path d="M13 12h8"></path><path d="M13 19h8"></path><path d="m3 17 2 2 4-4"></path><path d="m3 7 2 2 4-4"></path></svg><span>Wanted</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg><span>Requests</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path><path d="M12 7v5l4 2"></path></svg><span>History</span></a></li>
+          </ul>
+        </div>
+        <div class="phone-menu__section">
+          <button type="button" aria-expanded="false" aria-controls="phone-sub-system"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"></rect><rect width="20" height="8" x="2" y="14" rx="2" ry="2"></rect><line x1="6" x2="6.01" y1="6" y2="6"></line><line x1="6" x2="6.01" y1="18" y2="18"></line></svg><span>System</span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="phone-menu__chevron" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></button>
+          <ul id="phone-sub-system" hidden="">
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg><span>Overview</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg><span>Apps</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 16h.01"></path><path d="M2.212 11.577a2 2 0 0 0-.212.896V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5.527a2 2 0 0 0-.212-.896L18.55 5.11A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path><path d="M21.946 12.013H2.054"></path><path d="M6 16h.01"></path></svg><span>Storage</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="16" y="16" width="6" height="6" rx="1"></rect><rect x="2" y="16" width="6" height="6" rx="1"></rect><rect x="9" y="2" width="6" height="6" rx="1"></rect><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"></path><path d="M12 12V8"></path></svg><span>Network</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg><span>Clean up</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 12h-5"></path><path d="M15 8h-5"></path><path d="M19 17V5a2 2 0 0 0-2-2H4"></path><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"></path></svg><span>Logs</span></a></li>
+          </ul>
+        </div>
+        <div class="phone-menu__section">
+          <button type="button" aria-expanded="false" aria-controls="phone-sub-settings"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg><span>Settings</span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="phone-menu__chevron" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></button>
+          <ul id="phone-sub-settings" hidden="">
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 5H3"></path><path d="M12 19H3"></path><path d="M14 3v4"></path><path d="M16 17v4"></path><path d="M21 12h-9"></path><path d="M21 19h-5"></path><path d="M21 5h-7"></path><path d="M8 10v4"></path><path d="M8 12H3"></path></svg><span>General</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M10 4v4"></path><path d="M2 8h20"></path><path d="M6 4v4"></path></svg><span>Apps</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 15V3"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path></svg><span>Downloads</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16.247 7.761a6 6 0 0 1 0 8.478"></path><path d="M19.075 4.933a10 10 0 0 1 0 14.134"></path><path d="M4.925 19.067a10 10 0 0 1 0-14.134"></path><path d="M7.753 16.239a6 6 0 0 1 0-8.478"></path><circle cx="12" cy="12" r="2"></circle></svg><span>Radio</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg><span>Alerts</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m12 14 4-4"></path><path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg><span>Performance</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg><span>Security</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15.39 4.39a1 1 0 0 0 1.68-.474 2.5 2.5 0 1 1 3.014 3.015 1 1 0 0 0-.474 1.68l1.683 1.682a2.414 2.414 0 0 1 0 3.414L19.61 15.39a1 1 0 0 1-1.68-.474 2.5 2.5 0 1 0-3.014 3.015 1 1 0 0 1 .474 1.68l-1.683 1.682a2.414 2.414 0 0 1-3.414 0L8.61 19.61a1 1 0 0 0-1.68.474 2.5 2.5 0 1 1-3.014-3.015 1 1 0 0 0 .474-1.68l-1.683-1.682a2.414 2.414 0 0 1 0-3.414L4.39 8.61a1 1 0 0 1 1.68.474 2.5 2.5 0 1 0 3.014-3.015 1 1 0 0 1-.474-1.68l1.683-1.682a2.414 2.414 0 0 1 3.414 0z"></path></svg><span>Plug-ins</span></a></li>
+            <li><a href="#" data-demo-link><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"></circle><path d="m16 12-4-4-4 4"></path><path d="M12 16V8"></path></svg><span>Updates</span></a></li>
+          </ul>
+        </div>
+    </div>
+    <button type="button" class="phone-menu__feedback" data-feedback-open hidden><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"></path><path d="M12 15h.01"></path><path d="M12 7v4"></path></svg><span>Send feedback</span></button>
+    <div class="phone-menu__foot">
+      <span class="version-label" data-version="">Starboard: v0.24.0</span>
+      <button type="button" class="btn btn--quiet" data-sign-out=""><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg><span>Sign out</span></button>
+    </div>
+  </nav>
+</div>
+<!-- Display: in Starboard a slide-out with every display setting. This demo keeps the theme. -->
+<div class="side-panel-layer" id="display-layer" hidden>
+  <div class="side-panel-backdrop"></div>
+  <aside class="side-panel" role="dialog" aria-modal="true" aria-labelledby="display-title">
+    <div class="panel-header">
+      <h2 class="panel-header__title" id="display-title">Display</h2>
+      <button type="button" class="icon-btn" data-closes aria-label="Close Display"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    </div>
+    <div class="side-panel__body">
+      <form class="form-stack" id="display-form">
+        <fieldset><legend>Theme</legend>
+          <div class="segmented">
+            <label><input type="radio" name="theme" value="system"><span>Match device</span></label>
+            <label><input type="radio" name="theme" value="light"><span>Light</span></label>
+            <label><input type="radio" name="theme" value="dark"><span>Dark</span></label>
+          </div>
+        </fieldset>
+        <p class="hint">Send feedback changes with it. In Starboard, Display also has text size, motion, contrast and the design.</p>
+      </form>
+    </div>
+  </aside>
+</div>
+<!-- What Save in Starboard would keep: shown here, since this demo sends nothing. -->
+<div class="side-panel-layer" id="saved-layer" hidden>
+  <div class="side-panel-backdrop"></div>
+  <aside class="side-panel side-panel--wide" role="dialog" aria-modal="true" aria-labelledby="saved-title">
+    <div class="panel-header">
+      <h2 class="panel-header__title" id="saved-title">The report Starboard would save</h2>
+      <button type="button" class="icon-btn" data-closes aria-label="Close The report Starboard would save"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    </div>
+    <div class="side-panel__body">
+      <p>This demo sends nothing. In Starboard, the report would be saved on the server and listed in Settings, General, Send feedback.</p>
+      <pre class="demo-saved" id="saved-report" tabindex="0" aria-label="The report"></pre>
+    </div>
+  </aside>
+</div>
+<div id="announcer" class="visually-hidden" aria-live="polite"></div>
+<main id="main" tabindex="-1">
+<div class="page dash-page">
+  <div class="notice demo-note" role="note"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg><div class="notice__body">
+    <span class="notice__title">Snaglist demo inside Starboard</span>
+    <p>This is Starboard, a home server dashboard, with made-up data. Select <strong>Feedback</strong> in the side menu, or <strong>Send feedback</strong> in the menu on a phone, to open Snaglist. Report something on this page, then select <strong>Save in Starboard</strong> to read the report it would keep. Nothing is sent.</p>
+    <p class="demo-note__links"><a href="index.html">Try the Snaglist demo</a><a href="https://themightytrex.github.io/snaglist/help/topics/try-the-demos.html">About the demos</a><a href="https://github.com/TheMightyTRex/starboard">Starboard on GitHub</a></p>
+    <p id="demo-status" role="status"></p>
+  </div></div>
+  <div class="page-head">
+    <div class="page-head__text"><h1>Dashboard</h1><p class="page-head__summary" id="dash-summary">At a glance. Change it with Edit dashboard.</p></div>
+    <div class="actions" id="dash-actions"><button type="button" class="btn" data-demo-link><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true" focusable="false"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>Edit dashboard</button></div>
+  </div>
+  <div class="dash-grid" id="dash">
+    <section class="dash-card dash-card--full has-band" aria-labelledby="dash-setup-h" data-card="setup">
+      <div class="card-band"><span class="app-icon app-icon--compact" aria-hidden="true"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true" focusable="false"><path d="M13 5h8"/><path d="M13 12h8"/><path d="M13 19h8"/><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/></svg></span><h2 class="card-band__title dash-card__title" id="dash-setup-h">Still to set up</h2><span class="card-band__side"><button type="button" class="btn btn--primary btn--compact" data-demo-link>Go through them</button></span></div>
+      <div class="dash-card__body"><ul class="rows">
+        <li class="row row--no-lead"><div><div class="row__title"><a href="#" data-demo-link>Bring in films already on disk</a></div><div class="row__meta">3 folders are not in your library yet.</div></div></li>
+        <li class="row row--no-lead"><div><div class="row__title"><a href="#" data-demo-link>Add your Usenet provider's server</a></div><div class="row__meta">The Usenet app downloads nothing without one.</div></div></li>
+        <li class="row row--no-lead"><div><div class="row__title"><a href="#" data-demo-link>Connect Reelix to your media servers</a></div><div class="row__meta">New files then show in them at once.</div></div></li>
+      </ul></div>
+    </section>
+    <section class="dash-card dash-card--half has-band" aria-labelledby="dash-downloads-h" data-card="downloads">
+      <div class="card-band"><span class="app-icon app-icon--compact" aria-hidden="true"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true" focusable="false"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></span><h2 class="card-band__title dash-card__title" id="dash-downloads-h">Downloads</h2><span class="card-band__side"><span class="chip" data-tone="info"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg><span class="visually-hidden">Status: </span><span class="chip__words">2 downloading</span></span></span></div>
+      <div class="dash-card__body"><ul class="rows">
+        <li class="row row--no-lead"><div><div class="row__title">The Lantern Makers (2019)</div><div class="row__meta">64% done, about 12 minutes left</div></div></li>
+        <li class="row row--no-lead"><div><div class="row__title">Coastal Gardens, series 2 episode 4</div><div class="row__meta">18% done, about 40 minutes left</div></div></li>
+        <li class="row row--no-lead"><div><div class="row__title">Finished today</div><div class="row__meta">5 files, 21.6 GB</div></div></li>
+      </ul></div>
+      <div class="card-foot"><span class="card-band__time">Updated a moment ago</span></div>
+    </section>
+    <section class="dash-card dash-card--half has-band" aria-labelledby="dash-storage-h" data-card="storage">
+      <div class="card-band"><span class="app-icon app-icon--compact" aria-hidden="true"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true" focusable="false"><path d="M10 16h.01"/><path d="M2.212 11.577a2 2 0 0 0-.212.896V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5.527a2 2 0 0 0-.212-.896L18.55 5.11A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><path d="M21.946 12.013H2.054"/><path d="M6 16h.01"/></svg></span><h2 class="card-band__title dash-card__title" id="dash-storage-h">Storage</h2><span class="card-band__side"><span class="chip" data-tone="success"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="m16 9-5.5 5.5L8 12"/></svg><span class="visually-hidden">Status: </span><span class="chip__words">Healthy</span></span></span></div>
+      <div class="dash-card__body"><ul class="rows">
+        <li class="row row--no-lead"><div><div class="row__title">Media pool</div><div class="row__meta">14.2 TB used of 24 TB, 9.8 TB free</div></div></li>
+        <li class="row row--no-lead"><div><div class="row__title">System disk</div><div class="row__meta">120 GB used of 500 GB, 380 GB free</div></div></li>
+      </ul></div>
+      <div class="card-foot"><span class="card-band__time">Updated 2 minutes ago</span></div>
+    </section>
+    <section class="dash-card dash-card--half has-band" aria-labelledby="dash-playing-h" data-card="playing">
+      <div class="card-band"><span class="app-icon app-icon--compact" aria-hidden="true"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true" focusable="false"><path d="m17 2-5 5-5-5"/><rect width="20" height="15" x="2" y="7" rx="2"/></svg></span><h2 class="card-band__title dash-card__title" id="dash-playing-h">Now playing</h2><span class="card-band__side"></span></div>
+      <div class="dash-card__body"><ul class="rows">
+        <li class="row row--no-lead"><div><div class="row__title">Harbour Lights, episode 1</div><div class="row__meta">Living room TV</div></div></li>
+      </ul></div>
+      <div class="card-foot"><span class="card-band__time">Updated a moment ago</span></div>
+    </section>
+    <section class="dash-card dash-card--half has-band" aria-labelledby="dash-updates-h" data-card="updates">
+      <div class="card-band"><span class="app-icon app-icon--compact" aria-hidden="true"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg></span><h2 class="card-band__title dash-card__title" id="dash-updates-h">Updates</h2><span class="card-band__side"><span class="chip" data-tone="neutral"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span class="visually-hidden">Status: </span><span class="chip__words">Checks at 04:00</span></span></span></div>
+      <div class="dash-card__body">
+        <p>All 7 apps are up to date. This button fails on purpose, so there is something to report.</p>
+        <p><button type="button" class="btn" id="check-updates"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>Check now</button></p>
+        <p id="updates-result" role="status"></p>
+      </div>
+    </section>
+  </div>
+</div>
+</main>
+<script>
+  // This demo only: Starboard's pages, with made-up data and nothing behind them.
+  const $ = (s, root = document) => root.querySelector(s);
+  const $$ = (s, root = document) => [...root.querySelectorAll(s)];
+  const status = (text) => { $("#demo-status").textContent = ""; setTimeout(() => { $("#demo-status").textContent = text; }, 50); };
+
+  // Theme: light unless chosen, as in Starboard; kept in this browser, or set with ?theme=dark.
+  const THEME_KEY = "snaglist-demo-starboard:theme";
+  let choice = new URLSearchParams(location.search).get("theme");
+  if (!choice) try { choice = localStorage.getItem(THEME_KEY); } catch { /* private window */ }
+  if (!["light", "dark", "system"].includes(choice)) choice = "light";
+  const dark = matchMedia("(prefers-color-scheme: dark)");
+  function applyTheme() {
+    const theme = choice === "system" ? (dark.matches ? "dark" : "light") : choice;
+    document.documentElement.dataset.theme = theme;
+    if (window.Snaglist && feedbackStarted) startSnaglist();
+  }
+
+  // Links to the rest of Starboard: this demo has the dashboard only.
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest("[data-demo-link]");
+    if (!link) return;
+    e.preventDefault();
+    status("This demo has the dashboard only. Feedback, in the side menu, works.");
+  });
+  $$("form[role=search]").forEach((f) => f.addEventListener("submit", (e) => { e.preventDefault(); status("Search is not in this demo. Feedback, in the side menu, works."); }));
+  $$("[data-sign-out]").forEach((b) => b.addEventListener("click", () => status("Sign out is not in this demo.")));
+
+  // Header search on narrower screens, phone menu sections, Display: as in Starboard, with the shared library.
+  const searchBtn = $("[data-search-open]");
+  searchBtn?.addEventListener("click", () => {
+    const open = $(".site-header").classList.toggle("is-search-open");
+    searchBtn.setAttribute("aria-expanded", String(open));
+    if (open) $("#header-search-input").focus();
+  });
+  $("[data-phone-menu-open]")?.addEventListener("click", (e) => SharedComponents.openLayer("phone-menu", e.currentTarget));
+  $$(".phone-menu__section > button").forEach((b) => b.addEventListener("click", () => {
+    const open = b.getAttribute("aria-expanded") !== "true";
+    b.setAttribute("aria-expanded", String(open));
+    document.getElementById(b.getAttribute("aria-controls")).hidden = !open;
+  }));
+  $("[data-display-toggle]")?.addEventListener("click", (e) => SharedComponents.openLayer("display-layer", e.currentTarget));
+  for (const r of $$("#display-form [name=theme]")) r.checked = r.value === choice;
+  $("#display-form").addEventListener("change", (e) => {
+    choice = e.target.value;
+    try { localStorage.setItem(THEME_KEY, choice); } catch { /* private window */ }
+    applyTheme();
+  });
+  dark.addEventListener("change", applyTheme);
+  applyTheme();
+
+  // Something to report: a button that fails, leaving a script error for a bug report.
+  $("#check-updates").addEventListener("click", () => {
+    $("#updates-result").textContent = "Starboard could not check for updates. Select Feedback to report it.";
+    window.updates.checkNow(); // fails on purpose: there is no updates service in this demo
+  });
+
+  // Demo mode: Save in Starboard posts to /api/feedback, as in Starboard. Here nothing is sent: the post is answered
+  // in the page and the report is shown in a slide-out.
+  const realFetch = window.fetch.bind(window);
+  window.fetch = async (url, init) => {
+    if (String(url) !== "/api/feedback") return realFetch(url, init);
+    const { markdown } = JSON.parse(init.body);
+    setTimeout(() => {
+      $("#saved-report").textContent = markdown;
+      SharedComponents.openLayer("saved-layer", $(".rail__feedback"));
+    }, 400);
+    return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { "Content-Type": "application/json" } });
+  };
+
+  // Send feedback, wired as in Starboard (web/js/common.js, startFeedback): Snaglist loads only when it is on, starts
+  // with no button of its own, and Feedback in the side menu opens it.
+  let feedbackStarted = false;
+  function startSnaglist() {
+    const inMenu = $$("[data-feedback-open]");
+    window.Snaglist?.start({
+      app: "Starboard (Snaglist demo)", version: "0.24.0", language: "en-GB", userToggle: false,
+      launcher: inMenu.length ? false : "bottom-left",
+      theme: document.documentElement.dataset.theme === "dark" ? "dark" : "light",
+      types: ["bug", "ux", "visual", "accessibility", "performance", "content", "feature", "idea", "other", "check"],
+      send: {
+        github: null, // Starboard sends to its own repository here; this demo sends nothing
+        endpoint: { url: "/api/feedback", headers: { "X-Starboard": "1", "X-Starboard-Feedback": "demo" } },
+        copy: true, download: true,
+      },
+      text: {
+        sendEndpoint: "Save in Starboard",
+        endpointNote: "This is a demo: Save in Starboard shows the report Starboard would keep, and sends nothing.",
+        sent: "Not sent: this is a demo. In Starboard, it would be listed in Settings, General, Send feedback.",
+      },
+    });
+    inMenu.forEach((b) => {
+      b.hidden = false;
+      if (b.dataset.feedbackReady) return;
+      b.dataset.feedbackReady = "1";
+      b.addEventListener("click", () => {
+        b.closest(".side-panel-layer")?.querySelector("[data-closes]")?.click(); // the phone menu closes first
+        window.Snaglist?.open();
+      });
+    });
+    feedbackStarted = true;
+  }
+  document.documentElement.classList.add("has-feedback"); // the side menu keeps room for the button under it
+  const script = document.createElement("script");
+  script.src = "snaglist.js";
+  script.onload = startSnaglist;
+  document.head.append(script);
+</script>
+</body>
+</html>

@@ -7,6 +7,16 @@ follow [Semantic Versioning](https://semver.org/). Each release's notes are also
 
 ## [Unreleased]
 
+### Added
+- **A second demo: Snaglist inside Starboard.** [demo-starboard.html](https://themightytrex.github.io/snaglist/demo-starboard.html)
+  is the Starboard dashboard with made-up data, with Send feedback started as Starboard starts it, from Feedback
+  in its side menu. Save in Starboard shows the report Starboard would keep, and sends nothing.
+- **Try the demos**, a new help topic about both demos, linked from the help home page.
+
+### Fixed
+- **A report with "Steps to make it happen again" filled in did not open What is sent.** The words were read as
+  recorded steps, and the report closed with an error. They are now kept as words in the report.
+
 ## [0.6.0] (19 November 2026)
 
 ### Changed
