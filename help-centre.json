@@ -187,12 +187,13 @@
     ]
   },
   "featured": {
-    "chip": "New in 0.4",
-    "title": "Send a report with a QR code",
-    "text": "From a computer that is not online, show the report as a QR code and open it on your phone, ready to post on GitHub.",
-    "to": "topics/send-a-report-with-a-qr-code.md",
-    "button": "Read how it works",
-    "flow": "start: Review what is sent\nq: Is this computer online?\n  Yes -> end\n  No -> step\nend: Open in GitHub\nstep: Show as a QR code\n  Scan it -> end2\nend2: Post it from your phone"
+    "chip": "New",
+    "title": "Try the demos",
+    "text": "Try Snaglist in a made-up app with every setting, or inside Starboard, a real app, where it opens from Feedback in the side menu.",
+    "to": "topics/try-the-demos.md",
+    "button": "Choose a demo",
+    "image": "images/demo-starboard.png",
+    "alt": "The Starboard dashboard with made-up data, and Feedback in its side menu, which opens Snaglist."
   },
   "solver": {
     "title": "Problem solver",
