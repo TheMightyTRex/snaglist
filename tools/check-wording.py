@@ -112,6 +112,7 @@ def files():
         yield rel, markdown_lines
     yield "index.html", html_lines
     yield "configure.html", html_lines
+    yield "demo-starboard.html", html_lines
     yield "snaglist.js", code_lines
 
 hits = 0

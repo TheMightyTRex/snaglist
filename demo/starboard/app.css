@@ -1,0 +1,288 @@
+/* Starboard's own styles (app.css), copied from github.com/TheMightyTRex/starboard (web/css/app.css) for the
+   Snaglist demo inside Starboard (demo-starboard.html). Copy a new version in; never edit it here. */
+
+.num { font-variant-numeric: tabular-nums; }
+.summary { color: var(--color-text-muted); font-size: var(--text-sm); }
+.site-header__brand svg { width: 28px; height: 28px; }
+/* Between phone and wide screens the header has no room for the search box: the Search button opens it as a row
+   under the header, as on phones (owner, 12 November 2026: Search left the side menu). */
+@media (max-width: 1199px) { .site-header__search { display: none; } .site-header__actions { margin-left: auto; }
+  .site-header .site-header__search-btn { display: inline-flex; }
+  .site-header.is-search-open .site-header__search { display: block; } }
+@media (max-width: 720px) { .site-header__brand span { white-space: nowrap; } }
+.version-label { color: var(--color-text-muted); font-size: var(--text-sm); font-variant-numeric: tabular-nums; }
+.address { display: flex; align-items: center; gap: var(--space-2); min-width: 0; font-size: var(--text-sm); }
+.address__label { flex: none; min-width: 4.5em; color: var(--color-text-muted); font-weight: var(--weight-strong); }
+.address__value { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+
+
+
+/* Search ------------------------------------------------------------- */
+.search-bar { display: flex; gap: var(--space-2); }
+.search-bar .input { flex: 1; font-size: var(--text-md); }
+
+.settings-sections { display: grid; gap: var(--space-6); }
+
+.auth-page main { padding-top: 0; min-height: 100vh; display: grid; place-items: center; }
+.auth-card { width: min(440px, calc(100vw - 32px)); }
+code { background: var(--color-surface-sunken); padding: 0 var(--space-1); font-family: var(--font); overflow-wrap: anywhere; }
+.code-block { display: block; padding: var(--space-3); white-space: pre-wrap; }
+.form-grid [data-span="all"] { grid-column: 1 / -1; }
+
+/* Phones ------------------------------------------------------------- */
+@media (max-width: 639px) {
+  .page { gap: var(--space-4); padding-block: var(--space-4) calc(var(--space-12) + env(safe-area-inset-bottom, 0px)); }
+  .page-head { align-items: start; }
+  .page-head .actions { width: 100%; }
+  .search-bar .btn { padding: 0 var(--space-3); }
+}
+
+.service-row__main { display: flex; align-items: center; gap: var(--space-3); min-width: 0; }
+
+/* System pages ----------------------------------------------------------- */
+.charts { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); }
+.chart__head { display: flex; justify-content: space-between; gap: var(--space-3); align-items: baseline; }
+.swatch { width: 12px; height: 3px; display: inline-block; }
+.cores { display: flex; align-items: flex-end; gap: 2px; height: 40px; border-bottom: 1px solid var(--color-divider); }
+.cores span { flex: 1; background: var(--chart-1); min-height: 2px; border-radius: 2px 2px 0 0; }
+
+/* Charts --------------------------------------------------------------------- */
+.chart-grid { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); }
+.chart__plot { position: relative; min-width: 0; }
+.chart__svg { touch-action: pan-y; }
+.chart__area--0 { fill: var(--chart-1); opacity: 0.1; }
+.chart__dot { stroke: var(--color-surface); stroke-width: 2; }
+.chart__dot--0 { fill: var(--chart-1); }
+.chart__dot--1 { fill: var(--chart-2); }
+.chart__cross { stroke: var(--color-text-muted); stroke-width: 1; }
+.chart__tooltip {
+  position: absolute; top: 0; z-index: 2; display: grid; gap: 2px; min-width: 140px; padding: var(--space-2) var(--space-3);
+  background: var(--color-surface-raised); border: 1px solid var(--color-border); box-shadow: var(--shadow-raised); font-size: var(--text-sm); pointer-events: none;
+}
+.chart__tooltip-time { color: var(--color-text-muted); font-size: var(--text-xs); }
+.chart__tooltip-row { display: flex; align-items: center; gap: var(--space-2); }
+.swatch--line { width: 14px; height: 2px; }
+.swatch--limit { width: 2px; height: 12px; background: var(--color-text); }
+.chart__table summary { cursor: pointer; color: var(--color-accent); font-size: var(--text-sm); font-weight: var(--weight-strong); min-height: var(--control-h); display: flex; align-items: center; }
+.chart__table .table td { text-align: right; }
+.bars { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3); }
+.bar { display: grid; grid-template-columns: minmax(0, 12em) minmax(0, 1fr) 6.5em; gap: var(--space-3); align-items: center; font-size: var(--text-sm); }
+.bar:focus-visible { outline: var(--focus-w) solid var(--color-focus); outline-offset: 2px; }
+.bar__label { overflow-wrap: anywhere; }
+.bar__track { position: relative; height: 16px; }
+.bar__fill { display: block; height: 100%; background: var(--chart-1); border-radius: 0 4px 4px 0; }
+.bar:hover .bar__fill { filter: brightness(1.15); }
+.bar__fill[data-tone="warning"] { background: var(--status-warning-fg); }
+.bar__fill[data-tone="danger"] { background: var(--status-danger-fg); }
+.bar__limit { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--color-text); }
+.bar__value { text-align: right; color: var(--color-text); }
+@media (max-width: 639px) { .bar { grid-template-columns: minmax(0, 1fr) 6em; } .bar__track { grid-column: 1 / -1; grid-row: 2; } }
+.trend { width: 120px; height: 32px; flex: none; }
+.filter-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+
+/* A plain vertical stack of form fields or blocks. */
+
+/* An open More actions menu sits above the rows after it. */
+.row:has(.menu:not([hidden])), .card:has(.menu:not([hidden])) { position: relative; z-index: 3; }
+
+/* Settings, About and updates: what Starboard can access. The state, then how to change it. */
+.access-change {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-2);
+}
+
+/* Downloads: the toolbar already draws the line above the queue. */
+.toolbar ~ #queue > :first-child > .rows:first-child { border-top: 0; }
+.release-notes + .release-notes { margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--color-border); }
+.release-notes ul { padding-left: var(--space-4); }
+#upgrade-notice { margin-bottom: var(--space-4); }
+
+/* Release notes (slide-out from the footer, and the upgrade guide's first step): one heading rhythm. */
+.release-notes { display: grid; gap: var(--space-2); }
+/* What is new in an app (Reelix): its notice after an update, and the buttons beside Update. */
+.app-change { align-items: center; }
+.app-change__actions { display: flex; align-items: center; gap: var(--space-2); }
+.app-change .btn { color: var(--color-text); }
+@media (max-width: 639px) {
+  .app-change { grid-template-columns: auto minmax(0, 1fr); }
+  .app-change__actions { grid-column: 2; }
+}
+.updates-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.release-notes li > ul { margin-top: var(--space-1); }
+.release-notes > :is(h4, h5) { margin-top: var(--space-2); }
+/* Settings, Updates, What is new (DASH-475): each update's own picture beside its heading, as on its card. */
+.release-notes__head { display: flex; align-items: center; gap: var(--space-3); min-width: 0; }
+.release-notes__head > h3 { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.release-notes ul { margin: 0; }
+/* The time range beside a heading. */
+.range-picker { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin: 0; padding: 0; border: 0; min-width: 0; }
+
+/* The Help link in the header looks like the Display button beside it. */
+.site-header a.icon-btn { color: inherit; text-decoration: none; }
+
+/* Keeps a short value, such as a running time, on one line. */
+.nowrap { white-space: nowrap; }
+
+/* DASH-238: the first set-up shows only the wizard: no side menu and no level 1 or level 2 menus until it has finished. */
+body.first-setup .rail, body.first-setup .site-header__tabs, body.first-setup .menu-tabs, body.first-setup .phone-menu-button,
+body.first-setup .site-header__search, body.first-setup .site-header__search-btn { display: none !important; }
+body.first-setup.with-rail { padding-left: 0; }
+.is-filtered { display: none !important; } /* Search filters (DASH-301) */
+.search-filters { display: grid; gap: var(--space-3); }
+.search-filters[hidden] { display: none; }
+.search-filters .lib-field { margin: 0; }
+.search-filters .lib-field .select { min-width: 9rem; }
+.search-more-filters { padding: var(--space-3); border: 1px solid var(--color-divider); border-radius: var(--radius); }
+.search-more-filters[hidden] { display: none; }
+.search-filter-group { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); min-width: 0; max-width: 100%; }
+@media (max-width: 720px) { /* on phones the chips scroll sideways, as every chip row does */
+  .search-filter-group .filter-chips { flex: 1 1 100%; min-width: 0; max-width: 100%; }
+}
+.search-filter-group__label { font-size: var(--text-sm); color: var(--color-text-muted); }
+@media (max-width: 600px) {
+  .search-filters .lib-field { flex: 1 1 8rem; }
+  .search-filters .lib-field .select { min-width: 0; width: 100%; }
+}
+[data-plugin][hidden] { display: none !important; } /* plug-in menu items, until the plug-in is added */
+/* Install warning (owner, 12 November 2026) */
+.install-warning__list { margin: 0; padding-inline-start: 1.25rem; display: grid; gap: var(--space-1, 0.25rem); overflow-wrap: anywhere; min-width: 0; }
+.panel-off { display: none !important; } /* Still to set up: only the step's own part (12 November 2026) */
+.panel-only #main .page { padding-block-start: var(--space-4, 1rem); }
+html.panel-only body:not(.show-advanced) .panel-keep[data-advanced] { display: grid; }
+.install-warning__head { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3, 0.75rem); }
+.install-warning__by { margin-block-start: calc(-1 * var(--space-2, 0.5rem)); overflow-wrap: anywhere; }
+/* Sign out in the side menu (issue #9) */
+.rail__signout { position: relative; display: grid; justify-items: center; gap: var(--space-1); width: 100%;
+  padding: var(--space-2) 0; min-height: 56px; border: 0; border-top: 1px solid var(--color-divider); background: none;
+  color: var(--color-text-muted); font-family: inherit; font-size: var(--text-xs); font-weight: var(--weight-strong); cursor: pointer; }
+.rail__signout:hover { background: var(--color-hover); box-shadow: inset 0 0 0 1px var(--color-hover-edge); color: var(--color-text); } /* the menu hover (DASH-479) */
+/* Topic tabs on long Settings pages (12 November 2026) */
+/* No scroll bar (owner, 12 November 2026): the tabs use the page's width and wrap onto a second line when they do
+   not fit, so every topic is in view. */
+.topic-tabs { margin-block: 0 var(--space-6, 1.5rem); border-bottom: 1px solid var(--color-divider); }
+.topic-tabs [role=tablist] { display: flex; flex-wrap: wrap; gap: var(--space-1, 0.25rem); }
+.topic-tabs__tab { border-radius: var(--radius) var(--radius) 0 0; padding: var(--space-2, 0.5rem) var(--space-3, 0.75rem); min-height: var(--control-h, 40px); border: 0;
+  border-bottom: 3px solid transparent; background: none; color: var(--color-text-muted); font: inherit; font-weight: var(--weight-strong); cursor: pointer; }
+.topic-tabs__tab:hover { color: var(--color-text); background: var(--color-hover); box-shadow: inset 0 0 0 1px var(--color-hover-edge); }
+.topic-tabs__tab[aria-selected=true] { background: var(--color-control-active); }
+.topic-tabs__tab[aria-selected=true] { color: var(--color-text); border-bottom-color: var(--color-accent); }
+.topic-off { display: none !important; }
+/* The tabs stay under the header while the page scrolls, in windows tall enough (accessibility check of plug-in pages,
+   20 November 2026): scrolled, a tab sat part under the sticky header, too small to press (WCAG 2.5.8). The page
+   keeps their height clear too, so they never cover what has focus (2.4.11); --topic-tabs-h is their height, set by
+   settings-core.js as they wrap. In short or narrow windows they scroll away with the page, as before. */
+@media (min-width: 768px) and (min-height: 640px) {
+  .topic-tabs { position: sticky; top: calc(var(--header-h) + 1px); z-index: 2; background: var(--color-bg); }
+  :root:has(.site-header__tabs) .topic-tabs { top: calc(var(--header-h) + var(--tabs-h) + 1px); }
+  :root:has(#topic-tabs) { scroll-padding-top: calc(var(--header-h) + var(--topic-tabs-h, 48px) + var(--space-4)); }
+  :root:has(.site-header__tabs):has(#topic-tabs) { scroll-padding-top: calc(var(--header-h) + var(--tabs-h) + var(--topic-tabs-h, 48px) + var(--space-4)); }
+}
+.row-choice { display: inline-flex; align-items: center; gap: var(--space-2, 0.5rem); }
+/* The Search icon button in every search box is in the shared library (components.css and .js, 12 November 2026). */
+/* A state chip on its title's line: .title-chip is in the shared library (components.css, 12 November 2026). */
+.dash-card__head .title-chip { flex: 1 1 auto; }
+.history-keep { margin-top: var(--space-6, 24px); }
+.history-keep .select { width: auto; }
+.page-head__text:has(> .title-chip) { flex: 1 1 auto; min-width: 0; } /* the heading line, with Advanced settings at the right edge */
+
+/* The loading line under the menu (owner, 12 November 2026): the shared .loading-bar on the header's lower edge,
+   shown by common.js while a request has taken longer than a moment or a new page is loading. It takes no room. */
+.site-header > .loading-bar, body > .loading-bar--top { position: absolute; inset-inline: 0; bottom: -2px; height: 3px; z-index: 5; pointer-events: none; }
+body > .loading-bar--top { position: fixed; top: 0; bottom: auto; z-index: 100; }
+
+/* A long change's dialog (DASH-252, 13 November 2026): the library's dialog and busy bar, with a list of its steps.
+   Each step: its name, its state chip at the right, and what it is doing under it. The step working now is marked
+   with a line at its left edge; nothing moves but the library's bar, which is still with less motion. */
+.task-dialog { width: min(calc(var(--dialog-w) * 1.2), calc(100vw - 32px)); }
+.task-list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--color-divider); }
+.task-list__item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-1) var(--space-3); align-items: center;
+  padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--color-divider); border-left: 3px solid transparent; }
+.task-list__item[data-state="working"] { border-left-color: var(--color-accent); background: var(--color-surface-sunken); }
+.task-list__name { font-weight: var(--weight-strong); min-width: 0; overflow-wrap: anywhere; }
+.task-list__detail { grid-column: 1 / -1; overflow-wrap: anywhere; }
+.task-now { margin: 0; min-height: 1.5em; color: var(--color-text-muted); overflow-wrap: anywhere; }
+.message-to-send { margin: 0; padding: var(--space-3) var(--space-4); border-left: 3px solid var(--color-accent); background: var(--color-surface-sunken); }
+.message-to-send p { margin: 0; }
+
+/* A slide-out's state chip on its title's line (DASH-309): the title and chip take the room before the close button. */
+.panel-header > .title-chip { flex: 1; }
+
+/* Wanted (DASH-309): a row that opens keeps its tick and buttons above the row's own target. */
+.wanted-row > input[type="checkbox"] { position: relative; z-index: 1; width: 22px; height: 22px; accent-color: var(--color-accent); }
+.wanted-row:has(> input[type="checkbox"][hidden]) { grid-template-columns: minmax(0, 1fr) auto; }
+
+/* The footer's About and updates (DASH-104): "Upgrade available" after it when a newer release is out, in the text
+   colour with the update dot, so it is not only a colour. */
+.site-footer__upgrade { display: inline-flex; align-items: center; gap: var(--space-1); color: var(--color-text); font-weight: var(--weight-strong); }
+.site-footer__upgrade .update-dot { vertical-align: middle; }
+
+/* A small picture of each dashboard design (DASH-315), under the option card's words in Settings, General, Default
+   design and in Display's Design list. Drawn in common.js as SVG in the theme's colours; hidden from screen readers,
+   as the words say what each design is. */
+.design-picture { grid-column: 1 / -1; display: block; width: 100%; max-width: 200px; margin-top: var(--space-1); }
+.design-picture svg { display: block; width: 100%; height: auto; }
+.dp-frame { fill: var(--color-bg); stroke: var(--color-divider); stroke-width: 1; }
+.dp-card, .dp-row { fill: var(--color-surface); stroke: var(--color-divider); stroke-width: 0.6; }
+.dp-head { fill: var(--color-surface-sunken); }
+.dp-bad { fill: var(--status-danger-bg); }
+.dp-edge-bad, .dp-dot-bad { fill: var(--status-danger-fg); }
+.dp-edge-ok, .dp-dot-ok { fill: var(--status-success-fg); }
+.dp-line { fill: var(--color-text); }
+.dp-soft { fill: var(--color-text-muted); }
+.dp-icon { fill: var(--color-accent); }
+.dp-button { fill: none; stroke: var(--color-text-muted); stroke-width: 0.6; }
+.dp-search { stroke: var(--color-text-muted); }
+.side-panel .design-picture { max-width: 160px; }
+/* A catalogue's address is one long word: it wraps at phone width rather than push the page sideways. */
+.row__meta--wrap { overflow-wrap: anywhere; }
+
+/* Plug-in logos (plug-in API 1.14, DASH-428): beside the name on its page, and in the install warning's head. */
+.plugin-head { display: flex; align-items: center; gap: var(--space-3, 12px); }
+.install-warning__head > strong { flex: 1 1 auto; }
+/* A schedule setting (API 1.14, DASH-432): how often, the day or date, and the time side by side, one height. */
+.schedule-fields { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--space-3, 12px); margin: 0; }
+.schedule-fields .field { margin: 0; }
+.schedule-fields .input[type="time"] { min-height: var(--control-h); }
+
+/* Copy issues for an AI helper (DASH-434): what was copied, in a box of its own height that scrolls */
+#issues-export { margin-bottom: var(--space-4); }
+#issues-export .code-block { max-height: 24rem; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* Bring in media you already have (DASH-455). The sources in order, with their number beside each; the correction for
+   a whole source; Check names' rows (from and to); a Needs a look choice; the copy's job and its line on the dashboard. */
+.bring-source svg { flex: none; margin-block-start: var(--space-1); }
+.bring-source { display: flex; align-items: flex-start; gap: var(--space-2); min-inline-size: 0; }
+.bring-source__text { display: grid; gap: 2px; min-inline-size: 0; }
+.bring-source__name { font-weight: var(--weight-strong); overflow-wrap: anywhere; }
+.bring-source__meta { color: var(--color-text-muted); font-size: var(--text-sm); }
+.bring-source__order { display: grid; place-items: center; inline-size: 28px; block-size: 28px; flex: none; border: 1px solid var(--color-border);
+  font-weight: var(--weight-strong); font-variant-numeric: tabular-nums; }
+.bring-source__actions { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+.bring-links { align-items: flex-start; max-inline-size: 48rem; }
+.bring-whole { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); }
+.bring-whole .input { inline-size: auto; max-inline-size: 100%; }
+.bring-folder { display: flex; gap: var(--space-2); align-items: center; overflow-wrap: anywhere; font-weight: var(--weight-regular); }
+.bring-folders .input { inline-size: auto; max-inline-size: 100%; }
+.bring-name .row__meta { display: flex; gap: var(--space-1); align-items: baseline; overflow-wrap: anywhere; min-inline-size: 0; }
+.bring-name .row__meta svg { flex: none; align-self: center; }
+.bring-name__to { color: var(--color-text); }
+.bring-name { flex-wrap: wrap; }
+.bring-choices { flex: 1 1 100%; display: grid; gap: var(--space-1); margin: var(--space-2) 0 0; padding: var(--space-3); border: 1px solid var(--color-divider);
+  background: var(--color-surface-sunken); }
+.bring-space { max-inline-size: 40rem; }
+.wizard-job__head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-1) var(--space-3); align-items: baseline; }
+.wizard-job__words { margin: 0; min-inline-size: 0; }
+.wizard-job__count { font-size: var(--text-sm); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bring-report__part[data-tone="warning"] > h3 { border-inline-start: 4px solid var(--status-warning-fg); padding-inline-start: var(--space-2); }
+.bring-report__part[data-tone="success"] > h3 { border-inline-start: 4px solid var(--status-success-fg); padding-inline-start: var(--space-2); }
+.plain-list { margin: 0; padding-inline-start: 1.2em; }
+.bring-banner { margin-block: var(--space-3); }
+.bring-banner .progress { margin-block-start: var(--space-2); max-inline-size: 28rem; }
+@media (max-width: 560px) { .wizard-job__count { white-space: normal; } }
+/* On a phone, Change folder and Remove go under the source and Move up and Move down after them on the same line, so
+   what is seen keeps the order it is read in (reading order check, 17 November 2026). */
+@media (max-width: 480px) {
+  .bring-sources .bring-source__actions { grid-column: 2; grid-row: 2; }
+  .bring-sources .sortable__moves { grid-column: 3; grid-row: 2; }
+}
