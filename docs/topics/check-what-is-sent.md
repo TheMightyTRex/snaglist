@@ -10,9 +10,8 @@ parts out, then choose how to send it.
 
 ## Before you begin
 
-- Fill in the form first: [Report a problem with one thing on a page](send-feedback.md),
-  [Record a series of steps](record-a-series-of-steps.md) or
-  [Suggest a feature or an improvement](suggest-a-feature-or-improvement.md).
+- Complete the form first. Use [Report a problem with one thing on a page](send-feedback.md), [Record a series of
+  steps](record-a-series-of-steps.md) or [Suggest a feature or an improvement](suggest-a-feature-or-improvement.md).
 
 ## Steps
 

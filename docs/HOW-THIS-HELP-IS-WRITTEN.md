@@ -63,9 +63,9 @@ wrong. Every topic sits in one area, named on its first line.
 The help centre on the web follows the design system's standard
 ([help writing guide, section 11](https://github.com/TheMightyTRex/design-system/blob/main/docs/HELP-WRITING.md#11-the-help-centre-standard)).
 The second line of every article says where its side menu lists it: `<!-- help: <area> / <group> -->`, such as
-`<!-- help: fix / problems -->`. The groups, the journey, the newest thing and the problem solver are in
-`help-centre.json`. Every troubleshooting topic starts with a flow chart in a `flow` block, straight after its
-opening sentences, with each numbered answer as a section of its own.
+`<!-- help: fix / problems -->`. `help-centre.json` holds the groups, the journey, the newest thing and the problem
+solver. Every troubleshooting topic starts with a flow chart in a `flow` block, straight after its opening sentences.
+Each numbered answer is a section of its own.
 
 ## Writing rules
 

@@ -3,13 +3,15 @@
   <img src="docs/images/logo-wordmark.svg" alt="Snaglist" width="264" height="64">
 </picture>
 
-Feedback for any website or app. People report bugs and UX problems, suggest features and improvements, record a
-series of steps, or check a page for accessibility problems. Each report is tagged with the page and the part of
-it, carries the technical details needed to act on it, and keeps no personal information.
+Feedback for any website or app. People report bugs and UX problems, suggest features and improvements, record a series
+of steps, or check a page for accessibility problems. Each report is tagged with the page and the part of it. It carries
+the technical details needed to act on it, and it keeps no personal information.
 
-A snag list is a list of the small faults to fix before a job is finished. Snaglist adds a **Send feedback**
-button to your site. People choose what to send, show one thing on the page or record what they do, answer a few
-questions, check exactly what will be sent, and send it as a GitHub issue, an email or a post to your own server.
+A snag list is a list of the small faults to fix before a job is finished. Snaglist adds a **Send feedback** button to
+your site. People choose what to send. They show one thing on the page or record what they do, and they answer a few
+questions.
+
+They check exactly what will be sent. Then they send it as a GitHub issue, an email or a post to your own server.
 
 **[Try the demo](https://themightytrex.github.io/snaglist/)** ·
 **[Try it inside Starboard](https://themightytrex.github.io/snaglist/demo-starboard.html)** ·
@@ -19,8 +21,7 @@ questions, check exactly what will be sent, and send it as a GitHub issue, an em
 ![The Send feedback window. Report a problem lists Something is broken, Confusing to use, Display problem, Does not work with my tools or needs, Slow and Words are wrong. Make a suggestion lists A new feature, Make something better and Something else. Check the page offers Check this page for accessibility problems. What do you want to show offers One thing on the page, A series of steps, and Describe it in words.](docs/images/choose.png)
 
 - **One file, no libraries:** about 129 KB, or 41 KB when your server compresses it. No build step.
-- **One script tag to add, nothing left when removed:** one script tag, or the [set-up tool](https://themightytrex.github.io/snaglist/configure.html)
-  writes the code and one prompt for your AI assistant. Removing it leaves nothing behind.
+- **One script tag to add, nothing left when removed:** you add one script tag, or the [set-up tool](https://themightytrex.github.io/snaglist/configure.html) writes the code and one prompt for your AI assistant. Removing the tag leaves nothing behind.
 - **Anonymous by design:** never what people type, no cookies, no query strings; emails, phone numbers,
   addresses and keys are replaced. People are shown the whole report before it goes, and can take parts out.
 - **Accessible:** keyboard first, 44px targets, a visible focus ring, reduced motion, forced colours, and it
@@ -56,10 +57,10 @@ recording carries on across pages in the same tab.
 
 ## Check a page for accessibility problems
 
-**Check this page for accessibility problems** runs 13 checks for the most common WCAG 2.2 failures, or axe-core
-if you choose. Each problem says why it matters and how to fix it, with code before and after, and can be shown on
-the page and reported on its own or with the rest.
-[Fix common accessibility problems](https://themightytrex.github.io/snaglist/help/topics/fix-common-accessibility-problems.html) has every fix.
+**Check this page for accessibility problems** runs 13 checks for the most common WCAG 2.2 failures, or axe-core if you
+choose. Each problem says why it matters and how to fix it, with code before and after. You can show a problem on the
+page and report it on its own or with the rest. [Fix common accessibility
+problems](https://themightytrex.github.io/snaglist/help/topics/fix-common-accessibility-problems.html) has every fix.
 
 ![The Accessibility check window lists 7 problems found on the demo. The first, Pictures with no text alternative, is open, with why it matters, how to fix it, the code before and after, and the buttons Show on the page and Report this.](docs/images/check-results.png)
 
@@ -132,9 +133,9 @@ short summary written for AI tools.
 
 ## Part of a family
 
-Snaglist began as the UX notes tool in the [design system](https://github.com/TheMightyTRex/design-system)
-shared by [Storyarr](https://github.com/TheMightyTRex/storyarr) and
-[Starboard](https://github.com/TheMightyTRex/starboard), and uses its design tokens when a page has them.
+Snaglist began as the UX notes tool in the [design system](https://github.com/TheMightyTRex/design-system) shared by
+[Storyarr](https://github.com/TheMightyTRex/storyarr) and [Starboard](https://github.com/TheMightyTRex/starboard). It
+uses the design tokens when a page has them.
 
 ## Licence
 

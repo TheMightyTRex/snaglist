@@ -15,10 +15,10 @@ something it already does.
    - **A new feature**: something the site cannot do yet.
    - **Make something better**: an improvement to something that already works.
    - **Something else**: a question, a thank you, anything.
-3. Under **What do you want to show**, choose **Describe it in words**, or **One thing on the page** if
-   your suggestion is about a particular part. Then select **Continue**.
-4. Answer the questions. For a new feature, say what you would like to do and what it would help you with:
-   the task behind it helps the team find the best way.
+3. Under **What do you want to show**, choose **Describe it in words**. If your suggestion is about a particular part,
+   choose **One thing on the page**. Then select **Continue**.
+4. Answer the questions. For a new feature, say what you would like to do and what it would help you with. The task
+   behind it helps the team find the best way.
 5. Choose **How much would it help you**.
 
    ![The form for A new feature has boxes for What would you like to be able to do, What would it help you with and How do you manage today, then How much would it help you with Nice to have, I would use it often and I need it.](../images/form-suggestion.png)

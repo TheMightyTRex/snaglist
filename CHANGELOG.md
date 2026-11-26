@@ -8,10 +8,14 @@ follow [Semantic Versioning](https://semver.org/). Each release's notes are also
 ## [Unreleased]
 
 ### Added
-- **A second demo: Snaglist inside Starboard.** [demo-starboard.html](https://themightytrex.github.io/snaglist/demo-starboard.html)
-  is the Starboard dashboard with made-up data, with Send feedback started as Starboard starts it, from Feedback
-  in its side menu. Save in Starboard shows the report Starboard would keep, and sends nothing.
+- **A second demo: Snaglist inside Starboard.**
+  [demo-starboard.html](https://themightytrex.github.io/snaglist/demo-starboard.html) is the Starboard dashboard with
+  made-up data. Select Feedback in its side menu to start Send feedback as Starboard does. Save in Starboard shows the
+  report Starboard would keep, and sends nothing.
 - **Try the demos**, a new help topic about both demos, linked from the help home page.
+
+### Changed
+- **Plainer wording in the README, help topics, guides and recent release notes:** shorter sentences, and no change to what Snaglist does.
 
 ### Fixed
 - **A report with "Steps to make it happen again" filled in did not open What is sent.** The words were read as
@@ -20,9 +24,9 @@ follow [Semantic Versioning](https://semver.org/). Each release's notes are also
 ## [0.6.0] (19 November 2026)
 
 ### Changed
-- **Mica, the design system's new default.** The colours Snaglist uses when a page has no design tokens are Mica's
-  neutral greys with its Blue accent, and buttons, fields, the banner and the dialog have 6px corners (the page's
-  own `--radius` when it has one).
+- **Mica, the design system's new default.** When a page has no design tokens, Snaglist uses Mica's neutral greys with
+  its Blue accent. Buttons, fields, the banner and the dialog have 6px corners, or the page's own `--radius` when it has
+  one.
 
 ## [0.5.0] (17 November 2026)
 

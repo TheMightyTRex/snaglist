@@ -9,8 +9,8 @@ key that never reaches the browser. It takes about 45 minutes.
 
 ## Before you begin
 
-- A server that serves your site, and somewhere to run a small piece of server code, such as a Cloudflare
-  Worker or your own app's server.
+- A server that serves your site.
+- Somewhere to run a small piece of server code, such as a Cloudflare Worker or your own app's server.
 - A GitHub repository for the reports, and permission to make a token for it.
 
 ## The steps at a glance

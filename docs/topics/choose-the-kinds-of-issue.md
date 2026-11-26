@@ -5,8 +5,9 @@
 
 How-to
 
-Every problem report asks how bad it is, and every suggestion how much it would help. You can also ask an extra question, "Kind of issue", to sort reports
-by a scheme your team already uses, such as Nielsen's heuristics or the WCAG principles.
+Every problem report asks how bad it is. Every suggestion asks how much it would help. You can also ask an extra
+question, "Kind of issue", to sort reports by a scheme your team already uses, such as Nielsen's heuristics or the WCAG
+principles.
 
 ## Steps
 

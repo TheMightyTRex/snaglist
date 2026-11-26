@@ -44,8 +44,8 @@ part of the page, say what is wrong, and check the report before it goes.
 
 - Nothing you have entered in the page's own fields is ever read, so it is safe to report a form you have
   filled in.
-- Snaglist copies the visible text of the part you chose, and any error or alert messages on the page, because
-  they help the team find the problem. You can take them out before sending.
+- Snaglist copies the visible text of the part you chose, and any error or alert messages on the page. They help the
+  team find the problem. You can take them out before sending.
 - One report per problem helps the team fix each one.
 
 ## Find out more

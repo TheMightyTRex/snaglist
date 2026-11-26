@@ -45,9 +45,9 @@ and how to fix it.
 
 ## Step 4: fix the problems
 
-Follow [Fix common accessibility problems](../topics/fix-common-accessibility-problems.md), or give the reports to an
-AI assistant with the prompt **Fix the accessibility problems Snaglist found** in
-[Prompts for AI assistants](../AI-PROMPTS.md).
+Follow [Fix common accessibility problems](../topics/fix-common-accessibility-problems.md). Or give the reports to an AI
+assistant with the prompt **Fix the accessibility problems Snaglist found** in [Prompts for AI
+assistants](../AI-PROMPTS.md).
 
 ## Step 5: check again, then test by hand
 
@@ -56,5 +56,5 @@ listed at the end of [Fix common accessibility problems](../topics/fix-common-ac
 
 ## What next
 
-- Ask testers who use a screen reader, magnifier or voice control to try the site, and to report with
-  'Does not work with my tools or needs'.
+- Ask testers who use a screen reader, magnifier or voice control to try the site. Ask them to report with 'Does not
+  work with my tools or needs'.

@@ -5,8 +5,8 @@
 
 How-to
 
-Run an automatic check of the page you are on. Snaglist lists each problem it finds, shows you where it is,
-explains how to fix it, and lets you report one problem or all of them.
+Run an automatic check of the page you are on. Snaglist lists each problem it finds, shows you where it is and explains
+how to fix it. You can report one problem or all of them.
 
 ## Before you begin
 

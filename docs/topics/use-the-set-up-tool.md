@@ -5,8 +5,8 @@
 
 How-to
 
-The set-up tool asks what you want Snaglist to do on your site, then gives you the files, the code, where each
-piece goes, and one prompt that has an AI assistant add it all in one go.
+The set-up tool asks what you want Snaglist to do on your site. Then it gives you the files, the code, where each piece
+goes, and one prompt that has an AI assistant add it all in one go.
 
 ## Steps
 
@@ -21,8 +21,8 @@ piece goes, and one prompt that has an AI assistant add it all in one go.
 4. Select **Try these settings here** to try them on the set-up page itself.
 5. Then either:
    - select **Copy the prompt** and paste it into your AI assistant with your project open, or
-   - follow **Or do it yourself**: download `snaglist.js`, save your settings as `snaglist-start.js` in the
-     same folder, add the two script lines where it says, and add the switch and labels if you chose them.
+   - follow **Or do it yourself**. Download `snaglist.js` and save your settings as `snaglist-start.js` in the same
+     folder. Add the two script lines where it says, and add the switch and labels if you chose them.
 6. Open your site and select **Send feedback** to check it works.
 
 ## Things to note
