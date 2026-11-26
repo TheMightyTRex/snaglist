@@ -47,9 +47,9 @@ No mail app is set up on this computer. Use **Copy as Markdown** and paste the r
 
 ## Send report says The report was not sent
 
-Select **Technical details** in the message for the reason. A number such as 403 or 500 comes from the site's server; "Failed to fetch"
-usually means the server did not allow the request from this site. Read step 3 of
-[Send reports to your own server](send-reports-to-your-own-server.md).
+Select **Technical details** in the message for the reason. A number such as 403 or 500 comes from the site's server.
+"Failed to fetch" usually means the server did not allow the request from this site. Read step 3 of [Send reports to
+your own server](send-reports-to-your-own-server.md).
 
 ## This computer is not online
 

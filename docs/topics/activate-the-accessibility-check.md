@@ -44,8 +44,8 @@ it off.
 
 - Reports from the check have the label `accessibility` and the type `check` on GitHub.
 - To leave the check out, remove `"check"` from `types`.
-- To check many pages without anyone selecting a button, run axe-core in your tests (for example with
-  Playwright and `@axe-core/playwright`), and keep Snaglist for what people find.
+- To check many pages without anyone selecting a button, run axe-core in your tests, for example with Playwright and
+  `@axe-core/playwright`. Keep Snaglist for what people find.
 - The built-in contrast check reads up to 300 pieces of text a run. Change it with `check: { contrastLimit: 600 }`.
 
 ## Find out more

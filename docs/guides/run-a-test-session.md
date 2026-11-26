@@ -44,9 +44,8 @@ hold no personal details first.
 
 ## Step 3: choose an extra question for the session
 
-Ask the extra question with `"heuristics"` for a usability review, `"wcag"` for an accessibility check, or your
-own list:
-[Choose the kinds of issue and how bad they can be](../topics/choose-the-kinds-of-issue.md).
+Ask the extra question with `"heuristics"` for a usability review, `"wcag"` for an accessibility check, or your own
+list. [Choose the kinds of issue and how bad they can be](../topics/choose-the-kinds-of-issue.md) has the steps.
 
 ## Step 4: brief the testers
 

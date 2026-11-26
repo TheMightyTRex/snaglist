@@ -5,8 +5,8 @@
 
 How-to
 
-When the computer you are using is not online, such as one you are setting up, show the report as a QR code
-and scan it with your phone. The phone opens the same new GitHub issue, filled in, for you to post from there.
+When the computer you are using is not online, such as one you are setting up, show the report as a QR code. Scan it
+with your phone, and the phone opens the same new GitHub issue, filled in, for you to post from there.
 
 ## Before you begin
 
@@ -31,10 +31,9 @@ and scan it with your phone. The phone opens the same new GitHub issue, filled i
 
 ## Things to note
 
-- A QR code holds less than a web address can, so a long report goes in shorter. The line under the code says
-  what it holds: the whole report, the report without its technical details, a short report with your words
-  cut to fit, or less. **Download as JSON**, when the site offers it, keeps the whole report, to add to the issue
-  later.
+- A QR code holds less than a web address can, so a long report goes in shorter. The line under the code says what it
+  holds. That is the whole report, the report without its technical details, a short report with your words cut to fit,
+  or less. **Download as JSON**, when the site offers it, keeps the whole report, to add to the issue later.
 - The code is never the only way. The link is shown as text under it, with **Copy the link**, and works on
   any device.
 - The code is dark on light in every theme, so phones read it in dark mode too. Screen readers read a
@@ -46,10 +45,10 @@ and scan it with your phone. The phone opens the same new GitHub issue, filled i
 
 ## If it does not work
 
-- **The phone does not find the code:** make the window larger, turn up the screen brightness, and hold the
-  phone a little further away so the whole code, with its white edge, is in view.
-- **The phone has no signal either:** select **Download as JSON** to keep the whole report, and send it later with
-  **Copy as Markdown** or **Open in GitHub**.
+- **The phone does not find the code:** make the window larger and turn up the screen brightness. Hold the phone a
+  little further away, so the whole code, with its white edge, is in view.
+- **The phone has no signal either:** select **Download as JSON** to keep the whole report. Send it later with **Copy as
+  Markdown** or **Open in GitHub**.
 
 ## Find out more
 

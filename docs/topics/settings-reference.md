@@ -113,8 +113,8 @@ The presets are in `Snaglist.presets.types`, `Snaglist.presets.categories` and `
 | `trail` | What was selected, changed or sent, and page changes, by component and label only |
 | `context` | Whatever your `context` function returns, such as a build number or feature flags |
 
-`errors`, `console`, `network`, `trail` and `performance` record from the moment Snaglist starts, in memory on that
-page only, so the details are there when someone reports. Set one to `false` and it records nothing at all.
+`errors`, `console`, `network`, `trail` and `performance` record from the moment Snaglist starts, in memory on that page
+only. The details are there when someone reports. Set one to `false` and it records nothing at all.
 
 ## The script tag only
 

@@ -21,7 +21,7 @@ Reports say which component had the problem. Give your main parts clear names so
 
 ## Things to note
 
-- Snaglist searches for a name in this order: your own function (`component.from`), the nearest
+- Snaglist searches for a name in this order. First your own function (`component.from`), then the nearest
   `data-component`, then the first plain class name, such as `card` or `btn`.
 - To use another attribute you already have, such as `data-testid`, set
   `component: { attribute: "data-testid" }`.

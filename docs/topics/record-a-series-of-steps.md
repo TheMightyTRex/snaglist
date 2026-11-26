@@ -5,8 +5,8 @@
 
 How-to
 
-When a problem only happens after several steps, record them. Snaglist notes each thing you select, change or
-send, each page you go to, and any errors along the way, then you describe what went wrong.
+When a problem only happens after several steps, record them. Snaglist notes each thing you select, change or send, each
+page you go to, and any errors along the way. Then you describe what went wrong.
 
 ## Steps
 

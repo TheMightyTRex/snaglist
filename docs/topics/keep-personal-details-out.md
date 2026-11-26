@@ -5,9 +5,9 @@
 
 How-to
 
-Snaglist never reads what people enter, and hides anything in the form of an email, number or key. It copies the
-text of the part someone chooses, so mark the parts of your pages that show personal details, and their text is
-never read.
+Snaglist never reads what people enter, and it hides anything in the form of an email, number or key. It copies the text
+of the part someone chooses. Mark the parts of your pages that show personal details, and Snaglist never reads their
+text.
 
 ## Steps
 
