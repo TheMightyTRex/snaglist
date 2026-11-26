@@ -48,9 +48,11 @@ request as they are, because they come from the browser.
 
 ## Things to note
 
-- A public form attracts spam, and the origin check does not stop it. The check stops other websites, but anyone can send a request with any origin. Add a rate limit per address before the worker is public. The example uses a Workers rate
-  limit called `LIMITER` when you add one (for example 5 reports a minute). You can also add a rate limiting rule for
-  its address. Or only start Snaglist for signed-in users or in test builds.
+- A public form attracts spam, and the origin check does not stop it. The check stops other websites, but anyone can
+  send a request with any origin. Add a rate limit per address before the worker is public. The example uses a Workers
+  rate limit called `LIMITER` when you add one (for example 5 reports a minute).
+
+  You can also add a rate limiting rule for its address. Or only start Snaglist for signed-in users or in test builds.
 - The example puts an invisible space after every `@`, so a report can never mention someone on GitHub.
 - Store only what the report holds. If you add anything, say so in your privacy notice.
 

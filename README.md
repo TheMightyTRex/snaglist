@@ -9,8 +9,9 @@ the technical details needed to act on it, and it keeps no personal information.
 
 A snag list is a list of the small faults to fix before a job is finished. Snaglist adds a **Send feedback** button to
 your site. People choose what to send. They show one thing on the page or record what they do, and they answer a few
-questions. They check exactly what will be sent. Then they send it as a GitHub issue, an email or a post to your own
-server.
+questions.
+
+They check exactly what will be sent. Then they send it as a GitHub issue, an email or a post to your own server.
 
 **[Try the demo](https://themightytrex.github.io/snaglist/)** ·
 **[Try it inside Starboard](https://themightytrex.github.io/snaglist/demo-starboard.html)** ·
