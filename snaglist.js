@@ -227,7 +227,7 @@
     cancel: "Cancel",
     reviewTitle: "What is sent",
     include: "Include",
-    privacy: "This report keeps no account, cookies or anything entered in the page's fields, and anything in the form of an email, a long number or a key is replaced. The page title and the text on the page are copied as they are, so check they show nothing personal. Clear the tick from anything you would rather not send.",
+    privacy: "This report keeps no account, cookies or anything entered in the page's fields. It replaces anything in the form of an email, a long number or a key. The page title and the text on the page are copied as they are, so check they show nothing personal. Clear the tick from anything you would rather not send.",
     githubNote: "GitHub opens with the report filled in. You post it from your own GitHub account, so GitHub shows your user name on the issue.",
     emailNote: "Your mail app opens with the report filled in. The reply address is your own.",
     endpointNote: "The report is sent to the site's own server, without cookies.",

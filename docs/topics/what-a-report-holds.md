@@ -60,8 +60,8 @@ Add your own with `redact: [[/pattern/g, "[label]"]]`.
 
 Before anything is sent, Snaglist shows the whole report, exactly as it will be sent, with this statement:
 
-> This report keeps no account, cookies or anything entered in the page's fields, and anything in the form of an
-> email, a long number or a key is replaced. The page title and the text on the page are copied as they are, so
+> This report keeps no account, cookies or anything entered in the page's fields. It replaces anything in the form
+> of an email, a long number or a key. The page title and the text on the page are copied as they are, so
 > check they show nothing personal.
 
 They can untick any part of the technical details (for example the console, requests or the page's HTML)
