@@ -1,7 +1,7 @@
 [Help centre](../README.md) · Accessibility
 <!-- help: a11y / check -->
 
-# Activate the accessibility check
+# Turn on the accessibility check
 
 How-to
 

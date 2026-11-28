@@ -5,7 +5,7 @@
 
 Troubleshooting
 
-The button is missing when Snaglist is not loaded, not started, or deactivated. Find what the browser's developer
+The button is missing when Snaglist is not loaded, not started, or turned off. Find what the browser's developer
 console says on the chart, then follow its numbered answer.
 
 ```flow
@@ -21,7 +21,7 @@ q3: Is there a Content Security Policy message?
   Yes -> 4
   No -> 3
 1: The file did not load #the-file-did-not-load
-2: It was deactivated in this browser #it-was-deactivated-in-this-browser
+2: It was off in this browser #it-was-off-in-this-browser
 3: Check that Snaglist starts #check-that-snaglist-starts
   Still missing -> 5
 4: A Content Security Policy blocks it #a-content-security-policy-blocks-it
@@ -33,9 +33,9 @@ q3: Is there a Content Security Policy message?
 Open the browser's developer console on the page and enter `Snaglist`. If it says it is not defined, the file did not
 load: check the script tag's address opens the file.
 
-## It was deactivated in this browser
+## It was off in this browser
 
-Enter `Snaglist.isUserEnabled()`. If it says `false`, the button was deactivated in this browser. Type
+Enter `Snaglist.isUserEnabled()`. If it says `false`, the button was off in this browser. Type
 `Snaglist.setUserEnabled(true)`, then reload the page.
 
 ## Check that Snaglist starts
@@ -56,4 +56,4 @@ Check nothing on your page covers the corner the button sits in. To move it, set
 ## Find out more
 
 - [Add Snaglist to a website](add-snaglist-to-a-website.md)
-- [Activate or deactivate Snaglist for everyone](activate-or-deactivate-snaglist.md)
+- [Turn on or turn off Snaglist for everyone](activate-or-deactivate-snaglist.md)

@@ -52,4 +52,4 @@ part of the page, say what is wrong, and check the report before it goes.
 
 - [Record a series of steps](record-a-series-of-steps.md)
 - [What a report holds, and what it never holds](what-a-report-holds.md)
-- [Deactivate Send feedback](deactivate-send-feedback.md)
+- [Turn off Send feedback](deactivate-send-feedback.md)

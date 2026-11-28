@@ -15,6 +15,7 @@ follow [Semantic Versioning](https://semver.org/). Each release's notes are also
 - **Try the demos**, a new help topic about both demos, linked from the help home page.
 
 ### Changed
+- **Turn on and turn off:** the help and the set-up tool say turn on and turn off, as the design system now asks (DASH-620). The wording check fails on the old words. The addresses of the help topics stay as they were, so links keep working.
 - **Plainer wording in the README, help topics, guides and recent release notes:** shorter sentences, and no change to what Snaglist does.
 
 ### Fixed

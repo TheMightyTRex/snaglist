@@ -71,8 +71,8 @@ Each numbered answer is a section of its own.
 
 1. British English, sentence case for every heading and title.
 2. No em dashes and no contractions, headings included.
-3. Select, not click or tap. Page, not screen. Settings are activated and deactivated, and are active or
-   inactive; never enable, disable, turn on, turn off or toggle. Enter, not type.
+3. Select, not click or tap. Page, not screen. Settings are turned on and turned off, and are active or
+   inactive; never activate, deactivate, enable, disable or toggle. Enter, not type.
 4. No positions: name the control, never "top right".
 5. On-screen labels are copied exactly from `snaglist.js`, in bold inside steps and in single quotation marks
    elsewhere: "the 'Send feedback' button". Double quotation marks are for words people say or enter.

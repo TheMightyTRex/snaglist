@@ -72,7 +72,7 @@ Snaglist.setUserEnabled(false); on calls Snaglist.setUserEnabled(true).
 Snaglist.destroy() removes its element, listeners and any recording, and puts back window.fetch,
 XMLHttpRequest and console.error and console.warn exactly as they were.
 
-## Deactivate for everyone
+## Turn off for everyone
 
 Set enabled: false in Snaglist.start() (often in snaglist-start.js), or remove the data-github, data-email and
 data-endpoint attributes.

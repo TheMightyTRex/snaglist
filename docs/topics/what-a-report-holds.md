@@ -82,6 +82,6 @@ and the preview changes at once. Nothing is sent until they choose a way to send
   [Keep personal details out of reports](keep-personal-details-out.md).
 - If your page titles hold the signed-in person's name, give Snaglist another name for the page with
   `page: { name: () => "Inbox" }`. The title and the text on the page are copied as they are.
-- Only activate `errors` if your error messages do not include personal details.
+- Only turn on `errors` if your error messages do not include personal details.
 - If you use `beforeSend`, do not add personal details back in.
 - If your server stores reports, say so in your own privacy notice.

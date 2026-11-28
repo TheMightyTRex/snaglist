@@ -50,4 +50,4 @@ If it does not work, read [If a report does not send](../topics/if-a-report-does
 ## What next
 
 - [What a report holds, and what it never holds](../topics/what-a-report-holds.md)
-- [Deactivate Send feedback](../topics/deactivate-send-feedback.md) when you have finished testing.
+- [Turn off Send feedback](../topics/deactivate-send-feedback.md) when you have finished testing.

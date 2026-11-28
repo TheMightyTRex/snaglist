@@ -1,17 +1,17 @@
 [Help centre](../README.md) · Settings
 <!-- help: use / settings -->
 
-# Activate or deactivate Snaglist for everyone
+# Turn on or turn off Snaglist for everyone
 
 How-to
 
-You decide where Snaglist runs: everywhere, only in test builds, or nowhere for now. Deactivating it keeps it
-installed, ready to activate again.
+You decide where Snaglist runs: everywhere, only in test builds, or nowhere for now. Turning it off keeps it
+installed, ready to turn on again.
 
 ## Steps
 
 1. Find the `Snaglist.start()` call, or the `<script>` tag with `data-github`.
-2. To deactivate it, set `enabled: false`:
+2. To turn it off, set `enabled: false`:
 
    ```js
    Snaglist.start({ enabled: false, send: { github: { repo: "owner/repo" } } });
@@ -29,8 +29,8 @@ installed, ready to activate again.
 
 - With the script tag only, remove the `data-github`, `data-email` and `data-endpoint` attributes to stop it
   starting.
-- To deactivate it on a running page, for example from your own admin menu, call `Snaglist.destroy()`.
-- Your users can also deactivate it for themselves: read [Add a switch for your users](add-a-switch-for-your-users.md).
+- To turn it off on a running page, for example from your own admin menu, call `Snaglist.destroy()`.
+- Your users can also turn it off for themselves: read [Add a switch for your users](add-a-switch-for-your-users.md).
 
 ## Find out more
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Fails when the words people read use a word the design system's content rules ban (CONTENT-DESIGN.md 2):
-see, look, click, enable, disable, turn on, turn off, toggle, type for entering, above, below, please, just,
+see, look, click, enable, disable, activate, deactivate, toggle, type for entering, above, below, please, just,
 simply, easy, advanced, and drive for a disk.
 
 Checks the README, llms.txt, the help in docs (not the notes of versions already released), the changelog's
@@ -15,7 +15,7 @@ import pathlib, re, sys
 root = pathlib.Path(__file__).resolve().parent.parent
 BANNED = re.compile(r"""\b(?:see|sees|seen|seeing|look|looks|looked|looking|click|clicks|clicked|clicking|
   enable|enables|enabled|enabling|disable|disables|disabled|disabling|toggle|toggles|toggled|toggling|
-  turns?\s+(?:it\s+|them\s+)?(?:on|off)|turned\s+(?:on|off)|switched\s+off|typed|typing|type\s+(?:in|into)|
+  activat(?:e|es|ed|ing|ion)|deactivat(?:e|es|ed|ing|ion)|switched\s+off|typed|typing|type\s+(?:in|into)|
   above|below|please|just|simply|easy|easier|easiest|easily|advanced|drive|drives)\b""", re.I | re.X)
 NOT_HITS = re.compile(r"\blook(?:s|ed|ing)?\s+up\b|\blookup\b", re.I)
 # Versions released before this check: their notes and changelog sections are history and stay as written.
