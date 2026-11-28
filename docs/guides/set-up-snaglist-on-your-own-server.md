@@ -67,7 +67,7 @@ issue appears in GitHub with its labels. If not, read [If a report does not send
 ## Step 7: guard against spam
 
 Add a rate limit on your report server, or start Snaglist only for signed-in users or in test builds:
-[Activate or deactivate Snaglist for everyone](../topics/activate-or-deactivate-snaglist.md).
+[Turn on or turn off Snaglist for everyone](../topics/activate-or-deactivate-snaglist.md).
 
 ## What next
 

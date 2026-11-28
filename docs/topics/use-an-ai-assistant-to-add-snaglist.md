@@ -28,7 +28,7 @@ everything in it. To use the general prompt instead:
 
 ## Things to note
 
-- The same page has prompts to deactivate Snaglist, to record more during a test session, and to remove it.
+- The same page has prompts to turn off Snaglist, to record more during a test session, and to remove it.
 - Any assistant can also read [llms.txt](../../llms.txt), a short summary of Snaglist written for AI tools.
 - Check the assistant's changes before you publish them, as you would anyone's.
 

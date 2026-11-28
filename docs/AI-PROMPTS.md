@@ -30,7 +30,7 @@ Please do this:
    where its shared page layout is. Then ask me these questions, all at once, and wait for my answers:
    a. Where should reports go: a GitHub repository (owner/name), an email address, or both?
    b. Should the button show for everyone, or only in testing (for example on a staging address)?
-   c. Should users get a setting to deactivate the button? (Recommended: yes.)
+   c. Should users get a setting to turn off the button? (Recommended: yes.)
    d. What is the app's name?
    e. What is the site's main language? (Snaglist is in English; for US English it uses US spelling; for any
       other language you will translate its text.)
@@ -70,14 +70,14 @@ Please do this:
    - Label: "Show Send feedback"
    - Hint: "A button for sending feedback or reporting a problem on any page. Reports never include your
      personal details."
-   - A switch, on by default. Deactivating it calls Snaglist.setUserEnabled(false); activating it calls
+   - A switch, on by default. Turning it off calls Snaglist.setUserEnabled(false); turning it on calls
      Snaglist.setUserEnabled(true). Save the choice the way this app saves other settings.
 10. Do not put any password, token or API key in the page. Snaglist does not need one.
 11. When you have finished, tell me:
    - every file you changed or added,
    - how to try it: open a page, select "Send feedback", choose what to send, and follow it through to
      "Review what is sent",
-   - how to deactivate it for everyone (set enabled: false),
+   - how to turn it off for everyone (set enabled: false),
    - how to remove it (the prompt "Remove Snaglist from my app").
 ```
 
@@ -153,15 +153,15 @@ Please remove Snaglist (https://github.com/TheMightyTRex/snaglist) from this pro
 
 Copy to here
 
-## Deactivate Snaglist for now
+## Turn off Snaglist for now
 
 Copy from here
 
 ```text
-Please deactivate Snaglist in this project without removing it. Find the Snaglist.start() call (often in
+Please turn off Snaglist in this project without removing it. Find the Snaglist.start() call (often in
 snaglist-start.js, or the <script> tag with data-github or data-email) and set enabled: false, so the "Send feedback" button no longer
 shows. If there is a "Show Send feedback" user setting, hide it while Snaglist is off. Tell me which line to
-change to activate it again.
+change to turn it on again.
 ```
 
 Copy to here
@@ -176,7 +176,7 @@ technical details, whatever its type: add collect: { styles: true, layout: true,
 performance: true, errors: true, console: true, network: true, trail: true } to Snaglist.start(), and offer
 every report type. Before you do, check whether this app's error messages, console messages or request paths
 could include personal details (names or emails; query strings and ids in paths are already removed) and tell
-me if any could. Only activate this where enabled is true for testing, and tell me how to go back to the
+me if any could. Only turn this on where enabled is true for testing, and tell me how to go back to the
 defaults.
 ```
 

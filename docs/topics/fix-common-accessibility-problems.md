@@ -290,6 +290,6 @@ Automatic checks find only some problems. Before a release, also:
 ## Find out more
 
 - [Check a page for accessibility problems](check-a-page-for-accessibility-problems.md)
-- [Activate the accessibility check](activate-the-accessibility-check.md)
+- [Turn on the accessibility check](activate-the-accessibility-check.md)
 - [Find and fix accessibility problems](../guides/find-and-fix-accessibility-problems.md)
 - [WCAG 2.2 quick reference](https://www.w3.org/WAI/WCAG22/quickref/) (opens in a new tab)

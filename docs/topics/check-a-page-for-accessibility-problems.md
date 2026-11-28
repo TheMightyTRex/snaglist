@@ -10,8 +10,8 @@ how to fix it. You can report one problem or all of them.
 
 ## Before you begin
 
-- The site must offer 'Check this page for accessibility problems' under 'Send feedback'. Site owners activate
-  it with [Activate the accessibility check](activate-the-accessibility-check.md).
+- The site must offer 'Check this page for accessibility problems' under 'Send feedback'. Site owners turn it on
+  with [Turn on the accessibility check](activate-the-accessibility-check.md).
 
 ## Steps
 

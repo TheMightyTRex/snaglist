@@ -9,7 +9,7 @@ your users' browsers, and your past reports are kept. It takes about 15 minutes.
 ## Before you begin
 
 - Decide whether to stop it for a while or remove it. To stop it, you only need
-  [Activate or deactivate Snaglist for everyone](../topics/activate-or-deactivate-snaglist.md).
+  [Turn on or turn off Snaglist for everyone](../topics/activate-or-deactivate-snaglist.md).
 
 ## The steps at a glance
 
@@ -28,7 +28,7 @@ end: Tidy up GitHub
 
 ## Step 1: clear people's saved choice (optional)
 
-Only people who deactivated the button have anything saved: one small setting. To clear it, release one version
+Only people who turned off the button have anything saved: one small setting. To clear it, release one version
 that calls `Snaglist.destroy({ forget: true })` on page load before you remove Snaglist.
 
 ## Step 2: remove Snaglist from your code

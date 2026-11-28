@@ -69,7 +69,7 @@ The defaults suit most sites. To change them, follow
 
 ## Step 6: give your users a switch
 
-Let people deactivate the button: [Add a switch for your users](../topics/add-a-switch-for-your-users.md).
+Let people turn off the button: [Add a switch for your users](../topics/add-a-switch-for-your-users.md).
 
 ## Step 7: make your first report
 

@@ -131,7 +131,7 @@ only. The details are there when someone reports. Set one to `false` and it reco
 
 | Function | What it does |
 |---|---|
-| `Snaglist.start(settings)` | Starts, or restarts with new settings. Returns false when deactivated |
+| `Snaglist.start(settings)` | Starts, or restarts with new settings. Returns false when turned off |
 | `Snaglist.destroy({ forget })` | Removes everything from the page and puts back anything it wrapped; `forget: true` also clears the user's switch |
 | `Snaglist.open(type)` | Opens Send feedback, as the button does; give a type, such as `"feature"`, to choose it already. Use it from your own menu |
 | `Snaglist.report(element, type)` | Opens Send feedback about one element; with a type, goes straight to its form |
@@ -158,6 +158,6 @@ Only a browser too old for constructed style sheets falls back to a `<style>` el
 
 - [Choose what people can send](choose-what-people-can-send.md)
 - [Show Snaglist in your language](show-snaglist-in-your-language.md)
-- [Activate the accessibility check](activate-the-accessibility-check.md)
+- [Turn on the accessibility check](activate-the-accessibility-check.md)
 - [Choose what a report records](choose-what-a-report-records.md)
 - [What a report holds, and what it never holds](what-a-report-holds.md)

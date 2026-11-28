@@ -44,13 +44,13 @@ Each guide is a journey through several topics, in order.
 - [Check what is sent, then send it](topics/check-what-is-sent.md)
 - [Post a report on GitHub](topics/post-a-report-on-github.md)
 - [Send a report with a QR code](topics/send-a-report-with-a-qr-code.md)
-- [Deactivate Send feedback](topics/deactivate-send-feedback.md)
+- [Turn off Send feedback](topics/deactivate-send-feedback.md)
 
 ### Accessibility
 
 - [Check a page for accessibility problems](topics/check-a-page-for-accessibility-problems.md)
 - [Fix common accessibility problems](topics/fix-common-accessibility-problems.md)
-- [Activate the accessibility check](topics/activate-the-accessibility-check.md)
+- [Turn on the accessibility check](topics/activate-the-accessibility-check.md)
 
 ### Reports
 
@@ -68,7 +68,7 @@ Each guide is a journey through several topics, in order.
 - [Choose the kinds of issue and how bad they can be](topics/choose-the-kinds-of-issue.md)
 - [Name the parts of your pages](topics/name-the-parts-of-your-pages.md)
 - [Keep personal details out of reports](topics/keep-personal-details-out.md)
-- [Activate or deactivate Snaglist for everyone](topics/activate-or-deactivate-snaglist.md)
+- [Turn on or turn off Snaglist for everyone](topics/activate-or-deactivate-snaglist.md)
 - [Add a switch for your users](topics/add-a-switch-for-your-users.md)
 - [What a report holds, and what it never holds](topics/what-a-report-holds.md)
 

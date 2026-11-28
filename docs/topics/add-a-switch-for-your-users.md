@@ -5,7 +5,7 @@
 
 How-to
 
-Let people deactivate and activate the 'Send feedback' button themselves, next to your other display or
+Let people turn off and turn on the 'Send feedback' button themselves, next to your other display or
 accessibility settings.
 
 ## Steps
@@ -19,7 +19,7 @@ accessibility settings.
    <button type="button" role="switch" aria-checked="true" id="snag-switch">Show Send feedback</button>
    ```
 
-3. Connect it to Snaglist. Deactivating it hides the button and remembers the choice in this browser:
+3. Connect it to Snaglist. Turning it off hides the button and remembers the choice in this browser:
 
    ```js
    const button = document.getElementById("snag-switch");
@@ -31,7 +31,7 @@ accessibility settings.
    });
    ```
 
-4. Deactivate the switch, then activate it again, and check the button goes and comes back.
+4. Turn off the switch, then turn it on again, and check the button goes and comes back.
 
 ## Things to note
 
@@ -42,5 +42,5 @@ accessibility settings.
 
 ## Find out more
 
-- [Deactivate Send feedback](deactivate-send-feedback.md), the help for your users
-- [Activate or deactivate Snaglist for everyone](activate-or-deactivate-snaglist.md)
+- [Turn off Send feedback](deactivate-send-feedback.md), the help for your users
+- [Turn on or turn off Snaglist for everyone](activate-or-deactivate-snaglist.md)

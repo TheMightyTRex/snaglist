@@ -27,11 +27,11 @@ behind.
 
 ## Things to note
 
-- Each browser that used it keeps one small setting, `snaglist:off`, only if the person deactivated the button.
+- Each browser that used it keeps one small setting, `snaglist:off`, only if the person turned off the button.
   To clear it while Snaglist is still installed, run `Snaglist.destroy({ forget: true })` on the page first.
 - Reports already sent stay where they went: GitHub issues, emails or your server.
 - To stop it for a while without removing it, read
-  [Activate or deactivate Snaglist for everyone](activate-or-deactivate-snaglist.md).
+  [Turn on or turn off Snaglist for everyone](activate-or-deactivate-snaglist.md).
 
 ## Find out more
 

@@ -47,5 +47,5 @@ loads. Snaglist keeps its own element outside your components, so your framework
 
 ## Find out more
 
-- [Activate or deactivate Snaglist for everyone](activate-or-deactivate-snaglist.md)
+- [Turn on or turn off Snaglist for everyone](activate-or-deactivate-snaglist.md)
 - [Use an AI assistant to add Snaglist](use-an-ai-assistant-to-add-snaglist.md)

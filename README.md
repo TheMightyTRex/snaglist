@@ -93,9 +93,9 @@ want, then copy the code, or one prompt that has your AI assistant add everythin
 3. Add `data-component="checkout-summary"` to the main parts of your pages so reports name them, and
    `data-snag-private` to anything that shows personal details.
 
-## Activate, deactivate or remove it
+## Turn on, turn off or remove it
 
-- **For everyone:** set `enabled: false` to deactivate it, or activate it only in test builds.
+- **For everyone:** set `enabled: false` to turn it off, or turn it on only in test builds.
 - **For each user:** give them a switch. `Snaglist.setUserEnabled(false)` hides the button and remembers the choice
   in that browser. Read [Add a switch for your users](https://themightytrex.github.io/snaglist/help/topics/add-a-switch-for-your-users.html).
 - **Remove it:** delete the script tags and `snaglist.js`. `Snaglist.destroy({ forget: true })` removes it from a
